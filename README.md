@@ -7,11 +7,17 @@
  - Avoid aliens - Gracz 1 będzie musiał uniknąć starcia z kosmitami, które chodzą losowo po statku, poprzez bycie ostrożnym i dobrą komunikacją z graczem 2
 
 **Side Mechanics**
- - Mobile port
  - Random generated map
- - Starship monitoring system
  - Lockers functionality
- - Difficulty setting for Player 2(Command prompts)
- - Difficulty setting for Player 1(Insight to other rooms)
- - Defend the control room as Player 2
  - Noise generation (Aliens would go to the loudest noise)
+ - Difficulty settings:
+   - Command prompts for player 2
+   - Insight to other rooms for player 1
+   - Doors blocked by codes
+   - Switching power for colored mechanisms
+   - Core failure
+   - Escape room - rooms
+   - Curse of darkness
+ - Defend the control room as Player 2
+ - Starship monitoring system
+ - Mobile port
