@@ -1,0 +1,14 @@
+Area2D
+RigidBody2D
+Popup
+Label
+CollisionShape2D
+Node2D
+StaticBody2D
+CharacterBody2D
+Marker2D
+MeshInstance2D
+VisibleOnScreenNotifier2D
+AnimatedSprite2D
+CollisionPolygon2D
+Sprite2D

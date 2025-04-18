@@ -1,0 +1,5 @@
+res://scenes/rooms/test_room.tscn
+res://scenes/entity/player/player.gd
+res://scenes/entity/player/player.tscn
+res://scenes/entity/alien/alien.tscn
+res://scenes/main.tscn
