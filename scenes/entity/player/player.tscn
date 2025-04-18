@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://ssjcsb526q2b"]
+
+[ext_resource type="Texture2D" uid="uid://c1sxuukq671qd" path="res://sprites/entity/player/player-idle.png" id="1_xg5q3"]
+[ext_resource type="Script" uid="uid://c36qdgxlv8y7m" path="res://scenes/entity/player/player.gd" id="1_ypewr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ypewr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xg5q3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xg5q3")
+}],
+"loop": true,
+"name": &"walk-down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xg5q3")
+}],
+"loop": true,
+"name": &"walk-right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xg5q3")
+}],
+"loop": true,
+"name": &"walk-up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xg5q3"]
+radius = 21.0
+height = 98.0
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+slide_on_ceiling = false
+floor_stop_on_slope = false
+platform_floor_layers = 4294967041
+platform_wall_layers = 2
+script = ExtResource("1_ypewr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_ypewr")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_xg5q3")

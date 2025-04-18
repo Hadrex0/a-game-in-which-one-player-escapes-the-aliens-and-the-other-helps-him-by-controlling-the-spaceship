@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://cowm6j5vtemi1"]
+
+[ext_resource type="Script" uid="uid://d25pxgdqxbw4a" path="res://scenes/entity/alien/alien.gd" id="1_gouow"]
+[ext_resource type="Texture2D" uid="uid://c0pitd58tat3m" path="res://sprites/entity/alien/cat-alien-idle.png" id="2_vvuna"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gouow"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vvuna")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vvuna")
+}],
+"loop": true,
+"name": &"walk-down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vvuna")
+}],
+"loop": true,
+"name": &"walk-right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vvuna")
+}],
+"loop": true,
+"name": &"walk-up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vvuna"]
+radius = 28.0
+height = 56.0
+
+[node name="Alien" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_gouow")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_gouow")
+animation = &"walk-up"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_vvuna")

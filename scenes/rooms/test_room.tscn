@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://71g0ap8575n6"]
+
+[ext_resource type="Texture2D" uid="uid://db53i8x5xgtvt" path="res://sprites/rooms/test_room.png" id="1_mjm5x"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mjm5x"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_fn815"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mjm5x"]
+size = Vector2(1153, 92)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fn815"]
+size = Vector2(103, 645)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i7p6j"]
+size = Vector2(1152, 94)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vnwl"]
+size = Vector2(104, 643)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_betf1"]
+size = Vector2(91.5, 78)
+
+[node name="TestRoom" type="Node2D"]
+
+[node name="MainRoom" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_mjm5x")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MainRoom"]
+position = Vector2(576.25, 323.25)
+scale = Vector2(1153.5, 647.5)
+mesh = SubResource("QuadMesh_fn815")
+texture = ExtResource("1_mjm5x")
+
+[node name="NorthWallCollision" type="CollisionShape2D" parent="MainRoom"]
+position = Vector2(576.5, 48)
+shape = SubResource("RectangleShape2D_mjm5x")
+
+[node name="EastWallCollision" type="CollisionShape2D" parent="MainRoom"]
+position = Vector2(1101.5, 323.5)
+shape = SubResource("RectangleShape2D_fn815")
+
+[node name="SouthWallCollision" type="CollisionShape2D" parent="MainRoom"]
+position = Vector2(577, 598)
+shape = SubResource("RectangleShape2D_i7p6j")
+
+[node name="WestWallCollision" type="CollisionShape2D" parent="MainRoom"]
+position = Vector2(52, 323.5)
+shape = SubResource("RectangleShape2D_6vnwl")
+
+[node name="Doors" type="Area2D" parent="."]
+
+[node name="NorthDoor" type="CollisionShape2D" parent="Doors"]
+position = Vector2(577, 72)
+shape = SubResource("RectangleShape2D_betf1")
+
+[node name="EastDoor" type="CollisionShape2D" parent="Doors"]
+position = Vector2(1079, 324)
+shape = SubResource("RectangleShape2D_betf1")
+
+[node name="SouthDoor" type="CollisionShape2D" parent="Doors"]
+position = Vector2(576, 573)
+shape = SubResource("RectangleShape2D_betf1")
+
+[node name="WestDoor" type="CollisionShape2D" parent="Doors"]
+position = Vector2(77, 324)
+shape = SubResource("RectangleShape2D_betf1")
