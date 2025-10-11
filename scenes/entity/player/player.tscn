@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ssjcsb526q2b"]
 
-[ext_resource type="Texture2D" uid="uid://c1sxuukq671qd" path="res://sprites/entity/player/player-idle.png" id="1_xg5q3"]
-[ext_resource type="Script" uid="uid://c36qdgxlv8y7m" path="res://scenes/entity/player/player.gd" id="1_ypewr"]
+[ext_resource type="Texture2D" uid="uid://8hxlw4fotdax" path="res://sprites/entity/player/player-idle.png" id="1_xg5q3"]
+[ext_resource type="Script" path="res://scenes/entity/player/player.gd" id="1_ypewr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ypewr"]
 animations = [{
@@ -39,10 +39,10 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xg5q3"]
-radius = 21.0
-height = 98.0
+radius = 33.3333
+height = 90.6667
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 motion_mode = 1
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -51,10 +51,12 @@ platform_wall_layers = 2
 script = ExtResource("1_ypewr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.75, 0.75)
+position = Vector2(2, -4)
+scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_ypewr")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
 scale = Vector2(0.75, 0.75)
 shape = SubResource("CapsuleShape2D_xg5q3")

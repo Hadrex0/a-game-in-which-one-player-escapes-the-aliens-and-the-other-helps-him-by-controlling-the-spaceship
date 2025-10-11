@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://40r3c21yaknl"]
+
+[ext_resource type="Texture2D" uid="uid://c16b61uxmu7pw" path="res://sprites/map/doors/door-yellow.png" id="2_0fo0d"]
+[ext_resource type="Texture2D" uid="uid://bya0rkyu7swfy" path="res://sprites/map/doors/door-open.png" id="3_kd38h"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h61qs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0fo0d")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0fo0d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kd38h")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_kd38h")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_geewk"]
+size = Vector2(74.6667, 85.3333)
+
+[node name="YellowDoor" type="Area2D" groups=["Yellow"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.32, 0.32)
+sprite_frames = SubResource("SpriteFrames_h61qs")
+animation = &"closed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_geewk")

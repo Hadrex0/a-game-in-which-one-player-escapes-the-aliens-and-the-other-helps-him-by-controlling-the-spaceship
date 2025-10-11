@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="a game in which one player escapes the aliens and the other helps him by controlling the spaceship"
-run/main_scene="uid://dqtllup586nm8"
-config/features=PackedStringArray("4.4", "Mobile")
+run/main_scene="res://scenes/map/rooms/test_room_1.tscn"
+config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+starship_manager="*res://scenes/starship_manager.gd"
 
 [file_customization]
 
@@ -23,6 +27,15 @@ folder_colors={
 "res://Scripts/": "green",
 "res://Shaders/": "purple"
 }
+
+[global_group]
+
+Player=""
+Doors="Is it a door?"
+Yellow="Is it colored yellow?"
+Blue="Is it colored blue?"
+Red="Is it colored red"
+Green="Is it colored green"
 
 [input]
 

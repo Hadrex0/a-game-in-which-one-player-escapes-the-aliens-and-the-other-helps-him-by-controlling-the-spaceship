@@ -1,9 +1,12 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 signal hit
 
-@export var speed = 300 
-const acceleration = 3000
-const friction = 1500
+@onready var timer = $Timer
+@export var speed = 400 
+const acceleration = 4000
+const friction = 2000
+var invisible: bool
+
 var input = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
@@ -19,7 +22,15 @@ func _physics_process(delta):
 	player_movement(input, delta)
 	move_and_slide()
 
-func start(pos):
-	position = pos
+func start() -> void:
 	show()
-	$CollisionShape2D.disabled = false
+	#invisible = false
+	collision(true)
+
+func stop() -> void:
+	hide()
+	#invisible = true
+	collision(false)
+
+func collision(stance: bool) -> void:
+	$CollisionShape2D.disabled = !stance

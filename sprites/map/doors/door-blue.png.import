@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8hxlw4fotdax"
-path="res://.godot/imported/player-idle.png-9edc11a6994f1e790335a821a7514db3.ctex"
+uid="uid://q8srnbsumdo8"
+path="res://.godot/imported/door-blue.png-0184b56d80c6e494afa96555b46946b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/entity/player/player-idle.png"
-dest_files=["res://.godot/imported/player-idle.png-9edc11a6994f1e790335a821a7514db3.ctex"]
+source_file="res://sprites/map/doors/door-blue.png"
+dest_files=["res://.godot/imported/door-blue.png-0184b56d80c6e494afa96555b46946b0.ctex"]
 
 [params]
 
