@@ -1,36 +1,41 @@
 class_name Player extends CharacterBody2D
 signal hit
 
-@onready var timer = $Timer
-@export var speed = 400 
-const acceleration = 4000
-const friction = 2000
-var invisible: bool
+# Variables for player movement.
+@export var speed = 300 #player max movement speed
+const acceleration = 1500 #how fast player speed up
+const friction = 1500 #how fast player stops
+var input = Vector2.ZERO #variable for storing input
 
-var input = Vector2.ZERO
+# Temporary solution variable.
+var invisible: bool #can player move through doors?
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	hide()
+	stop() #player is hidden on start
 
-func player_movement(input, delta):
-	if input: velocity = velocity.move_toward(input * speed , delta * acceleration)
-	else: velocity = velocity.move_toward(Vector2(0,0), delta * friction)
+# Function for calculating player location when moving.
+func player_movement(delta):
+	# Get input from keyboard.
+	input = Input.get_vector("move_left","move_right","move_up","move_down")
+	
+	# Set the location of the Player.
+	if input: #when move keys are pressed speed up the movement of the Player
+		velocity = velocity.move_toward(input * speed , delta * acceleration)
+	else: #when move keys are not pressed stop the movement of the Player
+		velocity = velocity.move_toward(Vector2(0,0), delta * friction)
 
+# Player physic system.
 func _physics_process(delta):
-	var input = Input.get_vector("move_left","move_right","move_up","move_down")
-	player_movement(input, delta)
-	move_and_slide()
+	player_movement(delta) #set the location of the Player
+	move_and_slide() #move the Player to correct location
 
+# Show player and turn on collision.
 func start() -> void:
 	show()
-	#invisible = false
-	collision(true)
+	$CollisionShape2D.disabled = false
 
+# Hide player and turn off collision.
 func stop() -> void:
 	hide()
-	#invisible = true
-	collision(false)
-
-func collision(stance: bool) -> void:
-	$CollisionShape2D.disabled = !stance
+	$CollisionShape2D.disabled = true

@@ -1,20 +1,16 @@
 extends Area2D
 
+# Variables used for traveling across the rooms.
 @export_group("Next Room")
 @export var connected_room: String #name of the room behind the door
-@export var direction: String #N, E, S, or W
+@export var direction: String #location of the door in the room: N, E, S, or W
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+# When something touches the door.
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		if body.invisible == false:
+	# Check if the Player touched the door.
+	if body.is_in_group("Player"): 
+		if body.invisible == false: #check if player can use doors
+			# Changing room for the connected one.
 			starship_manager.change_room(get_owner(), connected_room, direction)
 		else:
-			body.invisible = false
+			body.invisible = false #change player ability to use doors
