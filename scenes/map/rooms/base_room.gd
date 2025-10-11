@@ -9,13 +9,13 @@ class_name BaseRoom extends Node
 # Spawn player inside the room.
 func _ready() -> void:
 	# Check if there is a instance of the Player.
-	if starship_manager.player:
+	if game_manager.player:
 		# Free the Player data if he exists in room. 
 		if player:
 			player.queue_free()
 		
 		# Set Player data in this room.
-		player = starship_manager.player
+		player = game_manager.player
 		add_child(player) # add Player to this room.
 	
 	set_player_pos() # correct the location of the Player in this room.
@@ -23,14 +23,14 @@ func _ready() -> void:
 # Set position of the Player.
 func set_player_pos() -> void:
 	# Check if this is first room.
-	var previous_room = starship_manager.previous_room_name
+	var previous_room = game_manager.previous_room_name
 	if previous_room.is_empty():
 		# If this is the first room, set the starting position. 
-		starship_manager.previous_room_direction = "StartPosition"
+		game_manager.previous_room_direction = "StartPosition"
 	
 	# Find the correct location for player to spawn.
 	for entrance in entrance_markers.get_children():
-		if entrance is Marker2D and entrance.name == starship_manager.previous_room_direction:
+		if entrance is Marker2D and entrance.name == game_manager.previous_room_direction:
 			# When encountered correct location spawn the Player.
 			player.global_position = entrance.global_position
 			

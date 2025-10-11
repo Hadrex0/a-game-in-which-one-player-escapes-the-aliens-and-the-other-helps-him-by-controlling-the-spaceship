@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://71g0ap8575n6"]
+[gd_scene load_steps=13 format=3 uid="uid://71g0ap8575n6"]
 
 [ext_resource type="Script" path="res://scenes/map/rooms/base_room.gd" id="1_w0bc0"]
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="2_i1gb6"]
 [ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="3_6w1wm"]
+[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://scenes/map/objects/doors/blue_door.tscn" id="4_0mkg5"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://scenes/entity/player/player.tscn" id="4_wqijo"]
+[ext_resource type="PackedScene" uid="uid://bc6pgr74vebs0" path="res://scenes/map/objects/doors/green_door.tscn" id="5_qyb0q"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mjm5x"]
 
@@ -58,14 +60,13 @@ position = Vector2(576, 112)
 
 [node name="RedDoor" parent="Doors/NorthDoor" instance=ExtResource("3_6w1wm")]
 connected_room = "test_room_2"
-direction = "N"
 
 [node name="EastDoor" type="Node2D" parent="Doors"]
 position = Vector2(1021, 315)
 rotation = 1.5708
 scale = Vector2(-1, 1)
 
-[node name="RedDoor" parent="Doors/EastDoor" instance=ExtResource("3_6w1wm")]
+[node name="BlueDoor" parent="Doors/EastDoor" instance=ExtResource("4_0mkg5")]
 connected_room = "test_room_2"
 direction = "E"
 
@@ -73,7 +74,7 @@ direction = "E"
 position = Vector2(576, 533)
 rotation = 3.14159
 
-[node name="RedDoor" parent="Doors/SouthDoor" instance=ExtResource("3_6w1wm")]
+[node name="GreenDoor" parent="Doors/SouthDoor" instance=ExtResource("5_qyb0q")]
 connected_room = "test_room_2"
 direction = "S"
 
@@ -81,7 +82,7 @@ direction = "S"
 position = Vector2(138, 315)
 rotation = -1.5708
 
-[node name="RedDoor" parent="Doors/WestDoor" instance=ExtResource("3_6w1wm")]
+[node name="BlueDoor" parent="Doors/WestDoor" instance=ExtResource("4_0mkg5")]
 connected_room = "test_room_2"
 direction = "W"
 
