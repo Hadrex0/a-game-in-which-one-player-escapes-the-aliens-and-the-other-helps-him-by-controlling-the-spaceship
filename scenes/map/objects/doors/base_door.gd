@@ -6,7 +6,7 @@ class_name BaseDoor extends Area2D
 @export var direction: String #location of the door in the room: N, E, S, or W
 
 # Ready the door stance variable.
-@onready var open = false #is this door open
+@export var open = false #is this door open
 
 # Ready the door animation.
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
@@ -18,9 +18,9 @@ func _ready() -> void:
 	
 	# Set the correct stance of the door.
 	if open:
-		animation.play("open")
+		animation.play("opened")
 	else:
-		animation.play("close")
+		animation.play("closed")
 
 # Change door stance animation.
 func change_door_stance_animation() -> void:

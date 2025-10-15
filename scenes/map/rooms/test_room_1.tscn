@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://71g0ap8575n6"]
 
-[ext_resource type="Script" path="res://scenes/map/rooms/base_room.gd" id="1_w0bc0"]
+[ext_resource type="Script" uid="uid://b0gxdmxqhk4og" path="res://scenes/map/rooms/base_room.gd" id="1_w0bc0"]
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="2_i1gb6"]
 [ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="3_6w1wm"]
 [ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://scenes/map/objects/doors/blue_door.tscn" id="4_0mkg5"]
@@ -60,6 +60,7 @@ position = Vector2(576, 112)
 
 [node name="RedDoor" parent="Doors/NorthDoor" instance=ExtResource("3_6w1wm")]
 connected_room = "test_room_2"
+open = true
 
 [node name="EastDoor" type="Node2D" parent="Doors"]
 position = Vector2(1021, 315)

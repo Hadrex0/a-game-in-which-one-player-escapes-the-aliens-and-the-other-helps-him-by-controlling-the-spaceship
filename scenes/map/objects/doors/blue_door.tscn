@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://t7wlfl3ltx25"]
 
-[ext_resource type="Script" path="res://scenes/map/objects/doors/base_door.gd" id="1_m1v6b"]
+[ext_resource type="Script" uid="uid://bf8byks55uk4o" path="res://scenes/map/objects/doors/base_door.gd" id="1_m1v6b"]
 [ext_resource type="Texture2D" uid="uid://q8srnbsumdo8" path="res://sprites/map/doors/door-blue.png" id="2_sfeqm"]
 [ext_resource type="Texture2D" uid="uid://bya0rkyu7swfy" path="res://sprites/map/doors/door-open.png" id="3_gew7r"]
 
@@ -30,7 +30,7 @@ animations = [{
 "texture": ExtResource("3_gew7r")
 }],
 "loop": true,
-"name": &"open",
+"name": &"opened",
 "speed": 5.0
 }, {
 "frames": [{
@@ -55,7 +55,7 @@ direction = "N"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_h61qs")
-animation = &"closed"
+animation = &"opened"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.75, 0.75)
