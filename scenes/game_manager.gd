@@ -1,4 +1,4 @@
-class_name GameManager extends Node
+extends Node
 
 # Variables for Player 1.
 var player: Player #Player data
