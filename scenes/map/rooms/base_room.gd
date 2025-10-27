@@ -1,38 +1,31 @@
-class_name BaseRoom extends Node
+extends Node2D
 
-# Prepare the player variable.
-@onready var player: Player = $Player
+@export var _red_door: PackedScene
+@onready var _east_door : Node2D = $DoorMarkers/EastDoor
+@onready var _north_door : Node2D = $DoorMarkers/NorthDoor
+@onready var _west_door : Node2D = $DoorMarkers/WestDoor
+@onready var _south_door : Node2D = $DoorMarkers/SouthDoor
 
-# Prepare the spawn location for Player.
-@onready var entrance_markers: Node2D = $EntranceMarkers
-
-# Spawn player inside the room.
-func _ready() -> void:
-	# Check if there is a instance of the Player.
-	if game_manager.player:
-		# Free the Player data if he exists in room. 
-		if player:
-			player.queue_free()
-		
-		# Set Player data in this room.
-		player = game_manager.player
-		add_child(player) # add Player to this room.
+func add_door(direction: int, connected_room: int) -> void:
+	var door: BaseDoor = _red_door.instantiate()
+	add_child(door)
+	match direction:
+		0:
+			door.position =_north_door.global_position
+			door.direction = "N"
+		1:
+			door.position =_east_door.global_position
+			door.direction = "E"
+		2:
+			door.position =_south_door.global_position
+			door.direction = "S"
+		3:
+			door.position =_west_door.global_position
+			door.direction = "W"
+	door.rotation = PI * direction / 2.0
 	
-	set_player_pos() # correct the location of the Player in this room.
+	door.connected_room = connected_room
 
-# Set position of the Player.
-func set_player_pos() -> void:
-	# Check if this is first room.
-	var previous_room = game_manager.previous_room_name
-	if previous_room.is_empty():
-		# If this is the first room, set the starting position. 
-		game_manager.previous_room_direction = "StartPosition"
-	
-	# Find the correct location for player to spawn.
-	for entrance in entrance_markers.get_children():
-		if entrance is Marker2D and entrance.name == game_manager.previous_room_direction:
-			# When encountered correct location spawn the Player.
-			player.global_position = entrance.global_position
-			
-			# Make player ready for game.
-			player.start() 
+func remove_door(room: PackedScene, door: BaseDoor):
+	room.remove_child(door)
+	door.queue_free()

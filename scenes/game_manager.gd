@@ -38,7 +38,7 @@ func change_room(previous_room, next_room: String, direction: String) -> void:
 	var next_room_path = room_path + next_room + ".tscn"
 	previous_room.get_tree().call_deferred("change_scene_to_file",next_room_path)
 
-func new_change_room(direction: String) -> void:
+func new_change_room(direction: String):
 	var nx = dungeon.current_room.pos.x
 	var ny = dungeon.current_room.pos.y
 	match direction:
@@ -56,6 +56,11 @@ func new_change_room(direction: String) -> void:
 				nx -= 1
 	if dungeon.dungeon[nx][ny] != null:
 		dungeon.current_room = dungeon.dungeon[nx][ny]
+		
+		print(dungeon.current_room.id)
+		print(dungeon.current_room.pos.x)
+		print(dungeon.current_room.pos.y)
+		
 		dungeon.show_current_room(direction)
 
 # Checking the key that was pressed.

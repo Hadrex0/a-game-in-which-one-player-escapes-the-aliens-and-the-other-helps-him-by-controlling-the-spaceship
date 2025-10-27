@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c3sppiamat0nb"]
 
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="1_2lhjd"]
-[ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://scenes/map/rooms/room_on_ready.gd" id="1_mxg2v"]
+[ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://scenes/map/rooms/base_room.gd" id="1_mxg2v"]
 [ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="2_d3hb4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mxg2v"]

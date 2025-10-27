@@ -1,5 +1,5 @@
 class_name Player extends CharacterBody2D
-signal hit
+#signal hit
 
 # Variables for player movement.
 @export var speed = 300 #player max movement speed
@@ -33,9 +33,9 @@ func _physics_process(delta):
 # Show player and turn on collision.
 func start() -> void:
 	show()
-	$CollisionShape2D.disabled = false
+	$CollisionShape2D.set_deferred("disabled", false)
 
 # Hide player and turn off collision.
 func stop() -> void:
 	hide()
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)

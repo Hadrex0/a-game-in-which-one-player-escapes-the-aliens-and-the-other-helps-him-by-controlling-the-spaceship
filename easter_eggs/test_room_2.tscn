@@ -1,86 +1,88 @@
-[gd_scene load_steps=13 format=3 uid="uid://71g0ap8575n6"]
+[gd_scene load_steps=12 format=3 uid="uid://byawiuwb7flsu"]
 
-[ext_resource type="Script" uid="uid://b0gxdmxqhk4og" path="res://scenes/map/rooms/base_room.gd" id="1_w0bc0"]
-[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="2_i1gb6"]
-[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="3_6w1wm"]
-[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://scenes/map/objects/doors/blue_door.tscn" id="4_0mkg5"]
-[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://scenes/entity/player/player.tscn" id="4_wqijo"]
-[ext_resource type="PackedScene" uid="uid://bc6pgr74vebs0" path="res://scenes/map/objects/doors/green_door.tscn" id="5_qyb0q"]
+[ext_resource type="Script" uid="uid://b0gxdmxqhk4og" path="res://easter_eggs/base_room.gd" id="1_ru7gi"]
+[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="2_0icv0"]
+[ext_resource type="PackedScene" uid="uid://40r3c21yaknl" path="res://scenes/map/objects/doors/yellow_door.tscn" id="3_nhg8j"]
+[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="3_vtu8o"]
+[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://scenes/map/objects/doors/blue_door.tscn" id="5_03cog"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mjm5x"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iiocx"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_fn815"]
+[sub_resource type="QuadMesh" id="QuadMesh_7coos"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mjm5x"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dp80o"]
 size = Vector2(1153, 140)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fn815"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6pw2l"]
 size = Vector2(161, 645)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i7p6j"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o58bi"]
 size = Vector2(1152, 142)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vnwl"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pd8cu"]
 size = Vector2(167, 643)
 
 [node name="TestRoom" type="Node2D"]
-script = ExtResource("1_w0bc0")
+script = ExtResource("1_ru7gi")
 
 [node name="RoomPhisics" type="StaticBody2D" parent="."]
 collision_layer = 3
 collision_mask = 3
-physics_material_override = SubResource("PhysicsMaterial_mjm5x")
+physics_material_override = SubResource("PhysicsMaterial_iiocx")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="RoomPhisics"]
 position = Vector2(576.25, 323.25)
 scale = Vector2(1153.5, 647.5)
-mesh = SubResource("QuadMesh_fn815")
-texture = ExtResource("2_i1gb6")
+mesh = SubResource("QuadMesh_7coos")
+texture = ExtResource("2_0icv0")
 
 [node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(576.5, 72)
-shape = SubResource("RectangleShape2D_mjm5x")
+shape = SubResource("RectangleShape2D_dp80o")
 
 [node name="EastWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(1072.5, 323.5)
-shape = SubResource("RectangleShape2D_fn815")
+shape = SubResource("RectangleShape2D_6pw2l")
 
 [node name="SouthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(577, 574)
-shape = SubResource("RectangleShape2D_i7p6j")
+shape = SubResource("RectangleShape2D_o58bi")
 
 [node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(83.5, 323.5)
-shape = SubResource("RectangleShape2D_6vnwl")
+shape = SubResource("RectangleShape2D_pd8cu")
 
 [node name="Doors" type="Node2D" parent="."]
 
 [node name="NorthDoor" type="Node2D" parent="Doors"]
 position = Vector2(576, 112)
 
-[node name="RedDoor" parent="Doors/NorthDoor" instance=ExtResource("3_6w1wm")]
-open = true
+[node name="YellowDoor" parent="Doors/NorthDoor" instance=ExtResource("3_nhg8j")]
+connected_room = "test_room_1"
 
 [node name="EastDoor" type="Node2D" parent="Doors"]
 position = Vector2(1021, 315)
 rotation = 1.5708
 scale = Vector2(-1, 1)
 
-[node name="BlueDoor" parent="Doors/EastDoor" instance=ExtResource("4_0mkg5")]
+[node name="RedDoor" parent="Doors/EastDoor" instance=ExtResource("3_vtu8o")]
+connected_room = "test_room_1"
 direction = "E"
 
 [node name="SouthDoor" type="Node2D" parent="Doors"]
 position = Vector2(576, 533)
 rotation = 3.14159
 
-[node name="GreenDoor" parent="Doors/SouthDoor" instance=ExtResource("5_qyb0q")]
+[node name="RedDoor" parent="Doors/SouthDoor" instance=ExtResource("3_vtu8o")]
+connected_room = "test_room_1"
 direction = "S"
 
 [node name="WestDoor" type="Node2D" parent="Doors"]
 position = Vector2(138, 315)
 rotation = -1.5708
 
-[node name="BlueDoor" parent="Doors/WestDoor" instance=ExtResource("4_0mkg5")]
+[node name="BlueDoor" parent="Doors/WestDoor" instance=ExtResource("5_03cog")]
+connected_room = "test_room_1"
 direction = "W"
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
@@ -103,5 +105,3 @@ scale = Vector2(0.226, 0.226)
 [node name="W" type="Marker2D" parent="EntranceMarkers"]
 position = Vector2(921, 315)
 scale = Vector2(0.226, 0.226)
-
-[node name="Player" parent="." instance=ExtResource("4_wqijo")]
