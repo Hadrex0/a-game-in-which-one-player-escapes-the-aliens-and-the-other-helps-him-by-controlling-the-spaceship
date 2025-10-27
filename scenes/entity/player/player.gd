@@ -7,12 +7,13 @@ const acceleration = 1500 #how fast player speed up
 const friction = 1500 #how fast player stops
 var input = Vector2.ZERO #variable for storing input
 
-# Temporary solution variable.
-var invisible: bool #can player move through doors?
+# Variables for moving across the spaceship
+var invisible = false
+var invincibility_duration = 0.2 # seconds
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	start() #player is shown on start
+	self.call_deferred("show") #player is shown on start
 
 # Function for calculating player location when moving.
 func player_movement(delta):
@@ -30,12 +31,11 @@ func _physics_process(delta):
 	player_movement(delta) #set the location of the Player
 	move_and_slide() #move the Player to correct location
 
-# Show player and turn on collision.
-func start() -> void:
-	show()
-	$CollisionShape2D.set_deferred("disabled", false)
+# Player can't interact with doors for some time.
+func invisibility_start() -> void:
+	invisible = true
+	$InvisibilityTimer.start(invincibility_duration)
 
-# Hide player and turn off collision.
-func stop() -> void:
-	hide()
-	$CollisionShape2D.set_deferred("disabled", true)
+# Player can interact with doors again.
+func _on_invisibility_timer_timeout() -> void:
+	invisible = false

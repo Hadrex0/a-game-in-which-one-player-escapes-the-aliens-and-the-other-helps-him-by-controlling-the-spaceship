@@ -1,31 +1,26 @@
 class_name Dungeon extends Node2D
 
+
 @export var _room_scene : PackedScene
 
+# Variables for dungeon generating
 @export var _dimensions : Vector2i = Vector2i(10,10)
 @export var _start : Vector2i = Vector2i(-1, -1)
 @export var _critical_path_length : int = 50
 @export var _branch_probability : float = 0.3
+var dungeon : Array = []
+var next_id : int = 0
 
+# Variables for Player 1
 @onready var player: Player = $"../Player"
 @onready var entrance_markers: Node2D = $"../EntranceMarkers"
 
-var dungeon : Array = []
-var next_id : int = 0
-var new_game = true
-
-#enum Doors {
-#	RIGHT = 1,
-#	UP = 2,
-#	LEFT = 4,
-#	DOWN = 8,
-#}
 
 const DIRECTIONS: Array[Vector2i] = [
-	Vector2i.RIGHT,
-	Vector2i(0, 1),
-	Vector2i.LEFT,
-	Vector2i(0, -1)
+	Vector2i( 0,-1),
+	Vector2i( 1, 0),
+	Vector2i( 0, 1),
+	Vector2i(-1, 0)
 ]
 
 const ROOM_SIZE: Vector2 = Vector2(1152, 648)
@@ -59,8 +54,9 @@ func _ready() -> void:
 	#_draw_dungeon()
 	current_room = dungeon[_start.x][_start.y]
 	game_manager.dungeon_init(self)
-	show_current_room("StartPosition")
-	print("current room: ",current_room.id)
+	game_manager.player_init(player)
+	update_room("StartPosition")
+	
 
 func _initialize_dungeon() -> void:
 	for x in _dimensions.x:
@@ -112,9 +108,12 @@ func _add_branches(probability: float):
 			if room == null:
 				continue
 			for i in 4:
-				#var dir = DIRECTIONS[i]
-				var nx = x+(i%2*-1*(i-2))
-				var ny = y+((i+1)%2*(i-1))
+				var dir = DIRECTIONS[i]
+				#var nx = x+(i%2*-1*(i-2))
+				#var ny = y+((i+1)%2*(i-1))
+				var nx = x+dir.x
+				var ny = y+dir.y
+				
 				if nx < 0 or nx >= _dimensions.x or ny < 0 or ny >= _dimensions.y:
 					continue
 				if dungeon[nx][ny] == null:
@@ -156,66 +155,35 @@ func _print_connections() -> void:
 			if r != null:
 				print("Room ", r.id, " at ", r.pos, " connects to ", r.connections)
 
-func _set_player_pos(direction: String) -> void:
-	for entrance in entrance_markers.get_children():
-		if entrance is Marker2D and entrance.name == direction:
-			# When encountered correct location spawn the Player.
-			player.global_position = entrance.global_position
-			
-	player.start() 
-
-func show_current_room(previous_direction: String):
-	#var room = _room_scene.instantiate()
+# 
+func update_room(previous_direction: String):
+	# If there is previous room delete it.
+	if self.get_child_count() != 0:
+		var previous_room = self.get_child(0)
+		self.call_deferred("remove_child", previous_room)
+		previous_room.call_deferred("queue_free")
 	
-	print("show ",current_room.id)
-	print("show ",current_room.pos.x)
-	print("show ",current_room.pos.y)
-	
-	if new_game:
-		new_game = false
-	else:
-		var old_room = self.get_child(0)
-		self.call_deferred("remove_child", old_room)
-		old_room.queue_free()
-	#var room = current_room.room_scene.instantiate()
+	# Initiate node with current room.
+	var cell = dungeon[current_room.pos.x][current_room.pos.y]
 	var room = _room_scene.instantiate()
-	
 	self.call_deferred("add_child", room)
 	
-	var x = current_room.pos.x
-	var y = current_room.pos.y
-	var cell = dungeon[x][y]
+	# Put Player in correct position.
+	_set_player_pos(previous_direction)
+	
+	# Print all doors in correct positions.
 	for i in 4:
 		if cell.doors[i]:
 			room.call_deferred("add_door", i, cell.connections[i])
 	
-	_set_player_pos(previous_direction)
-
-# Change stance of the door if it matches emited color.
-func _on_color_stance_changed(changed_color: String):
+	print(current_room.id)
 	
-	for i in 4:
-		# Change stance of the door with matching color. 
-		#if is_in_group(changed_color):
-		#	change_door_stance_animation() #play openine/closing animation
-		#	open = !open #change door stance to opposite
-		pass
-	pass
-
-#func go_to_room(direction: String):
-#	var direction_id
-#	match direction:
-#		"N":
-#			direction_id = 0
-#		"E":
-#			direction_id = 1
-#		"S":
-#			direction_id = 2
-#		"W":
-#			direction_id = 3
-#	current_room = current_room.connections[direction_id]
-#	_show_current_room()
-
-#	if new_room_id in room_nodes:
-#		current_room_id = new_room_id
-#		_show_current_room()
+# Put Player in correct location given by variable "direction" 
+func _set_player_pos(direction: String) -> void:
+	
+	# Find correct spawn location
+	for entrance in entrance_markers.get_children():
+		if entrance is Marker2D and entrance.name == direction:
+			# When encountered correct location spawn the Player.
+			player.global_position = entrance.global_position
+	

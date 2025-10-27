@@ -11,6 +11,7 @@ script = ExtResource("1_ffeav")
 _room_scene = ExtResource("2_ffeav")
 
 [node name="Player" parent="." instance=ExtResource("5_y4eva")]
+safe_margin = 2.0
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
 

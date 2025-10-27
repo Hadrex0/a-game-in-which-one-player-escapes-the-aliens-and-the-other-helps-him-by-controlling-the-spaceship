@@ -16,6 +16,7 @@ func _ready() -> void:
 	# Connect changing color with game manager.
 	game_manager.color_stance_changed.connect(_on_color_stance_changed)
 	
+	# Set the correct state of the door
 	var global_open = self.get_groups()
 	global_open.remove_at(global_open.find("Doors"))
 	match global_open[0]:
@@ -52,14 +53,10 @@ func _on_color_stance_changed(changed_color: String):
 # When something touches the door.
 func _on_body_entered(body: Node2D) -> void:
 	# Check if the door is open.
-	#print(monitoring)
-	if open: 
-		print("Door:")
-		print(connected_room)
-		print(direction)
-		print("")
+	if open:
 		# Check if the Player touched the door.
 		if body.is_in_group("Player"): 
-			# Changing room to the connected one.
-			game_manager.new_change_room(direction)
-			pass
+			if !game_manager.get_player().invisible:
+				game_manager.get_player().invisibility_start()
+				# Changing room to the connected one.
+				game_manager.update_room(direction)

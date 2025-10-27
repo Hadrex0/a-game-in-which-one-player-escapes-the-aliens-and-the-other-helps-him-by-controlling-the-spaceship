@@ -23,9 +23,4 @@ func add_door(direction: int, connected_room: int) -> void:
 			door.position =_west_door.global_position
 			door.direction = "W"
 	door.rotation = PI * direction / 2.0
-	
 	door.connected_room = connected_room
-
-func remove_door(room: PackedScene, door: BaseDoor):
-	room.remove_child(door)
-	door.queue_free()

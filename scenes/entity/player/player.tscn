@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ssjcsb526q2b"]
 
 [ext_resource type="Texture2D" uid="uid://8hxlw4fotdax" path="res://sprites/entity/player/player-idle.png" id="1_xg5q3"]
-[ext_resource type="Script" path="res://scenes/entity/player/player.gd" id="1_ypewr"]
+[ext_resource type="Script" uid="uid://c36qdgxlv8y7m" path="res://scenes/entity/player/player.gd" id="1_ypewr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ypewr"]
 animations = [{
@@ -60,3 +60,7 @@ animation = &"idle"
 position = Vector2(0, 1)
 scale = Vector2(0.75, 0.75)
 shape = SubResource("CapsuleShape2D_xg5q3")
+
+[node name="InvisibilityTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="InvisibilityTimer" to="." method="_on_invisibility_timer_timeout"]
