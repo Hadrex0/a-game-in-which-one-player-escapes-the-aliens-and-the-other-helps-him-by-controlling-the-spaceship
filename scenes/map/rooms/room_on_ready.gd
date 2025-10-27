@@ -10,12 +10,16 @@ func add_door(direction: int) -> void:
 	var door: BaseDoor = _red_door.instantiate()
 	add_child(door)
 	match direction:
+		0:
+			door.position =_north_door.global_position
+			door.direction = "N"
 		1:
 			door.position =_east_door.global_position
+			door.direction = "E"
 		2:
-			door.position =_north_door.global_position
-		4:
-			door.position =_west_door.global_position
-		8:
 			door.position =_south_door.global_position
+			door.direction = "S"
+		3:
+			door.position =_west_door.global_position
+			door.direction = "W"
 	door.rotation = PI * direction / 2.0

@@ -58,12 +58,16 @@ position = Vector2(576, 117)
 
 [node name="EastDoor" type="Marker2D" parent="DoorMarkers"]
 position = Vector2(1017, 315)
+rotation = 1.5707964
+scale = Vector2(-1, 1)
 
 [node name="SouthDoor" type="Marker2D" parent="DoorMarkers"]
 position = Vector2(576, 528)
+rotation = 3.1415927
 
 [node name="WestDoor" type="Marker2D" parent="DoorMarkers"]
 position = Vector2(144, 315)
+rotation = -1.5707964
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
 

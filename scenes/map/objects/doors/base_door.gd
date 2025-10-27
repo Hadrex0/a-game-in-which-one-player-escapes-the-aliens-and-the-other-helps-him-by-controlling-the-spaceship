@@ -41,6 +41,11 @@ func _on_color_stance_changed(changed_color: String):
 func _on_body_entered(body: Node2D) -> void:
 	# Check if the door is open.
 	if open == true: 
+		print("Door:")
+		print(connected_room)
+		print(direction)
+		print(open)
+		print("")
 		# Check if the Player touched the door.
 		if body.is_in_group("Player"): 
 			# Changing room to the connected one.
