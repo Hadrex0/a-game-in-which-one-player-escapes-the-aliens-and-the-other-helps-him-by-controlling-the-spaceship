@@ -6,7 +6,7 @@ extends Node2D
 @onready var _west_door : Node2D = $DoorMarkers/WestDoor
 @onready var _south_door : Node2D = $DoorMarkers/SouthDoor
 
-func add_door(direction: int) -> void:
+func add_door(direction: int, connected_room: int, open: bool) -> void:
 	var door: BaseDoor = _red_door.instantiate()
 	add_child(door)
 	match direction:
@@ -22,4 +22,11 @@ func add_door(direction: int) -> void:
 		3:
 			door.position =_west_door.global_position
 			door.direction = "W"
+	door.open = open
+	door.connected_room = connected_room
 	door.rotation = PI * direction / 2.0
+
+func remove_door(room: PackedScene, door: BaseDoor):
+	door.monitoring = false
+	room.remove_child(door)
+	door.queue_free()

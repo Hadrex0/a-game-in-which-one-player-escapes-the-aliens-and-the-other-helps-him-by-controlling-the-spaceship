@@ -59,7 +59,6 @@ shape = SubResource("RectangleShape2D_6vnwl")
 position = Vector2(576, 112)
 
 [node name="RedDoor" parent="Doors/NorthDoor" instance=ExtResource("3_6w1wm")]
-connected_room = "test_room_2"
 open = true
 
 [node name="EastDoor" type="Node2D" parent="Doors"]
@@ -68,7 +67,6 @@ rotation = 1.5708
 scale = Vector2(-1, 1)
 
 [node name="BlueDoor" parent="Doors/EastDoor" instance=ExtResource("4_0mkg5")]
-connected_room = "test_room_2"
 direction = "E"
 
 [node name="SouthDoor" type="Node2D" parent="Doors"]
@@ -76,7 +74,6 @@ position = Vector2(576, 533)
 rotation = 3.14159
 
 [node name="GreenDoor" parent="Doors/SouthDoor" instance=ExtResource("5_qyb0q")]
-connected_room = "test_room_2"
 direction = "S"
 
 [node name="WestDoor" type="Node2D" parent="Doors"]
@@ -84,7 +81,6 @@ position = Vector2(138, 315)
 rotation = -1.5708
 
 [node name="BlueDoor" parent="Doors/WestDoor" instance=ExtResource("4_0mkg5")]
-connected_room = "test_room_2"
 direction = "W"
 
 [node name="EntranceMarkers" type="Node2D" parent="."]

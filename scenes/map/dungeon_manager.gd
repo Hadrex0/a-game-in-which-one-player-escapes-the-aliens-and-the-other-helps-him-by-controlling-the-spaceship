@@ -1,4 +1,4 @@
-extends Node2D
+class_name Dungeon extends Node2D
 
 @export var _room_scene : PackedScene
 
@@ -6,6 +6,9 @@ extends Node2D
 @export var _start : Vector2i = Vector2i(-1, -1)
 @export var _critical_path_length : int = 50
 @export var _branch_probability : float = 0.3
+
+@onready var player: Player = $"../Player"
+@onready var entrance_markers: Node2D = $"../EntranceMarkers"
 
 var dungeon : Array = []
 var next_id : int = 0
@@ -31,13 +34,20 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 	return {
 		"id": id,
 		"pos": pos,
-		"doors": 0,
-		"connections": []
+		"doors": [false, false, false, false],
+		"connections": [-1, -1, -1, -1],
+		"door_stance": [false, false, false, false]
 	}
 	
 var room_nodes : Dictionary = {}
-var current_room_id : int = -1
+var current_room = make_room(-1, Vector2i(-1, -1))
+var new_game = true
 
+func get_dimension_x():
+	return _dimensions.x
+
+func get_dimension_y():
+	return _dimensions.y
 
 func _ready() -> void:
 	_initialize_dungeon()
@@ -46,9 +56,11 @@ func _ready() -> void:
 	_add_branches(_branch_probability)
 	_print_dungeon()
 	_print_connections()
-	_draw_dungeon()
-	current_room_id = dungeon[_start.x][_start.y].id
-	_show_current_room()
+#	_draw_dungeon()
+	current_room = dungeon[_start.x][_start.y]
+	game_manager.dungeon_init(self)
+	show_current_room("StartPosition")
+	print("current room: ",current_room.id)
 
 func _initialize_dungeon() -> void:
 	for x in _dimensions.x:
@@ -80,16 +92,16 @@ func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 			next_id += 1
 
 			# 🧱 Add door & connections
-			dungeon[current.x][current.y].doors |= Doors.values()[random]
-			dungeon[nx][ny].doors |= Doors.values()[(random + 2) % 4]
-			dungeon[current.x][current.y].connections.append(dungeon[nx][ny].id)
-			dungeon[nx][ny].connections.append(dungeon[current.x][current.y].id)
+			#dungeon[current.x][current.y].doors[random] = true
+			#dungeon[nx][ny].doors[(random + 2) % 4] = true
+			#dungeon[current.x][current.y].connections[random] = dungeon[nx][ny].id
+			#dungeon[nx][ny].connections[(random + 2) % 4] = dungeon[current.x][current.y].id
 
 			if await _generate_path(Vector2i(nx, ny), length - 1, marker):
 				return true
 			else:
 				# rollback in case of fail
-				dungeon[current.x][current.y].doors &= ~Doors.values()[random]
+				dungeon[current.x][current.y].doors[random] = false
 				dungeon[nx][ny] = null
 				next_id -= 1
 
@@ -105,30 +117,42 @@ func _add_branches(probability: float):
 			var room = dungeon[x][y]
 			if room == null:
 				continue
-			for i in range(4):
-				var dir = DIRECTIONS[i]
-				var nx = x + dir.x
-				var ny = y + dir.y
+			for i in 4:
+				#var dir = DIRECTIONS[i]
+				#var open = randi() % 2 == 0
+				var nx = x+(i%2*-1*(i-2))
+				var ny = y+((i+1)%2*(i-1))
 				if nx < 0 or nx >= _dimensions.x or ny < 0 or ny >= _dimensions.y:
 					continue
-				if dungeon[nx][ny] == null and randf() < probability:
+				if dungeon[nx][ny] == null:
+					if randf() >= probability:
+						continue
 					dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny))
 					next_id += 1
-					room.doors |= Doors.values()[i]
-					dungeon[nx][ny].doors |= Doors.values()[(i + 2) % 4]
-					room.connections.append(dungeon[nx][ny].id)
-					dungeon[nx][ny].connections.append(room.id)
+					room.doors[i] = true
+				elif room.connections[i] != -1:
+					continue 
+				room.doors[i] = true
+				dungeon[nx][ny].doors[(i+2)%4] = true
+				room.connections[i] = dungeon[nx][ny].id
+				dungeon[nx][ny].connections[(i+2)%4] = room.id
+				#room.door_stance[i] = open
+				#dungeon[nx][ny].door_stance[(i+2)%4] = open
 
 # 📜 Debug prints
 func _print_dungeon() -> void:
 	var dungeon_as_string : String = ""
-	for y in range(_dimensions.y -1, -1, -1):
+	#for y in range(_dimensions.y -1, -1, -1):
+	for y in _dimensions.y:
 		for x in _dimensions.x:
 			var cell = dungeon[x][y]
 			if cell != null:
-				dungeon_as_string += "[" + str(cell.id) + "]"
+				if cell.id < 10:
+					dungeon_as_string += "[ " + str(cell.id) + "]"
+				else:
+					dungeon_as_string += "[" + str(cell.id) + "]"
 			else:
-				dungeon_as_string += "[ ]"
+				dungeon_as_string += "[  ]"
 		dungeon_as_string += "\n"
 	print(dungeon_as_string)
 
@@ -141,27 +165,83 @@ func _print_connections() -> void:
 				print("Room ", r.id, " at ", r.pos, " connects to ", r.connections)
 
 # 🎨 Drawing
-func _draw_dungeon() -> void:
-	for y in range(_dimensions.y -1, -1, -1):
-		for x in _dimensions.x:
-			var cell = dungeon[x][y]
-			if cell == null:
-				continue
+#func _draw_dungeon() -> void:
+#	for y in range(_dimensions.y -1, -1, -1):
+#		for x in _dimensions.x:
+#			var cell = dungeon[x][y]
+#			if cell == null:
+#				continue
+#
+#			var room = _room_scene.instantiate()
+#			add_child(room)
+#			for i in 4:
+#				if cell.doors[i]:
+#					room.add_door(i, cell.connections[i])
+#			room.visible = false  # keep hidden initially
+#
+#			room_nodes[cell.id] = room
 
-			var room = _room_scene.instantiate()
-			add_child(room)
-			for i in Doors.size():
-				if dungeon[x][y].doors & Doors.values()[i]:
-					room.add_door(i)
-			room.visible = false  # keep hidden initially
+func set_player_pos() -> void:
+	# Check if this is first room.
+	var previous_room = game_manager.previous_room_name
+	if previous_room.is_empty():
+		# If this is the first room, set the starting position. 
+		game_manager.previous_room_direction = "StartPosition"
+	
+	# Find the correct location for player to spawn.
+	for entrance in entrance_markers.get_children():
+		if entrance is Marker2D and entrance.name == game_manager.previous_room_direction:
+			# When encountered correct location spawn the Player.
+			player.global_position = entrance.global_position
+			
+			# Make player ready for game.
+			player.start() 
 
-			room_nodes[cell.id] = room
+func _set_player_pos(direction: String) -> void:
+	for entrance in entrance_markers.get_children():
+		if entrance is Marker2D and entrance.name == direction:
+			# When encountered correct location spawn the Player.
+			player.global_position = entrance.global_position
+			
+	player.start() 
 
-func _show_current_room():
-	for room_id in room_nodes.keys():
-		room_nodes[room_id].visible = (room_id == current_room_id)
+func show_current_room(previous_direction: String):
+	var room = _room_scene.instantiate()
+	if room.get_parent() == null:
+		room = _room_scene.instantiate()
+		add_child(room)
+	else:
+		for n in room.get_children():
+			room.remove_door(n)
+		#var _reload = get_tree().reload_current_scene()
+		room.queue_free()
+		room = _room_scene.instantiate()
+	
+	#var xy = current_room.pos
+	var x = current_room.pos.x
+	var y = current_room.pos.y
+	var cell = dungeon[x][y]
+	for i in 4:
+		if cell.doors[i]:
+			room.add_door(i, cell.connections[i], cell.door_stance[i])
+			
+	
+	_set_player_pos(previous_direction)
 
-func go_to_room(new_room_id: int):
-	if new_room_id in room_nodes:
-		current_room_id = new_room_id
-		_show_current_room()
+#func go_to_room(direction: String):
+#	var direction_id
+#	match direction:
+#		"N":
+#			direction_id = 0
+#		"E":
+#			direction_id = 1
+#		"S":
+#			direction_id = 2
+#		"W":
+#			direction_id = 3
+#	current_room = current_room.connections[direction_id]
+#	_show_current_room()
+
+#	if new_room_id in room_nodes:
+#		current_room_id = new_room_id
+#		_show_current_room()

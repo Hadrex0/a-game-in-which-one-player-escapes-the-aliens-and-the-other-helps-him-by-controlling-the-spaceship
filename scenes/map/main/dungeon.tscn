@@ -11,4 +11,25 @@ script = ExtResource("1_ffeav")
 _room_scene = ExtResource("2_5qwh3")
 
 [node name="Player" parent="." instance=ExtResource("5_y4eva")]
-position = Vector2(573, 307)
+
+[node name="EntranceMarkers" type="Node2D" parent="."]
+
+[node name="StartPosition" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(576, 315)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="N" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(576, 433)
+scale = Vector2(0.226, 0.226)
+
+[node name="E" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(238, 315)
+scale = Vector2(0.051076, 0.051076)
+
+[node name="S" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(576, 212)
+scale = Vector2(0.226, 0.226)
+
+[node name="W" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(921, 315)
+scale = Vector2(0.226, 0.226)

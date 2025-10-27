@@ -2,7 +2,7 @@ class_name BaseDoor extends Area2D
 
 # Variables used for traveling across the rooms.
 @export_group("Next Room")
-@export var connected_room: String #name of the room behind the door
+@export var connected_room: int #name of the room behind the door
 @export var direction: String #location of the door in the room: N, E, S, or W
 
 # Ready the door stance variable.
@@ -40,13 +40,14 @@ func _on_color_stance_changed(changed_color: String):
 # When something touches the door.
 func _on_body_entered(body: Node2D) -> void:
 	# Check if the door is open.
+	print(monitoring)
 	if open == true: 
 		print("Door:")
 		print(connected_room)
 		print(direction)
-		print(open)
 		print("")
 		# Check if the Player touched the door.
 		if body.is_in_group("Player"): 
 			# Changing room to the connected one.
+			game_manager.new_change_room(direction)
 			pass

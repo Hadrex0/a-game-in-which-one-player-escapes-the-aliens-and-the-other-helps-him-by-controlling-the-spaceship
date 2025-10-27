@@ -9,6 +9,7 @@
 script = ExtResource("1_f7gi0")
 
 [node name="SpawnRoom" parent="." instance=ExtResource("2_jyhfs")]
+visible = false
 
 [node name="ActiveRoom" parent="." instance=ExtResource("3_sugp2")]
 visible = false
