@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 # Variables for Player 1.
 var player: Player #Player data

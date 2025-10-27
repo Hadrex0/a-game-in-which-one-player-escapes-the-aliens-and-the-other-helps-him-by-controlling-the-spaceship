@@ -12,7 +12,7 @@ var invisible: bool #can player move through doors?
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	stop() #player is hidden on start
+	start() #player is shown on start
 
 # Function for calculating player location when moving.
 func player_movement(delta):

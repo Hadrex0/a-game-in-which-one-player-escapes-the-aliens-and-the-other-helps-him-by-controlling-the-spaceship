@@ -44,4 +44,4 @@ func _on_body_entered(body: Node2D) -> void:
 		# Check if the Player touched the door.
 		if body.is_in_group("Player"): 
 			# Changing room to the connected one.
-			game_manager.change_room(get_owner(), connected_room, direction)
+			pass

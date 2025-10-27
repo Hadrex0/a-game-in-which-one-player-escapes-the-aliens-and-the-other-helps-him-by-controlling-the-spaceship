@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="a game in which one player escapes the aliens and the other helps him by controlling the spaceship"
-run/main_scene="res://scenes/map/rooms/test_room_1.tscn"
+run/main_scene="uid://d2vyo8wjl5f80"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
