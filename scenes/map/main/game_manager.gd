@@ -1,5 +1,7 @@
 extends Node2D
 
+#---CONSTANTS---------------------
+
 #---VARIABLES---------------------
 
 # Variables for Dungeon data
@@ -86,3 +88,13 @@ func update_room(direction: String):
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]
 	_dungeon.update_room(direction)
+
+#---GAME-ENDS---------------------
+
+# What happens when Player wins.
+func game_won() -> void:
+	print("YOU WON!")
+
+# What happens when Player looses.
+func game_lost() -> void:
+	print("YOU LOST!")

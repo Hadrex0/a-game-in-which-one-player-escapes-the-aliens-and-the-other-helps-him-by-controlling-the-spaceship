@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://t7wlfl3ltx25"]
 
 [ext_resource type="Script" uid="uid://bf8byks55uk4o" path="res://scenes/map/objects/doors/base_door.gd" id="1_m1v6b"]
-[ext_resource type="Texture2D" uid="uid://q8srnbsumdo8" path="res://sprites/map/doors/door-blue.png" id="2_sfeqm"]
-[ext_resource type="Texture2D" uid="uid://bya0rkyu7swfy" path="res://sprites/map/doors/door-open.png" id="3_gew7r"]
+[ext_resource type="Texture2D" uid="uid://q8srnbsumdo8" path="res://sprites/map/objects/doors/blue_door.png" id="2_sfeqm"]
+[ext_resource type="Texture2D" uid="uid://bya0rkyu7swfy" path="res://sprites/map/objects/doors/open_door.png" id="3_gew7r"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h61qs"]
 animations = [{

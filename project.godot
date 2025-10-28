@@ -36,6 +36,7 @@ Yellow="Is it colored yellow?"
 Blue="Is it colored blue?"
 Red="Is it colored red"
 Green="Is it colored green"
+Escape_Pod="Is it an escape pod?"
 
 [input]
 
