@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-game_manager="*res://scenes/game_manager.gd"
+game_manager="*res://scenes/map/main/game_manager.gd"
 
 [file_customization]
 

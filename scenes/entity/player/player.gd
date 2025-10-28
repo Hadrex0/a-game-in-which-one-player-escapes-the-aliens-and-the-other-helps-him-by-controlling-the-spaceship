@@ -1,6 +1,8 @@
 class_name Player extends CharacterBody2D
 #signal hit
 
+#---VARIABLES---------------------
+
 # Variables for player movement.
 @export var speed = 300 #player max movement speed
 const acceleration = 1500 #how fast player speed up
@@ -11,9 +13,13 @@ var input = Vector2.ZERO #variable for storing input
 var invisible = false
 var invincibility_duration = 0.2 # seconds
 
+#---PLAYER-START-------------------
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.call_deferred("show") #player is shown on start
+
+#---PLAYER-MOVEMENT----------------
 
 # Function for calculating player location when moving.
 func player_movement(delta):
@@ -30,6 +36,8 @@ func player_movement(delta):
 func _physics_process(delta):
 	player_movement(delta) #set the location of the Player
 	move_and_slide() #move the Player to correct location
+
+#---PLAYER-INVISIBILITY------------
 
 # Player can't interact with doors for some time.
 func invisibility_start() -> void:

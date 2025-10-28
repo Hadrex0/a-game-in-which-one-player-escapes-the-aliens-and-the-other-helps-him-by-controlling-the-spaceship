@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2vyo8wjl5f80"]
 
-[ext_resource type="Script" uid="uid://cr6vo6i8db0k1" path="res://scenes/map/dungeon_manager.gd" id="1_ffeav"]
-[ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://scenes/map/rooms/spawn_room.tscn" id="2_ffeav"]
+[ext_resource type="Script" uid="uid://cr6vo6i8db0k1" path="res://scenes/map/main/dungeon_manager.gd" id="1_ffeav"]
+[ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://scenes/map/rooms/starting_room.tscn" id="2_ffeav"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://scenes/entity/player/player.tscn" id="5_y4eva"]
 
 [node name="Dungeon" type="Node2D"]
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource("1_ffeav")
-_room_scene = ExtResource("2_ffeav")
+_starting_room = ExtResource("2_ffeav")
 
 [node name="Player" parent="." instance=ExtResource("5_y4eva")]
 safe_margin = 2.0

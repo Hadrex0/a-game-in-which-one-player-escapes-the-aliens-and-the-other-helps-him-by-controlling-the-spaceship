@@ -1,5 +1,7 @@
 extends Node2D
 
+#---VARIABLES---------------------
+
 # Variables for Dungeon data
 var _dungeon: Dungeon
 
@@ -13,6 +15,8 @@ var blue = false #stance of red color items
 var green = false #stance of red color items
 var yellow = false #stance of red color items
 
+#---INITIALIZE-VARIABLES----------
+
 # Assign dungeon data.
 func dungeon_init(created_dungeon: Dungeon) -> void:
 	_dungeon = created_dungeon
@@ -21,32 +25,13 @@ func dungeon_init(created_dungeon: Dungeon) -> void:
 func player_init(created_player: Player) -> void:
 	_player = created_player
 
+#---GETTERS-----------------------
+
 # Get player data
 func get_player() -> Player:
 	return _player
 
-# Update the room in which Player to correct one.
-func update_room(direction: String):
-	# Set coordinates of new room.
-	var nx = _dungeon.current_room.pos.x
-	var ny = _dungeon.current_room.pos.y
-	match direction:
-		"N":
-			# If player moved north, decrese y by one.
-				ny -= 1
-		"E":
-			# If player moved east, increase x by one.
-				nx += 1
-		"S":
-			# If player moved south, increase y by one.
-				ny += 1
-		"W":
-			# If player moved west, decrese x by one.
-				nx -= 1
-	
-	# Set current room as the new one, and update screen.
-	_dungeon.current_room = _dungeon.dungeon[nx][ny]
-	_dungeon.update_room(direction)
+#---INPUT-HANDLER-----------------
 
 # Checking the key that was pressed.
 func set_action_for_event(event):
@@ -77,3 +62,27 @@ func _unhandled_input(event: InputEvent) -> void:
 				# Changing color Yellow and emiting signal for update.
 				yellow = !yellow
 				color_stance_changed.emit("Yellow")
+
+#---CHANGING-CURRENT-ROOM---------
+
+# Update the room in which Player to correct one.
+func update_room(direction: String):
+	# Set coordinates of new room.
+	var nx = _dungeon.current_room.pos.x
+	var ny = _dungeon.current_room.pos.y
+	match direction:
+		"N": #if player moved north, decrese y by one
+				ny -= 1
+		"E": #if player moved east, increase x by one
+			
+				nx += 1
+		"S": #if player moved south, increase y by one
+			
+				ny += 1
+		"W": #if player moved west, decrese x by one
+			
+				nx -= 1
+	
+	# Set current room as the new one, and update screen.
+	_dungeon.current_room = _dungeon.dungeon[nx][ny]
+	_dungeon.update_room(direction)

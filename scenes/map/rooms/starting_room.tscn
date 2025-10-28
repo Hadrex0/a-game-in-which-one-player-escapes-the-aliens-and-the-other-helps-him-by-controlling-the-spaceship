@@ -51,24 +51,6 @@ shape = SubResource("RectangleShape2D_3tykw")
 position = Vector2(83.5, 323.5)
 shape = SubResource("RectangleShape2D_thc5n")
 
-[node name="EntranceMarkers" type="Node2D" parent="."]
-
-[node name="N" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(576, 433)
-scale = Vector2(0.226, 0.226)
-
-[node name="E" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(238, 315)
-scale = Vector2(0.051076, 0.051076)
-
-[node name="S" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(576, 212)
-scale = Vector2(0.226, 0.226)
-
-[node name="W" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(921, 315)
-scale = Vector2(0.226, 0.226)
-
 [node name="DoorMarkers" type="Node2D" parent="."]
 
 [node name="NorthDoor" type="Marker2D" parent="DoorMarkers"]

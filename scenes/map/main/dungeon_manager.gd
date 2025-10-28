@@ -1,0 +1,246 @@
+class_name Dungeon extends Node2D
+
+#---CONSTANTS---------------------
+
+const ROOM_SIZE: Vector2 = Vector2(1152, 648)
+const DIRECTIONS: Array[Vector2i] = [
+	Vector2i( 0,-1),
+	Vector2i( 1, 0),
+	Vector2i( 0, 1),
+	Vector2i(-1, 0)
+]
+
+#---VARIABLES---------------------
+
+# Variables for room scenes
+@export_category("Room Types")
+@export var _starting_room : PackedScene
+
+# Variables for dungeon generating
+@export_category("Dungeon Generating")
+@export var _dimensions : Vector2i = Vector2i(10,10)
+@export var _start : Vector2i = Vector2i(-1, -1)
+@export var _critical_path_length : int = 50
+@export var _branch_probability : float = 0.3
+var dungeon : Array = []
+var next_id : int = 0
+var room_nodes : Dictionary = {}
+var current_room = make_room(-1, Vector2i(-1, -1))
+
+# Variables for Player 1
+@onready var player: Player = $"../Player"
+@onready var entrance_markers: Node2D = $"../EntranceMarkers"
+
+#---INITIALIZE-VARIABLES----------
+
+# Initialize the array of the dungeon to the correct size.
+func _initialize_dungeon() -> void:
+	for x in _dimensions.x:
+		dungeon.append([])
+		for y in _dimensions.y:
+			dungeon[x].append(null)
+
+# Create a room.
+func make_room(id: int, pos: Vector2i) -> Dictionary:
+	return {
+		"id": id,
+		"pos": pos,
+		"doors": [false, false, false, false],
+		"connections": [-1, -1, -1, -1],
+		"room_scene" : PackedScene
+	}
+
+#---GETTERS-----------------------
+
+# Get spaceship dimension x
+func get_dimension_x():
+	return _dimensions.x
+
+# Get spaceship dimension y 
+func get_dimension_y():
+	return _dimensions.y
+
+#---GAME-START--------------------
+
+# Start spaceship at the start of the game.
+func _ready() -> void:
+	# Generate dungeon first
+	_initialize_dungeon()
+	_generate_dungeon()
+	
+	# Set current room at starting position.
+	current_room = dungeon[_start.x][_start.y]
+	
+	# Initialize variables for game_manager singleton.
+	game_manager.dungeon_init(self)
+	game_manager.player_init(player)
+	
+	# Display starting room.
+	update_room("StartPosition")
+	
+	# Debug print.
+	_debug_print()
+
+#---DUNGEON-GENERATION------------
+
+# Generate the dungeon.
+func _generate_dungeon() -> void:
+	_place_entrance()
+	_generate_path(_start, _critical_path_length, "C")
+	_add_branches(_branch_probability)
+
+# Place entrence point for generating the dungeon.
+func _place_entrance() -> void:
+	# If entrence coordinates are outside of the spacespip, generate new entrance.
+	if _start.x < 0 or _start.x >= _dimensions.x or _start.y < 0 or _start.y >= _dimensions.y:
+		_start = Vector2i(randi_range(0, _dimensions.x - 1), randi_range(0, _dimensions.y - 1))
+	
+	# When the starting room is within the dungeon, place room there.
+	dungeon[_start.x][_start.y] = make_room(next_id, _start)
+	next_id += 1
+
+# Generate dungeon based on random path across it.
+func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
+	# If length of a dungeon is equal to zero return true.
+	if length == 0:
+		return true
+	
+	# Setting varbiables for the generating path.
+	var current : Vector2i = from #starting coordinates
+	var random: int = randi_range(0, 3) #random number from 0 to 3.
+	var direction : Vector2i = DIRECTIONS[random] #random direction.
+	
+	# For every side of the room.
+	for i in 4:
+		# Coordinates of the next room.
+		var nx = current.x + direction.x
+		var ny = current.y + direction.y
+		
+		# If next room is within the spaceship.
+		if nx >= 0 and nx < _dimensions.x and ny >= 0 and ny < _dimensions.y and dungeon[nx][ny] == null:
+			# Create a room.
+			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny))
+			next_id += 1
+			
+			# Generate next room using reccurence.
+			if await _generate_path(Vector2i(nx, ny), length - 1, marker):
+				return true
+			else:
+				# Rollback in case of fail.
+				dungeon[current.x][current.y].doors[random] = false
+				dungeon[nx][ny] = null
+				next_id -= 1
+		
+		# When there cannot be room at (nx,ny) select next side.
+		random = (random + 1) % 4
+		direction = DIRECTIONS[random]
+	# If there is no room for generating another room return false.
+	return false
+
+# Create connections between the rooms of the spaceship.
+func _add_branches(probability: float):
+	# Go through all of the rooms.
+	for x in range(_dimensions.x):
+		for y in range(_dimensions.y):
+			var room = dungeon[x][y]
+			if room == null: #if at x,y is no room, skip those coordinates. 
+				continue
+			
+			# Check all sides of the room in search of nearby rooms.
+			for i in 4: 
+				var dir = DIRECTIONS[i]
+				var nx = x+dir.x
+				var ny = y+dir.y
+				
+				# If if the next room coordinates are within the dungeon skip those coordinates.
+				if nx < 0 or nx >= _dimensions.x or ny < 0 or ny >= _dimensions.y: 
+					continue
+				
+				# If there is no room behind a wall, spawn a isolated room.
+				if dungeon[nx][ny] == null: 
+					if randf() >= probability:  
+						continue
+					dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny))
+					next_id += 1
+					room.doors[i] = true
+				
+				# Set connections to room id, for representing corridor.
+				room.connections[i] = dungeon[nx][ny].id
+				dungeon[nx][ny].connections[(i+2)%4] = room.id
+				
+				# Set doors to true for spawning doors.
+				room.doors[i] = true
+				dungeon[nx][ny].doors[(i+2)%4] = true
+
+#---ROOM-DISPLAY------------------
+
+# Update displayed room to the current room.
+func update_room(previous_direction: String):
+	# If there is previous room delete it.
+	if self.get_child_count() != 0:
+		var previous_room = self.get_child(0)
+		self.call_deferred("remove_child", previous_room)
+		previous_room.call_deferred("queue_free")
+	
+	# Initiate node with current room.
+	var cell = dungeon[current_room.pos.x][current_room.pos.y]
+	var room = _starting_room.instantiate()
+	self.call_deferred("add_child", room)
+	
+	# Put Player in correct position.
+	_set_player_pos(previous_direction)
+	
+	# Print all doors in correct positions.
+	for i in 4:
+		if cell.doors[i]:
+			room.call_deferred("add_door", i, cell.connections[i])
+	
+	# Debug print
+	_print_current_room()
+
+# Put Player in correct location given by variable "direction" 
+func _set_player_pos(direction: String) -> void:
+	# Find correct spawn location
+	for entrance in entrance_markers.get_children():
+		if entrance is Marker2D and entrance.name == direction:
+			# When encountered correct location spawn the Player.
+			player.global_position = entrance.global_position
+
+#---DEBUG-PRINT-------------------
+
+# Main debug print
+func _debug_print() -> void:
+	_print_dungeon()
+	_print_connections()
+
+# Print map of the spaceship.
+func _print_dungeon() -> void:
+	var dungeon_as_string : String = ""
+	for y in _dimensions.y:
+		for x in _dimensions.x:
+			
+			# Setting the room map in the pattern: "[xx]" (xx - room id). 
+			var cell = dungeon[x][y]
+			dungeon_as_string += "["
+			if cell != null: #if there is a room, print room id.
+				if cell.id < 10: #if cell id is lower than 10 add a space.
+					dungeon_as_string += " " 
+				dungeon_as_string += str(cell.id)
+			else: #if there is no a room, print empty space.
+				dungeon_as_string += "  "
+			dungeon_as_string += "]"
+		dungeon_as_string += "\n"
+	print(dungeon_as_string)
+
+# Print all connections.
+func _print_connections() -> void:
+	print("--- CONNECTIONS ---")
+	for x in range(_dimensions.x):
+		for y in range(_dimensions.y):
+			var r = dungeon[x][y]
+			if r != null:
+				print("Room ", r.id, " at ", r.pos, " connects to ", r.connections)
+
+# Print room in which Player is located.
+func _print_current_room() -> void:
+	print("you are in room: ",current_room.id)
