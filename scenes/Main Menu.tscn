@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=3 uid="uid://dbed8o5tia3mp"]
+
+[ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://sprites/menu/cork board.png" id="1_estw7"]
+[ext_resource type="Script" uid="uid://dp0gbrxhuaw10" path="res://scenes/main_menu.gd" id="1_im4cs"]
+[ext_resource type="Texture2D" uid="uid://cxxax3vi5cg63" path="res://sprites/menu/board note 1.png" id="2_15uo5"]
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="2_mslyy"]
+[ext_resource type="Texture2D" uid="uid://bvsk10bq022qf" path="res://sprites/menu/Title.png" id="3_im4cs"]
+[ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://sprites/menu/board note 5.png" id="3_mslyy"]
+[ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://sprites/menu/board note 3.png" id="4_im4cs"]
+[ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://sprites/menu/board note 2.png" id="5_chhbp"]
+
+[sub_resource type="Theme" id="Theme_chhbp"]
+default_font = ExtResource("2_mslyy")
+default_font_size = 40
+label/fonts/Menu_Font = ExtResource("2_mslyy")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_im4cs")
+
+[node name="Tablica" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_estw7")
+expand_mode = 3
+
+[node name="Wyśrodkowanie" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="Podział" type="VBoxContainer" parent="Wyśrodkowanie"]
+layout_mode = 2
+
+[node name="Tytuł" type="Label" parent="Wyśrodkowanie/Podział"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_chhbp")
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "A GAME IN WHICH
+ONE PLAYER ESCAPES THE ALIENS
+AND THE OTHER HELPS HIM
+BY CONTROLLING THE SPACESHIP"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 2
+
+[node name="Title" type="TextureRect" parent="Wyśrodkowanie/Podział"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_im4cs")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Przyciski" type="HBoxContainer" parent="Wyśrodkowanie/Podział"]
+layout_mode = 2
+alignment = 1
+
+[node name="HOST" type="TextureButton" parent="Wyśrodkowanie/Podział/Przyciski"]
+layout_mode = 2
+texture_normal = ExtResource("2_15uo5")
+texture_pressed = ExtResource("3_mslyy")
+texture_hover = ExtResource("4_im4cs")
+
+[node name="HOST" type="Label" parent="Wyśrodkowanie/Podział/Przyciski/HOST"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mslyy")
+text = "HOST"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="Wyśrodkowanie/Podział/Przyciski"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="JOIN" type="TextureButton" parent="Wyśrodkowanie/Podział/Przyciski"]
+layout_mode = 2
+texture_normal = ExtResource("5_chhbp")
+texture_pressed = ExtResource("3_mslyy")
+texture_hover = ExtResource("4_im4cs")
+
+[connection signal="button_up" from="Wyśrodkowanie/Podział/Przyciski/HOST" to="." method="_on_host_button_up"]
