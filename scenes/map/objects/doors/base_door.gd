@@ -47,6 +47,11 @@ func _on_color_stance_changed(changed_color: String):
 	if is_in_group(changed_color):
 		change_door_stance_animation() #play openine/closing animation
 		open = !open #change door stance to opposite
+	
+	# When the doors are just now open, reset monitoring
+	if open:
+		#monitoring = false
+		monitoring = true
 
 # Change door stance animation.
 func change_door_stance_animation() -> void:

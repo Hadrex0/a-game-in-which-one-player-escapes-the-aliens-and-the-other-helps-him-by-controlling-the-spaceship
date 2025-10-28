@@ -148,7 +148,8 @@ func _add_branches(probability: float):
 		for y in range(_dimensions.y):
 			var room = dungeon[x][y]
 			
-			if room == null: #if at x,y is no room, skip those coordinates. 
+			# If at x,y is no room or the room is isolated, skip those coordinates. 
+			if room == null or room.id > next_id: 
 				continue
 			
 			# Check all sides of the room in search of nearby rooms.
@@ -168,9 +169,9 @@ func _add_branches(probability: float):
 						continue
 					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny))
 					next_isolated_id += 1
-					
+					_set_door_data(i, random_color, room, nx, ny)
 				# Check if there is no connection yet and if the connection is with singular room.
-				if room.connections[i] == -1 and !(room.id > next_id or dungeon[nx][ny].id > next_id):
+				if room.connections[i] == -1 and !(dungeon[nx][ny].id > next_id):
 					_set_door_data(i, random_color, room, nx, ny)
 
 func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
