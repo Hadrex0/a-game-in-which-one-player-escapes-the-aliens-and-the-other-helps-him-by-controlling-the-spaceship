@@ -3,7 +3,12 @@ extends Node2D
 #---VARIABLES---------------------
 
 # Variable for colored doors.
-@export var _red_door: PackedScene
+@onready var _door = [
+	"res://scenes/map/objects/doors/red_door.tscn",
+	"res://scenes/map/objects/doors/blue_door.tscn",
+	"res://scenes/map/objects/doors/green_door.tscn",
+	"res://scenes/map/objects/doors/yellow_door.tscn"
+]
 
 # Variable for location of the doors.
 @onready var _east_door : Node2D = $DoorMarkers/EastDoor
@@ -14,9 +19,9 @@ extends Node2D
 #---ADDING-DOOR--------------------
 
 # Add door to room parent node.
-func add_door(direction: int, connected_room: int) -> void:
+func add_door(direction: int, connected_room: int, color_id: int) -> void:
 	# Select correct door color.
-	var door: BaseDoor = _red_door.instantiate()
+	var door: BaseDoor = load(_door[color_id]).instantiate()
 	
 	# Add selected door to the room.
 	add_child(door)

@@ -46,6 +46,7 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 		"id": id,
 		"pos": pos,
 		"doors": [false, false, false, false],
+		"doors_color": [-1, -1, -1, -1],
 		"connections": [-1, -1, -1, -1],
 		"room_scene" : PackedScene
 	}
@@ -139,10 +140,14 @@ func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 
 # Create connections between the rooms of the spaceship.
 func _add_branches(probability: float):
+	# Set id of isolated room as last room id.
+	var next_isolated_id = next_id
+	
 	# Go through all of the rooms.
 	for x in range(_dimensions.x):
 		for y in range(_dimensions.y):
 			var room = dungeon[x][y]
+			
 			if room == null: #if at x,y is no room, skip those coordinates. 
 				continue
 			
@@ -151,6 +156,7 @@ func _add_branches(probability: float):
 				var dir = DIRECTIONS[i]
 				var nx = x+dir.x
 				var ny = y+dir.y
+				var random_color: int = randi_range(0, 3)
 				
 				# If if the next room coordinates are within the dungeon skip those coordinates.
 				if nx < 0 or nx >= _dimensions.x or ny < 0 or ny >= _dimensions.y: 
@@ -160,17 +166,26 @@ func _add_branches(probability: float):
 				if dungeon[nx][ny] == null: 
 					if randf() >= probability:  
 						continue
-					dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny))
-					next_id += 1
-					room.doors[i] = true
-				
-				# Set connections to room id, for representing corridor.
-				room.connections[i] = dungeon[nx][ny].id
-				dungeon[nx][ny].connections[(i+2)%4] = room.id
-				
-				# Set doors to true for spawning doors.
-				room.doors[i] = true
-				dungeon[nx][ny].doors[(i+2)%4] = true
+					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny))
+					next_isolated_id += 1
+					
+				# Check if there is no connection yet and if the connection is with singular room.
+				if room.connections[i] == -1 and !(room.id > next_id or dungeon[nx][ny].id > next_id):
+					_set_door_data(i, random_color, room, nx, ny)
+
+func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
+	var opposite_id = (door_id+2)%4
+	
+	# Set connections to room id, for representing corridor.
+	room.connections[door_id] = dungeon[room_x][room_y].id
+	dungeon[room_x][room_y].connections[opposite_id] = room.id
+	
+	# Set doors to true for spawning doors.
+	room.doors[door_id] = true
+	dungeon[room_x][room_y].doors[opposite_id] = true
+	
+	room.doors_color[door_id] = door_color
+	dungeon[room_x][room_y].doors_color[opposite_id] = door_color
 
 #---ROOM-DISPLAY------------------
 
@@ -193,7 +208,7 @@ func update_room(previous_direction: String):
 	# Print all doors in correct positions.
 	for i in 4:
 		if cell.doors[i]:
-			room.call_deferred("add_door", i, cell.connections[i])
+			room.call_deferred("add_door", i, cell.connections[i], cell.doors_color[i])
 	
 	# Debug print
 	_print_current_room()
@@ -239,7 +254,49 @@ func _print_connections() -> void:
 		for y in range(_dimensions.y):
 			var r = dungeon[x][y]
 			if r != null:
-				print("Room ", r.id, " at ", r.pos, " connects to ", r.connections)
+				# Start the line variable
+				var line = "Room " 
+				
+				# Goal: line = "Room xx at ("
+				if r.id < 10:
+					line += " "
+				line += str(r.id) + " at (" 
+				
+				# Goal: line = "Room xx at (xx,"
+				if r.pos.x < 10:
+					line += " "
+				line += str(r.pos.x) + ","
+				
+				# Goal: line = "Room xx at (xx,xx) connects to ["
+				if r.pos.y < 10:
+					line += " "
+				line += str(r.pos.y) + ") connects to ["
+				
+				# Goal: line = "Room xx at (xx,xx) connects to [xx/C, xx/C, xx/C, xx/C]"
+				for i in 4:
+					if r.connections[i] == -1:
+						line += " -/-"
+					else:
+						if r.connections[i] < 10:
+							line += " "
+						line += str(r.connections[i]) + "/"
+						
+						# Get color first leter from doors_color
+						match r.doors_color[i]:
+							0:
+								line += "R"
+							1:
+								line += "B"
+							2:
+								line += "G"
+							3:
+								line += "Y"
+					if i < 3:
+						line += ", "
+				line += "]"
+				
+				# Print formatted line.
+				print(line)
 
 # Print room in which Player is located.
 func _print_current_room() -> void:

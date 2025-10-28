@@ -11,9 +11,9 @@ var _player: Player #Player data
 # Variables for Player 2.
 signal color_stance_changed
 var red = false #stance of red color items
-var blue = false #stance of red color items
-var green = false #stance of red color items
-var yellow = false #stance of red color items
+var blue = false #stance of blue color items
+var green = false #stance of green color items
+var yellow = false #stance of yellow color items
 
 #---INITIALIZE-VARIABLES----------
 
