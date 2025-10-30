@@ -144,7 +144,8 @@ func update_room(direction: String):
 # What happens when Player wins.
 func game_won() -> void:
 	print("YOU WON!")
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
+	#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 # What happens when Player looses.
 func game_lost() -> void:
