@@ -5,8 +5,8 @@ class_name Player extends CharacterBody2D
 
 # Variables for player movement.
 @export var speed = 300 #player max movement speed
-const acceleration = 1500 #how fast player speed up
-const friction = 1500 #how fast player stops
+const acceleration = 3000 #how fast player speed up
+const friction = 2500 #how fast player stops
 var input = Vector2.ZERO #variable for storing input
 
 # Variables for moving across the spaceship
@@ -29,8 +29,10 @@ func player_movement(delta):
 	# Set the location of the Player.
 	if input: #when move keys are pressed speed up the movement of the Player
 		velocity = velocity.move_toward(input * speed , delta * acceleration)
+		$AnimatedSprite2D.play("walk-down")
 	else: #when move keys are not pressed stop the movement of the Player
 		velocity = velocity.move_toward(Vector2(0,0), delta * friction)
+		$AnimatedSprite2D.play("idle")
 
 # Player physic system.
 func _physics_process(delta):

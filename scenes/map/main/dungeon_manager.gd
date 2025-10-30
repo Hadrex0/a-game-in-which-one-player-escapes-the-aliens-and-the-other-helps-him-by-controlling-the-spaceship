@@ -101,7 +101,7 @@ func _place_entrance() -> void:
 	# When the starting room is within the dungeon, place room there.
 	dungeon[_start.x][_start.y] = make_room(next_id, _start)
 	next_id += 1
-
+	
 # Generate dungeon based on random path across it.
 func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 	# If length of a dungeon is equal to zero return true.

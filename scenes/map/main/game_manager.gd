@@ -4,6 +4,9 @@ extends Node2D
 
 #---VARIABLES---------------------
 
+var door_sfx : Node
+var enter_sfx : Node
+
 # Variables for Dungeon data
 var _dungeon: Dungeon
 
@@ -26,6 +29,8 @@ func dungeon_init(created_dungeon: Dungeon) -> void:
 # Assign player data.
 func player_init(created_player: Player) -> void:
 	_player = created_player
+	door_sfx = get_tree().get_root().get_node("/root/Dungeon/Door SFX")
+	enter_sfx = get_tree().get_root().get_node("/root/Dungeon/Enter SFX")
 
 #---GETTERS-----------------------
 
@@ -42,6 +47,7 @@ func set_action_for_event(event):
 			return action
 	return null
 
+
 # Control room listener.
 func _unhandled_input(event: InputEvent) -> void:
 	var action = set_action_for_event(event)
@@ -50,20 +56,64 @@ func _unhandled_input(event: InputEvent) -> void:
 		match action:
 			"cheat_red":
 				# Changing color Red and emiting signal for update.
+				door_sfx.play()
+				if blue:
+					blue = !blue
+					color_stance_changed.emit("Blue")
+				if green:
+					green = !green
+					color_stance_changed.emit("Green")
+				if yellow:
+					yellow = !yellow
+					color_stance_changed.emit("Yellow")
 				red = !red
 				color_stance_changed.emit("Red")
+				print("RED DOORS ARE OPEN")
 			"cheat_blue":
 				# Changing color Blue and emiting signal for update.
+				door_sfx.play()
+				if red:
+					red = !red
+					color_stance_changed.emit("Red")
+				if green:
+					green = !green
+					color_stance_changed.emit("Green")
+				if yellow:
+					yellow = !yellow
+					color_stance_changed.emit("Yellow")
 				blue = !blue
 				color_stance_changed.emit("Blue")
+				print("BLUE DOORS ARE OPEN")
 			"cheat_green":
 				# Changing color Green and emiting signal for update.
+				door_sfx.play()
+				if red:
+					red = !red
+					color_stance_changed.emit("Red")
+				if blue:
+					blue = !blue
+					color_stance_changed.emit("Blue")
+				if yellow:
+					yellow = !yellow
+					color_stance_changed.emit("Yellow")
 				green = !green
 				color_stance_changed.emit("Green")
+				print("GREEN DOORS ARE OPEN")
 			"cheat_yellow":
 				# Changing color Yellow and emiting signal for update.
+				door_sfx.play()
+				if red:
+					red = !red
+					color_stance_changed.emit("Red")
+				if blue:
+					blue = !blue
+					color_stance_changed.emit("Blue")
+				if green:
+					green = !green
+					color_stance_changed.emit("Green")
 				yellow = !yellow
 				color_stance_changed.emit("Yellow")
+				print("YELLOW DOORS ARE OPEN")
 
 #---CHANGING-CURRENT-ROOM---------
 
@@ -84,7 +134,7 @@ func update_room(direction: String):
 		"W": #if player moved west, decrese x by one
 			
 				nx -= 1
-	
+	enter_sfx.play()
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]
 	_dungeon.update_room(direction)
@@ -94,7 +144,9 @@ func update_room(direction: String):
 # What happens when Player wins.
 func game_won() -> void:
 	print("YOU WON!")
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 # What happens when Player looses.
 func game_lost() -> void:
 	print("YOU LOST!")
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
