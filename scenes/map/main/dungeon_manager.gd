@@ -48,6 +48,7 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 		"doors": [false, false, false, false],
 		"doors_color": [-1, -1, -1, -1],
 		"connections": [-1, -1, -1, -1],
+		"end_color": -1,
 		"room_scene" : PackedScene
 	}
 
@@ -89,6 +90,7 @@ func _generate_dungeon() -> void:
 	_place_entrance()
 	_generate_path(_start, _critical_path_length, "C")
 	_add_branches(_branch_probability)
+	_place_escape_pods()
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
@@ -174,6 +176,7 @@ func _add_branches(probability: float):
 				if room.connections[i] == -1 and !(dungeon[nx][ny].id > next_id):
 					_set_door_data(i, random_color, room, nx, ny)
 
+# Assign data for the doors and connection.
 func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
 	var opposite_id = (door_id+2)%4
 	
@@ -188,6 +191,24 @@ func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: in
 	room.doors_color[door_id] = door_color
 	dungeon[room_x][room_y].doors_color[opposite_id] = door_color
 
+# Place escape pods in the dungeon.
+func _place_escape_pods() -> void:
+	
+	# Test-begin
+	
+	# Search for last room and place escape pod in it.
+	for x in _dimensions.x:
+		for y in _dimensions.y:
+			if dungeon[x][y] == null:
+				continue
+			
+			# When last non-isolated room is found, place escape pod there. 
+			if dungeon[x][y].id == next_id-1:
+				dungeon[x][y].end_color = randi_range(0, 3)
+	
+	# Test-end
+	
+
 #---ROOM-DISPLAY------------------
 
 # Update displayed room to the current room.
@@ -200,19 +221,33 @@ func update_room(previous_direction: String):
 	
 	# Initiate node with current room.
 	var cell = dungeon[current_room.pos.x][current_room.pos.y]
-	var room = _starting_room.instantiate()
+	var room: Node  = _starting_room.instantiate()
 	self.call_deferred("add_child", room)
 	
 	# Put Player in correct position.
 	_set_player_pos(previous_direction)
 	
-	# Print all doors in correct positions.
-	for i in 4:
-		if cell.doors[i]:
-			room.call_deferred("add_door", i, cell.connections[i], cell.doors_color[i])
+	# Put doors in correct spots.
+	_draw_doors(room, cell)
+	
+	# Put escape pod in the last non-isolated room.
+	_draw_escape_pods(room, cell)
 	
 	# Debug print
 	_print_current_room()
+
+# Display doors in the active room.
+func _draw_doors(room_scene: Node, active_room) -> void:
+	# Print all doors in correct positions.
+	for i in 4:
+		if active_room.doors[i]:
+			room_scene.call_deferred("add_door", i, active_room.connections[i], active_room.doors_color[i])
+
+# Display escape pods in correct spots.
+func _draw_escape_pods(room_scene: Node, active_room) -> void:
+	# Add escape pod if there is one in this active room.
+	if active_room.end_color != -1:
+		room_scene.call_deferred("add_escape_pod", active_room.end_color)
 
 # Put Player in correct location given by variable "direction" 
 func _set_player_pos(direction: String) -> void:
@@ -227,7 +262,8 @@ func _set_player_pos(direction: String) -> void:
 # Main debug print
 func _debug_print() -> void:
 	_print_dungeon()
-	_print_connections()
+	#_print_connections()
+	print("Go to the room ", next_id-1)
 
 # Print map of the spaceship.
 func _print_dungeon() -> void:

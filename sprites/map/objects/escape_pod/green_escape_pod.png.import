@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tdcykh3kjdpp"
-path="res://.godot/imported/door-green.png-e06f3a9d1c64ad6e7bdd39fd5349615d.ctex"
+uid="uid://pglblgcut0jk"
+path="res://.godot/imported/green_escape_pod.png-dc93a22a7090f9c30eb2e03b933523d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/map/doors/door-green.png"
-dest_files=["res://.godot/imported/door-green.png-e06f3a9d1c64ad6e7bdd39fd5349615d.ctex"]
+source_file="res://sprites/map/objects/escape_pod/green_escape_pod.png"
+dest_files=["res://.godot/imported/green_escape_pod.png-dc93a22a7090f9c30eb2e03b933523d1.ctex"]
 
 [params]
 
