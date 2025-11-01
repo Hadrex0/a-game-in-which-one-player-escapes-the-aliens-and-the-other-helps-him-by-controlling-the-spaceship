@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyqj3vww2j3yh"]
+
+[ext_resource type="Script" uid="uid://4t7qriv4itvw" path="res://assets/scripts/dungeon/objects/base_escape_pod.gd" id="1_27m2f"]
+[ext_resource type="Texture2D" uid="uid://cvyuns5dghq1n" path="res://assets/sprites/map/objects/escape_pod/red_escape_pod.png" id="2_27m2f"]
+[ext_resource type="Texture2D" uid="uid://34clcxvqv13m" path="res://assets/sprites/map/objects/escape_pod/open_escape_pod.png" id="3_goxtv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h61qs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_27m2f")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_goxtv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_27m2f")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_goxtv")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_27m2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_goxtv")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cpgs8"]
+radius = 68.0
+height = 232.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_27m2f"]
+radius = 49.333336
+height = 200.0
+
+[node name="RedEscapePod" type="Area2D" groups=["Escape_Pod", "Red"]]
+script = ExtResource("1_27m2f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["Escape_Pod", "Red"]]
+scale = Vector2(0.32, 0.32)
+sprite_frames = SubResource("SpriteFrames_h61qs")
+animation = &"opening"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_cpgs8")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CapsuleShape2D_27m2f")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

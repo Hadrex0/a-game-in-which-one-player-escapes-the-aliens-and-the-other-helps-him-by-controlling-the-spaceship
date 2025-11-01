@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3sppiamat0nb"]
+
+[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="1_2lhjd"]
+[ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://assets/scripts/dungeon/base_room.gd" id="1_mxg2v"]
+[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://assets/scenes/map/objects/doors/red_door.tscn" id="2_d3hb4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mxg2v"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_d3hb4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_algsn"]
+size = Vector2(1153, 140)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_udoni"]
+size = Vector2(161, 645)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsfsb"]
+size = Vector2(1152, 142)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ss6lo"]
+size = Vector2(167, 643)
+
+[node name="RoomA" type="Node2D"]
+script = ExtResource("1_mxg2v")
+_red_door = ExtResource("2_d3hb4")
+
+[node name="RoomPhisics" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_mxg2v")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="RoomPhisics"]
+position = Vector2(576.25, 323.25)
+scale = Vector2(1153.5, 647.5)
+mesh = SubResource("QuadMesh_d3hb4")
+texture = ExtResource("1_2lhjd")
+
+[node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(576.5, 72)
+shape = SubResource("RectangleShape2D_algsn")
+
+[node name="EastWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(1072.5, 323.5)
+shape = SubResource("RectangleShape2D_udoni")
+
+[node name="SouthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(577, 574)
+shape = SubResource("RectangleShape2D_fsfsb")
+
+[node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(83.5, 323.5)
+shape = SubResource("RectangleShape2D_ss6lo")
+
+[node name="DoorMarkers" type="Node2D" parent="."]
+
+[node name="NorthDoor" type="Marker2D" parent="DoorMarkers"]
+position = Vector2(576, 117)
+
+[node name="EastDoor" type="Marker2D" parent="DoorMarkers"]
+position = Vector2(1017, 315)
+rotation = 1.5707964
+scale = Vector2(-1, 1)
+
+[node name="SouthDoor" type="Marker2D" parent="DoorMarkers"]
+position = Vector2(576, 528)
+rotation = 3.1415927
+
+[node name="WestDoor" type="Marker2D" parent="DoorMarkers"]
+position = Vector2(144, 315)
+rotation = -1.5707964

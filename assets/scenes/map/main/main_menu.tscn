@@ -1,0 +1,251 @@
+[gd_scene load_steps=14 format=3 uid="uid://dbed8o5tia3mp"]
+
+[ext_resource type="Script" uid="uid://dp0gbrxhuaw10" path="res://assets/scripts/menu/main_menu.gd" id="1_jk1qb"]
+[ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/cork board.png" id="2_5dd4i"]
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="3_lgwnu"]
+[ext_resource type="Texture2D" uid="uid://bvsk10bq022qf" path="res://assets/sprites/menu/Title.png" id="4_flqon"]
+[ext_resource type="Texture2D" uid="uid://cxxax3vi5cg63" path="res://assets/sprites/menu/board note 1.png" id="5_rcqid"]
+[ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/board note 5.png" id="6_1ajci"]
+[ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/board note 3.png" id="7_7b55j"]
+[ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/board note 2.png" id="8_5pajh"]
+[ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/board note 4.png" id="9_j7ex8"]
+[ext_resource type="AudioStream" uid="uid://bfvtua8mf2nvg" path="res://assets/audio/sfx/menu/page_turn_temp.wav" id="10_flqon"]
+[ext_resource type="AudioStream" uid="uid://f3oi4s80lhng" path="res://assets/audio/sfx/menu/ripping_paper_temp.wav" id="11_rcqid"]
+[ext_resource type="AudioStream" uid="uid://ofssklylhi4n" path="res://assets/audio/music/Fluffing a Duck.ogg" id="12_1ajci"]
+
+[sub_resource type="Theme" id="Theme_chhbp"]
+default_font = ExtResource("3_lgwnu")
+default_font_size = 40
+label/fonts/Menu_Font = ExtResource("3_lgwnu")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jk1qb")
+
+[node name="Tablica" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5dd4i")
+expand_mode = 3
+
+[node name="main menu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="Podział" type="VBoxContainer" parent="main menu"]
+layout_mode = 2
+
+[node name="Tytuł" type="Label" parent="main menu/Podział"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_chhbp")
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "A GAME IN WHICH
+ONE PLAYER ESCAPES THE ALIENS
+AND THE OTHER HELPS HIM
+BY CONTROLLING THE SPACESHIP"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 2
+
+[node name="Title" type="TextureRect" parent="main menu/Podział"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_flqon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Przyciski" type="HBoxContainer" parent="main menu/Podział"]
+layout_mode = 2
+alignment = 1
+
+[node name="HOST" type="TextureButton" parent="main menu/Podział/Przyciski"]
+layout_mode = 2
+texture_normal = ExtResource("5_rcqid")
+texture_pressed = ExtResource("6_1ajci")
+texture_hover = ExtResource("7_7b55j")
+
+[node name="HOST" type="Label" parent="main menu/Podział/Przyciski/HOST"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_lgwnu")
+text = "START"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="main menu/Podział/Przyciski"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="SETTINGS" type="TextureButton" parent="main menu/Podział/Przyciski"]
+layout_mode = 2
+texture_normal = ExtResource("8_5pajh")
+texture_pressed = ExtResource("6_1ajci")
+texture_hover = ExtResource("7_7b55j")
+
+[node name="SETTINGS" type="Label" parent="main menu/Podział/Przyciski/SETTINGS"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_fonts/font = ExtResource("3_lgwnu")
+theme_override_font_sizes/font_size = 35
+text = "⚙"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="main menu/Podział/Przyciski"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="JOIN" type="TextureButton" parent="main menu/Podział/Przyciski"]
+layout_mode = 2
+texture_normal = ExtResource("9_j7ex8")
+texture_pressed = ExtResource("6_1ajci")
+texture_hover = ExtResource("7_7b55j")
+
+[node name="settings" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="settings" type="HBoxContainer" parent="settings"]
+layout_mode = 2
+
+[node name="shelf" type="VBoxContainer" parent="settings/settings"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="General" type="Label" parent="settings/settings/shelf"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_lgwnu")
+text = "GENERAL AUDIO"
+vertical_alignment = 1
+
+[node name="General2" type="HSlider" parent="settings/settings/shelf"]
+layout_mode = 2
+min_value = -50.0
+max_value = 0.0
+
+[node name="Music" type="Label" parent="settings/settings/shelf"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_lgwnu")
+text = "MUSIC"
+vertical_alignment = 1
+
+[node name="Music2" type="HSlider" parent="settings/settings/shelf"]
+layout_mode = 2
+min_value = -50.0
+max_value = 0.0
+
+[node name="SFX" type="Label" parent="settings/settings/shelf"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_lgwnu")
+text = "SFX"
+vertical_alignment = 1
+
+[node name="SFX2" type="HSlider" parent="settings/settings/shelf"]
+layout_mode = 2
+min_value = -50.0
+max_value = 0.0
+
+[node name="exitshelf" type="VBoxContainer" parent="settings/settings"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="settings/settings/exitshelf"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="leave" type="TextureButton" parent="settings/settings/exitshelf"]
+layout_mode = 2
+texture_normal = ExtResource("8_5pajh")
+texture_pressed = ExtResource("7_7b55j")
+texture_hover = ExtResource("6_1ajci")
+
+[node name="Label" type="Label" parent="settings/settings/exitshelf/leave"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_lgwnu")
+text = "LEAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFX flip" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_flqon")
+bus = &"SFX"
+
+[node name="SFX tear" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_rcqid")
+bus = &"SFX"
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_1ajci")
+autoplay = true
+bus = &"BMG"
+parameters/looping = true
+
+[connection signal="button_up" from="main menu/Podział/Przyciski/HOST" to="." method="_on_host_button_up"]
+[connection signal="mouse_entered" from="main menu/Podział/Przyciski/HOST" to="." method="_on_host_mouse_entered"]
+[connection signal="button_up" from="main menu/Podział/Przyciski/SETTINGS" to="." method="_on_settings_button_up"]
+[connection signal="mouse_entered" from="main menu/Podział/Przyciski/SETTINGS" to="." method="_on_settings_mouse_entered"]
+[connection signal="value_changed" from="settings/settings/shelf/General2" to="." method="_on_general_2_value_changed"]
+[connection signal="value_changed" from="settings/settings/shelf/Music2" to="." method="_on_music_2_value_changed"]
+[connection signal="value_changed" from="settings/settings/shelf/SFX2" to="." method="_on_sfx_2_value_changed"]
+[connection signal="button_up" from="settings/settings/exitshelf/leave" to="." method="_on_leave_button_up"]
+[connection signal="mouse_entered" from="settings/settings/exitshelf/leave" to="." method="_on_leave_mouse_entered"]
