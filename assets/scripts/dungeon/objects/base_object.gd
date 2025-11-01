@@ -12,13 +12,13 @@ const colors = [
 
 #---VARIABLES---------------------
 
-# Ready the escape pod stance variable.
-@onready var open = false #is this escape pod open
+# Ready the object stance variable.
+@onready var open = false #is this object open
 
-# Ready the escape pod animation.
+# Ready the object animation.
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
 
-#---ESCAPE-POD-START--------------
+#---OBJECT-START------------------
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,11 +43,11 @@ func _ready() -> void:
 		"Yellow":
 			open = game_manager.yellow
 	
+	# Change monitoring to matching stance.
+	self.set_deferred("monitoring", open)
+	
 	# Set the correct stance of the object animation.
-	if open:
-		animation.play("opened")
-	else:
-		animation.play("closed")
+	set_door_stance_animation()
 
 #---CHANGING-COLOR----------------
 
@@ -57,11 +57,15 @@ func _on_color_stance_changed(changed_color: String):
 	if is_in_group(changed_color):
 		change_door_stance_animation() #play openine/closing animation
 		open = !open #change object stance to opposite
-	
-	# When the object are just now open, reset monitoring
+		self.set_deferred("monitoring", open) #change monitoring to matching stance
+
+#---ANIMATIONS--------------------
+# Set the correct stance of the object animation.
+func set_door_stance_animation() -> void:
 	if open:
-		self.set_deferred("monitoring", false)
-		self.set_deferred("monitoring", true)
+		animation.play("opened")
+	else:
+		animation.play("closed")
 
 # Change object stance animation.
 func change_door_stance_animation() -> void:

@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3 uid="uid://guknb7wqsyww"]
+
+[ext_resource type="Texture2D" uid="uid://1vn2k6yihhg" path="res://assets/sprites/map/objects/terminal/red_terminal.png" id="1_5l4qq"]
+[ext_resource type="Texture2D" uid="uid://d4mw55iauc2wd" path="res://assets/sprites/map/objects/terminal/activated_terminal.png" id="1_sweia"]
+[ext_resource type="Texture2D" uid="uid://cxgyg8hqvlk3m" path="res://assets/sprites/map/objects/terminal/opened_terminal.png" id="2_yr0cc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h61qs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_sweia")
+}],
+"loop": true,
+"name": &"activated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yr0cc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_sweia")
+}],
+"loop": true,
+"name": &"activation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5l4qq")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yr0cc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_5l4qq")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yr0cc")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5l4qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yr0cc")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5l4qq"]
+size = Vector2(64, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sweia"]
+size = Vector2(56, 52)
+
+[node name="RedEscapePod" type="Area2D" groups=["Escape_Pod", "Red"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["Escape_Pod", "Red"]]
+scale = Vector2(0.32, 0.32)
+sprite_frames = SubResource("SpriteFrames_h61qs")
+animation = &"activated"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 19.5)
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_5l4qq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 19.5)
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_sweia")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -4,7 +4,7 @@ class_name BaseEscapePod extends BaseObject
 
 #---VARIABLES---------------------
 
-#---ESCAPE-POD-START--------------
+#--USING-ESCAPE-POD---------------
 
 # When Player enters opend escape pod, they win.
 func _on_body_entered(body: Node2D) -> void:

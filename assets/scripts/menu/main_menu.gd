@@ -8,7 +8,7 @@ func _on_host_mouse_entered() -> void:
 func _on_host_button_up() -> void:
 	$"SFX tear".play()
 	$"BGM".stop()
-	get_tree().change_scene_to_file("res://scenes/map/main/dungeon.tscn")
+	get_tree().change_scene_to_file("res://assets/scenes/map/main/dungeon.tscn")
 
 func _on_settings_mouse_entered() -> void:
 	$"SFX flip".play()

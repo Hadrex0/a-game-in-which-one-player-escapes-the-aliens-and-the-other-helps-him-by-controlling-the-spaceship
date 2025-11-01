@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d4mw55iauc2wd"
-path="res://.godot/imported/unlocked_terminal.png-0f83610955add4d25b1934856331c7f3.ctex"
+path="res://.godot/imported/activated_terminal.png-c3d96ae3ec0cf34a25ea3c67aa488611.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/map/objects/terminal/unlocked_terminal.png"
-dest_files=["res://.godot/imported/unlocked_terminal.png-0f83610955add4d25b1934856331c7f3.ctex"]
+source_file="res://assets/sprites/map/objects/terminal/activated_terminal.png"
+dest_files=["res://.godot/imported/activated_terminal.png-c3d96ae3ec0cf34a25ea3c67aa488611.ctex"]
 
 [params]
 
