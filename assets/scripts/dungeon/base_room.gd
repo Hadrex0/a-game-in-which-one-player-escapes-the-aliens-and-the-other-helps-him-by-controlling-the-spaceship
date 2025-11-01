@@ -4,33 +4,36 @@ extends Node2D
 
 #---VARIABLES---------------------
 
-# Variable for colored doors.
+# Variable for colored objects.
 @onready var _door = [
 	"res://assets/scenes/map/objects/doors/red_door.tscn",
 	"res://assets/scenes/map/objects/doors/blue_door.tscn",
 	"res://assets/scenes/map/objects/doors/green_door.tscn",
 	"res://assets/scenes/map/objects/doors/yellow_door.tscn"
 	]
-
-# Variable for location of the doors.
-@onready var _door_location = [
-	$DoorMarkers/NorthDoor,
-	$DoorMarkers/EastDoor,
-	$DoorMarkers/SouthDoor,
-	$DoorMarkers/WestDoor
-	]
-
-# Variable for colored doors.
 @onready var _escape_pod = [
 	"res://assets/scenes/map/objects/escape_pod/red_escape_pod.tscn",
 	"res://assets/scenes/map/objects/escape_pod/blue_escape_pod.tscn",
 	"res://assets/scenes/map/objects/escape_pod/green_escape_pod.tscn",
 	"res://assets/scenes/map/objects/escape_pod/yellow_escape_pod.tscn"
 	]
+@onready var _terminal = [
+	"res://assets/scenes/map/objects/terminal/red_terminal.tscn",
+	"res://assets/scenes/map/objects/terminal/blue_terminal.tscn",
+	"res://assets/scenes/map/objects/terminal/green_terminal.tscn",
+	"res://assets/scenes/map/objects/terminal/yellow_terminal.tscn"
+	]
 
-@onready var _escape_pod_location = [
-	$EscapePodMarkers/EastEscapePod,
-	$EscapePodMarkers/WestEscapePod
+# Variable for location of objects.
+@onready var _door_location = [
+	$DoorMarkers/NorthDoor,
+	$DoorMarkers/EastDoor,
+	$DoorMarkers/SouthDoor,
+	$DoorMarkers/WestDoor
+	]
+@onready var _object_location = [
+	$ObjectMarkers/EastObject,
+	$ObjectMarkers/WestObject
 	]
 
 #---ADDING-DOOR--------------------
@@ -63,13 +66,23 @@ func add_door(direction: int, connected_room: int, color_id: int) -> void:
 	door.connected_room = connected_room
 
 #---ADDING-ESCAPE-POD--------------
-func add_escape_pod(color_id: int) -> void:
-	# Select correct escape_pod color.
+func add_escape_pod(color_id: int, location_id: int) -> void:
+	# Select correct escape pod color.
 	var escape_pod: BaseEscapePod = load(_escape_pod[color_id]).instantiate()
 	
-	# Add selected escape_pod to the room.
+	# Add selected escape pod to the room.
 	add_child(escape_pod)
 	
-	# Set correct location of the escape_pod.
-	escape_pod.position =_escape_pod_location[randi_range(0, 1)].global_position
+	# Set correct location of the escape pod.
+	escape_pod.position =_object_location[location_id].global_position
+
+#---ADDING-TERMINAL----------------
+func add_terminal(color_id: int, location_id: int) -> void:
+	# Select correct terminal color.
+	var terminal: BaseTerminal = load(_terminal[color_id]).instantiate()
 	
+	# Add selected terminal to the room.
+	add_child(terminal)
+	
+	# Set correct location of the terminal.
+	terminal.position =_object_location[location_id].global_position

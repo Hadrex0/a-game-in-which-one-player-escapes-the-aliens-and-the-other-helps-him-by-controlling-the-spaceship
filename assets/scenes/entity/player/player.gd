@@ -1,17 +1,22 @@
 class_name Player extends CharacterBody2D
 #signal hit
 
+#---CONSTANTS---------------------
+const acceleration = 3000 #how fast player speed up
+const friction = 2500 #how fast player stops
+
 #---VARIABLES---------------------
 
 # Variables for player movement.
 @export var speed = 300 #player max movement speed
-const acceleration = 3000 #how fast player speed up
-const friction = 2500 #how fast player stops
 var input = Vector2.ZERO #variable for storing input
 
-# Variables for moving across the spaceship
+# Variables for moving across the spaceship.
 var invisible = false
 var invincibility_duration = 0.2 # seconds
+
+# Variables for player interaction.
+var touched_object: String
 
 #---PLAYER-START-------------------
 

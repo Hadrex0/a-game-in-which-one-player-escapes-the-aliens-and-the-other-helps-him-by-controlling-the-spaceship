@@ -2,6 +2,22 @@ extends Node2D
 
 #---CONSTANTS---------------------
 
+# Colors of objects in game.
+const COLORS: Array = [
+	"Red",
+	"Blue",
+	"Green",
+	"Yellow"
+	]
+
+#---SIGNALS-----------------------
+
+# Signal to open/close objects on the screen.
+signal color_stance_changed
+
+# Signal to activate objects on the screen.
+signal color_activation_changed
+
 #---VARIABLES---------------------
 
 var door_sfx : Node
@@ -14,7 +30,6 @@ var _dungeon: Dungeon
 var _player: Player #Player data
 
 # Variables for Player 2.
-signal color_stance_changed
 var red = false #stance of red color items
 var blue = false #stance of blue color items
 var green = false #stance of green color items
@@ -37,6 +52,10 @@ func player_init(created_player: Player) -> void:
 # Get player data
 func get_player() -> Player:
 	return _player
+
+# Get dungeon data
+func get_dungeon() -> Dungeon:
+	return _dungeon
 
 #---INPUT-HANDLER-----------------
 
@@ -68,7 +87,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					color_stance_changed.emit("Yellow")
 				red = !red
 				color_stance_changed.emit("Red")
-				print("RED DOORS ARE OPEN")
 			"cheat_blue":
 				# Changing color Blue and emiting signal for update.
 				door_sfx.play()
@@ -83,7 +101,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					color_stance_changed.emit("Yellow")
 				blue = !blue
 				color_stance_changed.emit("Blue")
-				print("BLUE DOORS ARE OPEN")
 			"cheat_green":
 				# Changing color Green and emiting signal for update.
 				door_sfx.play()
@@ -98,7 +115,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					color_stance_changed.emit("Yellow")
 				green = !green
 				color_stance_changed.emit("Green")
-				print("GREEN DOORS ARE OPEN")
 			"cheat_yellow":
 				# Changing color Yellow and emiting signal for update.
 				door_sfx.play()
@@ -113,7 +129,26 @@ func _unhandled_input(event: InputEvent) -> void:
 					color_stance_changed.emit("Green")
 				yellow = !yellow
 				color_stance_changed.emit("Yellow")
-				print("YELLOW DOORS ARE OPEN")
+			"interaction":
+				_interaction()
+
+# Player 1 interaction.
+func _interaction() -> void:
+	match _player.touched_object:
+		"Terminal": # Player is interacting with a terminal.
+			# Find the color the interacted terminal.
+			for i in COLORS.size():
+				if _dungeon.terminals[i].room_id == _dungeon.current_room.id:
+					# Get terminal color id.
+					var color_id = _dungeon.terminals[i].color_id
+					
+					# Active escape pod if it matches the color.
+					if color_id == _dungeon.escape_pod.color_id:
+						_dungeon.escape_pod.active = true
+					
+					# Active the terminal.
+					_dungeon.terminals[i].active = true
+					color_activation_changed.emit(COLORS[color_id])
 
 #---CHANGING-CURRENT-ROOM---------
 
@@ -126,15 +161,15 @@ func update_room(direction: String):
 		"N": #if player moved north, decrese y by one
 				ny -= 1
 		"E": #if player moved east, increase x by one
-			
 				nx += 1
 		"S": #if player moved south, increase y by one
-			
 				ny += 1
 		"W": #if player moved west, decrese x by one
-			
 				nx -= 1
+	
+	# Play the entering sound.
 	enter_sfx.play()
+	
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]
 	_dungeon.update_room(direction)
@@ -144,10 +179,9 @@ func update_room(direction: String):
 # What happens when Player wins.
 func game_won() -> void:
 	print("YOU WON!")
-	get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
-	#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/main_menu.tscn")
 
 # What happens when Player looses.
 func game_lost() -> void:
 	print("YOU LOST!")
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://assets/scenes/menu/main_menu.tscn")

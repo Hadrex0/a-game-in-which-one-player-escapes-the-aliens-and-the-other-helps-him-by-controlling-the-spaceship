@@ -56,7 +56,7 @@ height = 200.0
 [node name="RedEscapePod" type="Area2D" groups=["Escape_Pod", "Red"]]
 script = ExtResource("1_27m2f")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["Escape_Pod", "Red"]]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_h61qs")
 animation = &"opening"
