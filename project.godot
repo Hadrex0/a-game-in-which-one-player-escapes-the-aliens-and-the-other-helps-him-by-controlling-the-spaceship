@@ -15,9 +15,13 @@ run/main_scene="uid://dbed8o5tia3mp"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://assets/default_bus_layout.tres"
+
 [autoload]
 
-game_manager="*res://scenes/map/main/game_manager.gd"
+game_manager="*res://assets/scripts/singleton/game_manager.gd"
 
 [file_customization]
 

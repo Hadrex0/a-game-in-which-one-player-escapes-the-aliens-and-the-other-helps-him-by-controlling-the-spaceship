@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc6pgr74vebs0"]
+
+[ext_resource type="Script" uid="uid://bf8byks55uk4o" path="res://assets/scripts/dungeon/objects/base_door.gd" id="1_2mk8k"]
+[ext_resource type="Texture2D" uid="uid://tdcykh3kjdpp" path="res://assets/sprites/map/objects/doors/green_door.png" id="2_4o3st"]
+[ext_resource type="Texture2D" uid="uid://bya0rkyu7swfy" path="res://assets/sprites/map/objects/doors/open_door.png" id="3_ldmn0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h61qs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4o3st")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ldmn0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4o3st")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ldmn0")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4o3st")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ldmn0")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jx2xj"]
+size = Vector2(74.6667, 85.3333)
+
+[node name="GreenDoor" type="Area2D" groups=["Doors", "Green"]]
+script = ExtResource("1_2mk8k")
+direction = "N"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.32, 0.32)
+sprite_frames = SubResource("SpriteFrames_h61qs")
+animation = &"opened"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_jx2xj")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

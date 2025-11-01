@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://71g0ap8575n6"]
 
-[ext_resource type="Script" uid="uid://b0gxdmxqhk4og" path="res://easter_eggs/base_room.gd" id="1_w0bc0"]
-[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://sprites/map/rooms/room_background.png" id="2_i1gb6"]
-[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://scenes/map/objects/doors/red_door.tscn" id="3_6w1wm"]
-[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://scenes/map/objects/doors/blue_door.tscn" id="4_0mkg5"]
-[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://scenes/entity/player/player.tscn" id="4_wqijo"]
-[ext_resource type="PackedScene" uid="uid://bc6pgr74vebs0" path="res://scenes/map/objects/doors/green_door.tscn" id="5_qyb0q"]
+[ext_resource type="Script" path="res://easter_eggs/base_room.gd" id="1_w0bc0"]
+[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="2_i1gb6"]
+[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://assets/scenes/map/objects/doors/red_door.tscn" id="3_6w1wm"]
+[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://assets/scenes/map/objects/doors/blue_door.tscn" id="4_0mkg5"]
+[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/entity/player/player.tscn" id="4_wqijo"]
+[ext_resource type="PackedScene" uid="uid://bc6pgr74vebs0" path="res://assets/scenes/map/objects/doors/green_door.tscn" id="5_qyb0q"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mjm5x"]
 
