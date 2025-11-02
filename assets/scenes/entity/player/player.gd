@@ -47,8 +47,7 @@ func _physics_process(delta):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Check if the Player is touched by the alien.
 	if body.is_in_group("Alien"):
-		pass
-		#game_manager.game_lost()
+		game_manager.game_lost()
 
 #---PLAYER-INVISIBILITY------------
 

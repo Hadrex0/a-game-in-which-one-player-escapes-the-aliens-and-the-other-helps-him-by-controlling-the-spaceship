@@ -88,12 +88,13 @@ func add_escape_pod(color_id: int) -> void:
 	escape_pod.position =_escape_pod_location[randi_range(0, 1)].global_position
 
 #---ADDING-ALIEN-------------------
-func add_alien(location_id: int) -> void:
+func add_alien(alien_id: int, location_id: int) -> void:
 	# Select correct alien.
 	var alien: BaseAlien = load("res://assets/scenes/entity/alien/alien.tscn").instantiate()
 	
-	# Set correct location of the alien.
-	alien.position =_alien_location[location_id].global_position
+	# Set correct id and location of the alien.
+	alien.alien_id = alien_id
+	alien.position = _alien_location[location_id].global_position
 	
 	# Add selected alien to the room.
 	add_child(alien)

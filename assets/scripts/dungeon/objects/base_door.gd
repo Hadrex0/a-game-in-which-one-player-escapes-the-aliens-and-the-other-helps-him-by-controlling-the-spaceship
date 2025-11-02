@@ -2,6 +2,8 @@ class_name BaseDoor extends BaseObject
 
 #---CONSTANTS---------------------
 
+
+
 #---VARIABLES---------------------
 
 # Variables used for traveling across the rooms.
@@ -21,3 +23,6 @@ func _on_body_entered(body: Node2D) -> void:
 				game_manager.get_player().invisibility_start()
 				# Changing room to the connected one.
 				game_manager.update_room(direction)
+		elif body.is_in_group("Alien"):
+			game_manager.move_alien(body.alien_id, direction)
+			

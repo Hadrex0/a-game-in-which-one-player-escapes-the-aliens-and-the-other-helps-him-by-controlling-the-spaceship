@@ -204,3 +204,7 @@ frame_progress = 0.2513156
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vvuna")
+
+[node name="MovementTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]

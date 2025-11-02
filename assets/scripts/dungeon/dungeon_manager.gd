@@ -3,8 +3,8 @@ class_name Dungeon extends Node2D
 #---CONSTANTS---------------------
 
 const ROOM_SIZE: Dictionary = {
-	"min": Vector2(187, 164),
-	"max": Vector2(969, 482)
+	"min": Vector2(177, 154),
+	"max": Vector2(979, 492)
 	}
 
 const DIRECTIONS: Array[Vector2i] = [
@@ -278,7 +278,7 @@ func _draw_escape_pods(room_scene: Node, active_room) -> void:
 func _draw_aliens(room_scene: Node, active_room) -> void:
 	for i in aliens.size():
 		if aliens[i].room_id == active_room.id:
-			room_scene.call_deferred("add_alien", aliens[i].location)
+			room_scene.call_deferred("add_alien", i, aliens[i].location)
 
 # Put Player in correct location given by variable "direction" 
 func _set_player_pos(direction: String) -> void:
@@ -287,6 +287,24 @@ func _set_player_pos(direction: String) -> void:
 		if entrance is Marker2D and entrance.name == direction:
 			# When encountered correct location spawn the Player.
 			player.global_position = entrance.global_position
+
+# Remove alien from screen.
+func remove_alien_from_display(alien_id: int) -> void:
+	# Search for the alien with given id on the screen. 
+	var the_alien: Node
+	var alien_nodes = get_tree().get_nodes_in_group("Alien")
+	for alien in alien_nodes:
+		if alien.alien_id == alien_id:
+			the_alien = alien
+			break
+	
+	# When there is no alien with given id, stop removing alien.
+	if the_alien == null:
+		return
+	
+	# Remove alien from display.
+	self.get_child(0).call_deferred("remove_child", the_alien)
+	the_alien.call_deferred("queue_free")
 
 #---DEBUG-PRINT-------------------
 
