@@ -1,4 +1,4 @@
-extends Node2D
+class_name BaseRoom extends Node2D
 
 #---CONSTANTS---------------------
 
@@ -32,6 +32,20 @@ extends Node2D
 	$EscapePodMarkers/EastEscapePod,
 	$EscapePodMarkers/WestEscapePod
 	]
+
+@onready var _alien_location = [
+	$AlienMarkers/AlienSpot1,
+	$AlienMarkers/AlienSpot2,
+	$AlienMarkers/AlienSpot3,
+	$AlienMarkers/AlienSpot4,
+	$AlienMarkers/AlienSpot5,
+	$AlienMarkers/AlienSpot6
+	]
+
+#---GETTERS-----------------------
+
+func get_alien_location_count() -> int:
+	return 6
 
 #---ADDING-DOOR--------------------
 
@@ -72,4 +86,14 @@ func add_escape_pod(color_id: int) -> void:
 	
 	# Set correct location of the escape_pod.
 	escape_pod.position =_escape_pod_location[randi_range(0, 1)].global_position
+
+#---ADDING-ALIEN-------------------
+func add_alien(location_id: int) -> void:
+	# Select correct escape_pod color.
+	var alien: BaseAlien = load("res://assets/scenes/entity/alien/alien.tscn").instantiate()
 	
+	# Add selected escape_pod to the room.
+	add_child(alien)
+	
+	# Set correct location of the escape_pod.
+	alien.position =_alien_location[location_id].global_position

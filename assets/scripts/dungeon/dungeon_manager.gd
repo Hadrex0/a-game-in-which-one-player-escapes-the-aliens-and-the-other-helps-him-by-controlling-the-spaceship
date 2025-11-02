@@ -31,6 +31,11 @@ var current_room = make_room(-1, Vector2i(-1, -1))
 @onready var player: Player = $"../Player"
 @onready var entrance_markers: Node2D = $"../EntranceMarkers"
 
+# Variables for Aliens.
+@export_category("Aliens")
+@export var alien_count: int = 1
+@onready var aliens : Array = []
+
 #---INITIALIZE-VARIABLES----------
 
 # Initialize the array of the dungeon to the correct size.
@@ -50,6 +55,14 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 		"connections": [-1, -1, -1, -1],
 		"end_color": -1,
 		"room_scene" : PackedScene
+	}
+
+# Create an alien.
+func make_alien() -> Dictionary:
+	var room = BaseRoom.new()
+	return {
+		"room_id": randi_range(0, 0),
+		"location": randi_range(0, room.get_alien_location_count() - 1)
 	}
 
 #---GETTERS-----------------------
@@ -91,6 +104,7 @@ func _generate_dungeon() -> void:
 	_generate_path(_start, _critical_path_length, "C")
 	_add_branches(_branch_probability)
 	_place_escape_pods()
+	_place_aliens()
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
@@ -207,7 +221,11 @@ func _place_escape_pods() -> void:
 				dungeon[x][y].end_color = randi_range(0, 3)
 	
 	# Test-end
-	
+
+func _place_aliens() -> void:
+	# Temporary
+	for i in alien_count:
+		aliens.append(make_alien())
 
 #---ROOM-DISPLAY------------------
 
@@ -233,6 +251,9 @@ func update_room(previous_direction: String):
 	# Put escape pod in the last non-isolated room.
 	_draw_escape_pods(room, cell)
 	
+	# Put aliens in correct spots.
+	_draw_aliens(room, cell)
+	
 	# Debug print
 	_print_current_room()
 
@@ -248,6 +269,12 @@ func _draw_escape_pods(room_scene: Node, active_room) -> void:
 	# Add escape pod if there is one in this active room.
 	if active_room.end_color != -1:
 		room_scene.call_deferred("add_escape_pod", active_room.end_color)
+
+# Display aliens in correct spots.
+func _draw_aliens(room_scene: Node, active_room) -> void:
+	for i in aliens.size():
+		if aliens[i].room_id == active_room.id:
+			room_scene.call_deferred("add_alien", aliens[i].location)
 
 # Put Player in correct location given by variable "direction" 
 func _set_player_pos(direction: String) -> void:
