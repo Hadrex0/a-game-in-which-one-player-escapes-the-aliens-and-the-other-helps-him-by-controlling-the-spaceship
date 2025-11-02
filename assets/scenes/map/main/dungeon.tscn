@@ -15,6 +15,7 @@ _starting_room = ExtResource("2_ffeav")
 
 [node name="Player" parent="." instance=ExtResource("5_y4eva")]
 safe_margin = 2.0
+speed = 0
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
 

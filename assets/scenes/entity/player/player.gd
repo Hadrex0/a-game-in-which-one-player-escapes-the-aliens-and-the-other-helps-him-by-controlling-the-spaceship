@@ -1,12 +1,15 @@
 class_name Player extends CharacterBody2D
-#signal hit
+
+#---CONSTANTS---------------------
+
+# Constants for player movement.
+const acceleration = 3000 #how fast player speed up
+const friction = 2500 #how fast player stops
 
 #---VARIABLES---------------------
 
 # Variables for player movement.
-@export var speed = 300 #player max movement speed
-const acceleration = 3000 #how fast player speed up
-const friction = 2500 #how fast player stops
+@onready var speed = 300 #player max movement speed
 var input = Vector2.ZERO #variable for storing input
 
 # Variables for moving across the spaceship
@@ -25,7 +28,6 @@ func _ready() -> void:
 func player_movement(delta):
 	# Get input from keyboard.
 	input = Input.get_vector("move_left","move_right","move_up","move_down")
-	
 	# Set the location of the Player.
 	if input: #when move keys are pressed speed up the movement of the Player
 		velocity = velocity.move_toward(input * speed , delta * acceleration)
@@ -38,6 +40,15 @@ func player_movement(delta):
 func _physics_process(delta):
 	player_movement(delta) #set the location of the Player
 	move_and_slide() #move the Player to correct location
+
+#---TOUCHING-OBJECT----------------
+
+# When Player is touching something
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	# Check if the Player is touched by the alien.
+	if body.is_in_group("Alien"):
+		pass
+		#game_manager.game_lost()
 
 #---PLAYER-INVISIBILITY------------
 

@@ -190,10 +190,8 @@ animations = [{
 radius = 23.0
 height = 46.0
 
-[node name="Alien" type="RigidBody2D"]
-gravity_scale = 0.0
+[node name="Alien" type="CharacterBody2D" groups=["Alien"]]
 script = ExtResource("1_gouow")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.2, 0.2)

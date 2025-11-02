@@ -2,7 +2,11 @@ class_name Dungeon extends Node2D
 
 #---CONSTANTS---------------------
 
-const ROOM_SIZE: Vector2 = Vector2(1152, 648)
+const ROOM_SIZE: Dictionary = {
+	"min": Vector2(187, 164),
+	"max": Vector2(969, 482)
+	}
+
 const DIRECTIONS: Array[Vector2i] = [
 	Vector2i( 0,-1),
 	Vector2i( 1, 0),
