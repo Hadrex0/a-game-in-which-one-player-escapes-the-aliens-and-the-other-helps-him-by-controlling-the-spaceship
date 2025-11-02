@@ -20,20 +20,18 @@ signal color_activation_changed
 
 #---VARIABLES---------------------
 
+# Sounds variables. 
 var door_sfx : Node
-var enter_sfx : Node
+var room_change_sfx : Node
 
-# Variables for Dungeon data
+# Variables for Dungeon data.
 var _dungeon: Dungeon
 
 # Variables for Player 1.
 var _player: Player #Player data
 
 # Variables for Player 2.
-var red = false #stance of red color items
-var blue = false #stance of blue color items
-var green = false #stance of green color items
-var yellow = false #stance of yellow color items
+var active_color_id: int = 0 #currently active objects color
 
 #---INITIALIZE-VARIABLES----------
 
@@ -44,8 +42,10 @@ func dungeon_init(created_dungeon: Dungeon) -> void:
 # Assign player data.
 func player_init(created_player: Player) -> void:
 	_player = created_player
-	door_sfx = get_tree().get_root().get_node("/root/Dungeon/Door SFX")
-	enter_sfx = get_tree().get_root().get_node("/root/Dungeon/Enter SFX")
+	
+func sound_init() -> void:
+	door_sfx = get_tree().get_root().get_node("/root/Dungeon/Sounds/DoorSFX")
+	room_change_sfx = get_tree().get_root().get_node("/root/Dungeon/Sounds/RoomChangeSFX")
 
 #---GETTERS-----------------------
 
@@ -66,71 +66,22 @@ func set_action_for_event(event):
 			return action
 	return null
 
-
 # Control room listener.
 func _unhandled_input(event: InputEvent) -> void:
 	var action = set_action_for_event(event)
 	if action != null:
 		# Checking which color is pressed.
 		match action:
-			"cheat_red":
-				# Changing color Red and emiting signal for update.
-				door_sfx.play()
-				if blue:
-					blue = !blue
-					color_stance_changed.emit("Blue")
-				if green:
-					green = !green
-					color_stance_changed.emit("Green")
-				if yellow:
-					yellow = !yellow
-					color_stance_changed.emit("Yellow")
-				red = !red
-				color_stance_changed.emit("Red")
-			"cheat_blue":
-				# Changing color Blue and emiting signal for update.
-				door_sfx.play()
-				if red:
-					red = !red
-					color_stance_changed.emit("Red")
-				if green:
-					green = !green
-					color_stance_changed.emit("Green")
-				if yellow:
-					yellow = !yellow
-					color_stance_changed.emit("Yellow")
-				blue = !blue
-				color_stance_changed.emit("Blue")
-			"cheat_green":
-				# Changing color Green and emiting signal for update.
-				door_sfx.play()
-				if red:
-					red = !red
-					color_stance_changed.emit("Red")
-				if blue:
-					blue = !blue
-					color_stance_changed.emit("Blue")
-				if yellow:
-					yellow = !yellow
-					color_stance_changed.emit("Yellow")
-				green = !green
-				color_stance_changed.emit("Green")
-			"cheat_yellow":
-				# Changing color Yellow and emiting signal for update.
-				door_sfx.play()
-				if red:
-					red = !red
-					color_stance_changed.emit("Red")
-				if blue:
-					blue = !blue
-					color_stance_changed.emit("Blue")
-				if green:
-					green = !green
-					color_stance_changed.emit("Green")
-				yellow = !yellow
-				color_stance_changed.emit("Yellow")
-			"interaction":
+			"interaction": #pressed interaction key
 				_interaction()
+			"activate_red": #change active color to red
+				_activate_color(COLORS.find("Red"))
+			"activate_blue": #change active color to blue
+				_activate_color(COLORS.find("Blue"))
+			"activate_green": #change active color to green
+				_activate_color(COLORS.find("Green"))
+			"activate_yellow": #change active color to yellow
+				_activate_color(COLORS.find("Yellow"))
 
 # Player 1 interaction.
 func _interaction() -> void:
@@ -150,6 +101,29 @@ func _interaction() -> void:
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
 
+# Player 2 interaction.
+func _activate_color(color_id: int) -> void:
+	# Play sound if the doors in the current room are changing.
+	var previous_color_id = active_color_id
+	var door_colors = _dungeon.current_room.door_color
+	if color_id != previous_color_id:
+		if (door_colors.has(color_id) or door_colors.has(previous_color_id)):
+			_door_sound()
+	
+	# Change active color.
+	active_color_id = color_id
+	color_stance_changed.emit(COLORS[color_id])
+
+#---AUDIO-HANDLER-----------------
+
+# Play the door opening/closing sound.
+func _door_sound() -> void:
+	door_sfx.play()
+
+# Play the room changing sound.
+func _room_change_sound() -> void:
+	room_change_sfx.play()
+
 #---CHANGING-CURRENT-ROOM---------
 
 # Update the room in which Player to correct one.
@@ -167,8 +141,8 @@ func update_room(direction: String):
 		"W": #if player moved west, decrese x by one
 				nx -= 1
 	
-	# Play the entering sound.
-	enter_sfx.play()
+	# Play the room changing sound.
+	_room_change_sound()
 	
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]

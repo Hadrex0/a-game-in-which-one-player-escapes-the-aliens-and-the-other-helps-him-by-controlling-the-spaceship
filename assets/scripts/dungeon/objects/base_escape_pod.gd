@@ -14,7 +14,7 @@ func _set_active() -> void:
 	active = game_manager.get_dungeon().escape_pod.active
 	
 	# Change monitoring to matching stance.
-	self.set_deferred("monitoring", active)
+	_set_monitoring(active) 
 
 #---OBJECT-START------------------
 

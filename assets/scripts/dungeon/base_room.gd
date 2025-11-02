@@ -1,28 +1,12 @@
 extends Node2D
-
+#here
 #---CONSTANTS---------------------
 
 #---VARIABLES---------------------
 
-# Variable for colored objects.
-@onready var _door = [
-	"res://assets/scenes/map/objects/doors/red_door.tscn",
-	"res://assets/scenes/map/objects/doors/blue_door.tscn",
-	"res://assets/scenes/map/objects/doors/green_door.tscn",
-	"res://assets/scenes/map/objects/doors/yellow_door.tscn"
-	]
-@onready var _escape_pod = [
-	"res://assets/scenes/map/objects/escape_pod/red_escape_pod.tscn",
-	"res://assets/scenes/map/objects/escape_pod/blue_escape_pod.tscn",
-	"res://assets/scenes/map/objects/escape_pod/green_escape_pod.tscn",
-	"res://assets/scenes/map/objects/escape_pod/yellow_escape_pod.tscn"
-	]
-@onready var _terminal = [
-	"res://assets/scenes/map/objects/terminal/red_terminal.tscn",
-	"res://assets/scenes/map/objects/terminal/blue_terminal.tscn",
-	"res://assets/scenes/map/objects/terminal/green_terminal.tscn",
-	"res://assets/scenes/map/objects/terminal/yellow_terminal.tscn"
-	]
+# Variables for path creation.
+@onready var object_path = "res://assets/scenes/map/objects/"
+@onready var extension = ".tscn"
 
 # Variable for location of objects.
 @onready var _door_location = [
@@ -36,12 +20,20 @@ extends Node2D
 	$ObjectMarkers/WestObject
 	]
 
+#---FILE-PATH-CREATION-------------
+
+func _create_path(object: String, color_id: int) -> String:
+	return object_path + object + "/" + game_manager.COLORS[color_id] + "_" + object + extension
+
 #---ADDING-DOOR--------------------
 
 # Add door to room parent node.
 func add_door(direction: int, connected_room: int, color_id: int) -> void:
+	# Create door path.
+	var door_path = _create_path("door", color_id)
+	
 	# Select correct door color.
-	var door: BaseDoor = load(_door[color_id]).instantiate()
+	var door: BaseDoor = load(door_path).instantiate()
 	
 	# Add selected door to the room.
 	add_child(door)
@@ -67,8 +59,11 @@ func add_door(direction: int, connected_room: int, color_id: int) -> void:
 
 #---ADDING-ESCAPE-POD--------------
 func add_escape_pod(color_id: int, location_id: int) -> void:
+	# Create escape pod path.
+	var escape_pod_path = _create_path("escape_pod", color_id)
+	
 	# Select correct escape pod color.
-	var escape_pod: BaseEscapePod = load(_escape_pod[color_id]).instantiate()
+	var escape_pod: BaseEscapePod = load(escape_pod_path).instantiate()
 	
 	# Add selected escape pod to the room.
 	add_child(escape_pod)
@@ -78,8 +73,11 @@ func add_escape_pod(color_id: int, location_id: int) -> void:
 
 #---ADDING-TERMINAL----------------
 func add_terminal(color_id: int, location_id: int) -> void:
+	# Create terminal path.
+	var terminal_path = _create_path("terminal", color_id)
+	
 	# Select correct terminal color.
-	var terminal: BaseTerminal = load(_terminal[color_id]).instantiate()
+	var terminal: BaseTerminal = load(terminal_path).instantiate()
 	
 	# Add selected terminal to the room.
 	add_child(terminal)

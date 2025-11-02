@@ -56,7 +56,7 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 		"id": id,
 		"pos": pos,
 		"doors": [false, false, false, false],
-		"doors_color": [-1, -1, -1, -1],
+		"door_color": [-1, -1, -1, -1],
 		"connections": [-1, -1, -1, -1],
 		"end_color": -1,
 		"room_scene" : PackedScene
@@ -116,6 +116,7 @@ func _ready() -> void:
 	# Initialize variables for game_manager singleton.
 	game_manager.dungeon_init(self)
 	game_manager.player_init(player)
+	game_manager.sound_init()
 	
 	# Display starting room.
 	update_room("StartPosition")
@@ -130,6 +131,7 @@ func _generate_dungeon() -> void:
 	_place_entrance()
 	_generate_path(_start, _critical_path_length, "C")
 	_place_escape_pod()
+	_set_active_color()
 	_add_branches(_branch_probability)
 	_place_terminals()
 
@@ -223,6 +225,10 @@ func _add_branches(probability: float):
 	# Set id of the last room as last isolated room id.
 	next_id = next_isolated_id
 
+# Set currently active color.
+func _set_active_color() -> void:
+	game_manager.active_color_id = randi_range(0, _colors_number)
+
 # Assign data for the doors and connection.
 func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
 	var opposite_id = (door_id+2)%4
@@ -235,8 +241,8 @@ func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: in
 	room.doors[door_id] = true
 	dungeon[room_x][room_y].doors[opposite_id] = true
 	
-	room.doors_color[door_id] = door_color
-	dungeon[room_x][room_y].doors_color[opposite_id] = door_color
+	room.door_color[door_id] = door_color
+	dungeon[room_x][room_y].door_color[opposite_id] = door_color
 
 # Place escape pods in the dungeon.
 func _place_escape_pod() -> void:
@@ -311,7 +317,7 @@ func _draw_doors(room_scene: Node, active_room) -> void:
 	# Print all doors in correct positions.
 	for i in MAX_CONNECTIONS:
 		if active_room.doors[i]:
-			room_scene.call_deferred("add_door", i, active_room.connections[i], active_room.doors_color[i])
+			room_scene.call_deferred("add_door", i, active_room.connections[i], active_room.door_color[i])
 
 # Display escape pods in the active room.
 func _draw_escape_pod(room_scene: Node, active_room) -> void:
@@ -405,8 +411,8 @@ func _print_connections() -> void:
 							line += " "
 						line += str(r.connections[i]) + "/"
 						
-						# Get color first leter from doors_color
-						match r.doors_color[i]:
+						# Get color first leter from door_color
+						match r.door_color[i]:
 							0:
 								line += "R"
 							1:

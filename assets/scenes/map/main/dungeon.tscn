@@ -38,17 +38,19 @@ scale = Vector2(0.226, 0.226)
 position = Vector2(921, 315)
 scale = Vector2(0.226, 0.226)
 
-[node name="BGM" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="BGM" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("4_y4eva")
 autoplay = true
 bus = &"BMG"
 parameters/looping = true
 
-[node name="Door SFX" type="AudioStreamPlayer" parent="."]
+[node name="DoorSFX" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("5_ljf07")
 bus = &"SFX"
 
-[node name="Enter SFX" type="AudioStreamPlayer" parent="."]
+[node name="RoomChangeSFX" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("6_ljf07")
 pitch_scale = 0.8
 bus = &"SFX"
