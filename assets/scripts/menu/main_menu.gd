@@ -1,6 +1,6 @@
 extends Control
 
-#----MAIN MENU-----
+#---MAIN MENU---------------------
 
 func _on_host_mouse_entered() -> void:
 	$"SFX flip".play()
@@ -8,7 +8,7 @@ func _on_host_mouse_entered() -> void:
 func _on_host_button_up() -> void:
 	$"SFX tear".play()
 	$"BGM".stop()
-	get_tree().change_scene_to_file("res://assets/scenes/map/main/dungeon.tscn")
+	game_manager.game_start()
 
 func _on_settings_mouse_entered() -> void:
 	$"SFX flip".play()
@@ -18,7 +18,7 @@ func _on_settings_button_up() -> void:
 	$"main menu".hide()
 	$"settings".show()
 
-#----SETTINGS----
+#---SETTINGS----------------------
 
 func _on_leave_button_up() -> void:
 	$"SFX tear".play()

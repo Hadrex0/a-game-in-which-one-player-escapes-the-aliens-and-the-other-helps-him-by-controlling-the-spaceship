@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqtllup586nm8"]
 
 [ext_resource type="Script" path="res://easter_eggs/base_room.gd" id="1_f7gi0"]
-[ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://assets/scenes/map/rooms/starting_room.tscn" id="2_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/entity/player/player.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://assets/scenes/space_ship/rooms/starting_room.tscn" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://71g0ap8575n6" path="res://easter_eggs/test_room_1.tscn" id="3_sugp2"]
 
 [node name="Main" type="Node"]

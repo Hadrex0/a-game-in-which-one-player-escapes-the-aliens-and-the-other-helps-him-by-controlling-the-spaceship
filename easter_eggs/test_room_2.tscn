@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://easter_eggs/base_room.gd" id="1_ru7gi"]
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="2_0icv0"]
-[ext_resource type="PackedScene" uid="uid://40r3c21yaknl" path="res://assets/scenes/map/objects/door/yellow_door.tscn" id="3_nhg8j"]
-[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://assets/scenes/map/objects/door/red_door.tscn" id="3_vtu8o"]
-[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://assets/scenes/map/objects/door/blue_door.tscn" id="5_03cog"]
+[ext_resource type="PackedScene" uid="uid://40r3c21yaknl" path="res://assets/scenes/space_ship/objects/door/yellow_door.tscn" id="3_nhg8j"]
+[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://assets/scenes/space_ship/objects/door/red_door.tscn" id="3_vtu8o"]
+[ext_resource type="PackedScene" uid="uid://t7wlfl3ltx25" path="res://assets/scenes/space_ship/objects/door/blue_door.tscn" id="5_03cog"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iiocx"]
 

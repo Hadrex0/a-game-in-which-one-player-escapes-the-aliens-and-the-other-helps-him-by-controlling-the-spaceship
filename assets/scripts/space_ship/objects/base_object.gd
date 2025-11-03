@@ -1,0 +1,88 @@
+class_name BaseObject extends Area2D
+
+#---CONSTANTS---------------------
+
+#---VARIABLES---------------------
+
+# Variable for the object stance variable.
+@onready var open = false #is this object open
+
+# Variable for the object animation.
+@onready var animation: AnimatedSprite2D = $AnimatedSprite2D
+
+#---SETTERS-----------------------
+
+# Set the correct state of the object from game memory.
+func _set_open() -> void:
+	# Get groups of the object.
+	var groups = self.get_groups()
+	
+	# Initiate color id variable.
+	var color_id = -1
+	
+	# Set color id to the id of the object color.
+	for i in game_manager.COLORS.size():
+		if groups.find(game_manager.COLORS[i]) != -1:
+			color_id = i
+	
+	# Get stance from the game memory based on color of the object.
+	_set_open_to_color(color_id)
+
+# Set open to matching color from game memory.
+func _set_open_to_color(color_id: int) -> void:
+	# Check if currently active color is color of the door.
+	open = game_manager.active_color_id == color_id
+	
+	# Change monitoring to matching stance.
+	_set_monitoring(open)
+
+# Update monitoring to matching stance.
+func _set_monitoring(stance: bool) -> void:
+	monitoring = stance 
+
+#---OBJECT-START------------------
+
+# Called when the object enters the scene tree for the first time.
+func _ready() -> void:
+	# Connect changing color signal from game manager to the function.
+	game_manager.color_stance_changed.connect(_on_color_stance_changed)
+	
+	# Set the correct state of the object from game memory.
+	_set_open()
+	
+	# Set the correct stance of the object animation.
+	_set_object_stance_animation()
+
+#---CHANGING-COLOR----------------
+
+# Change stance of the object if it matches emited color.
+func _on_color_stance_changed(changed_color: String):
+	var matching_group = is_in_group(changed_color)
+	
+	# Open object with matching color, and close otherwise. 
+	if matching_group == !open:
+		open = matching_group
+		
+		# Play opening/closing animation.
+		_change_object_stance_animation(open) 
+	
+	# Update monitoring to matching stance.
+	_set_monitoring(open) 
+
+#---ANIMATIONS--------------------
+
+# Set the correct stance of the object animation.
+func _set_object_stance_animation() -> void:
+	# Play correct animation.
+	if open:
+		animation.play("opened")
+	else:
+		animation.play("closed")
+
+# Change object stance animation.
+func _change_object_stance_animation(change_to: bool) -> void:
+	# Play correct animation.
+	if change_to:
+		animation.play("opening")
+	else:
+		animation.play("closing")
