@@ -83,6 +83,9 @@ func add_terminal(color_id: int, location_id: int) -> void:
 	# Select correct terminal color.
 	var terminal: BaseTerminal = load(terminal_path).instantiate()
 	
+	# Set correct location of the terminal.
+	terminal.position =_object_location[location_id].global_position
+	
 	# Add selected terminal to the room.
 	add_child(terminal)
 
@@ -99,7 +102,3 @@ func add_alien(alien_id: int, location: Vector2) -> void:
 	
 	# Add selected alien to the room.
 	add_child(alien)
-	
-	
-	# Set correct location of the terminal.
-	terminal.position =_object_location[location_id].global_position

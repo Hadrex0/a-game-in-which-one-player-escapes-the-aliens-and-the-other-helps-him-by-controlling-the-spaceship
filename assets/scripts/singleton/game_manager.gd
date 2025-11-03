@@ -179,4 +179,4 @@ func game_won() -> void:
 # What happens when Player looses.
 func game_lost() -> void:
 	print("YOU LOST!")
-	get_tree().change_scene_to_file("res://assets/scenes/menu/main_menu.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/main_menu.tscn")

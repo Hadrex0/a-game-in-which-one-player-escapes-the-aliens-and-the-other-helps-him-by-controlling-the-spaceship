@@ -457,24 +457,9 @@ func _alien_look_for_open_doors(alien_id: int) -> Array:
 	# Check doors in room with given alien.
 	var x = aliens[alien_id].room_pos.x
 	var y = aliens[alien_id].room_pos.y
-	for i in dungeon[x][y].doors_color.size():
-		# Variable for stance of the currently checking doors.
-		var open = false
-		
-		# Get from game memory the stance of the door.
-		if dungeon[x][y].doors_color[i] > -1:
-			match dungeon[x][y].doors_color[i]:
-				0:
-					open = game_manager.red
-				1:
-					open = game_manager.blue
-				2:
-					open = game_manager.green
-				3:
-					open = game_manager.yellow
-		
+	for i in dungeon[x][y].door_color.size():
 		# If the door is open, add it the the answer array.
-		if open:
+		if dungeon[x][y].door_color[i] == game_manager.active_color_id:
 			answer_door_ids.append(i)
 	
 	# Return Array with found doors.
