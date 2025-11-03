@@ -2,9 +2,9 @@ extends Node2D
 
 #---CONSTANTS---------------------
 
-#---VARIABLES---------------------
 
-var debug: bool = false
+
+#---VARIABLES---------------------
 
 var door_sfx : Node
 var enter_sfx : Node
@@ -49,19 +49,12 @@ func set_action_for_event(event):
 			return action
 	return null
 
-
 # Control room listener.
 func _unhandled_input(event: InputEvent) -> void:
 	var action = set_action_for_event(event)
 	if action != null:
 		# Checking which color is pressed.
 		match action:
-			"cheat_enable":
-				debug = !debug
-				if debug:
-					print("CHEAT ENABLED")
-				else:
-					print("CHEAT DISABLED")
 			"cheat_red":
 				# Changing color Red and emiting signal for update.
 				door_sfx.play()

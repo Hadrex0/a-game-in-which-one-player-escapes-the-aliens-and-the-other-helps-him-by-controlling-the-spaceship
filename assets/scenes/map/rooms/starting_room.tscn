@@ -70,23 +70,3 @@ position = Vector2(792, 315)
 
 [node name="WestEscapePod" type="Marker2D" parent="EscapePodMarkers"]
 position = Vector2(360, 315)
-
-[node name="AlienMarkers" type="Node2D" parent="."]
-
-[node name="AlienSpot1" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(360, 207)
-
-[node name="AlienSpot2" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(792, 207)
-
-[node name="AlienSpot3" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(468, 315)
-
-[node name="AlienSpot4" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(684, 315)
-
-[node name="AlienSpot5" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(360, 423)
-
-[node name="AlienSpot6" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(792, 423)

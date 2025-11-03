@@ -8,13 +8,8 @@ class_name BaseAlien extends CharacterBody2D
 @export var alien_id: int 
 
 # Variables for alien movement.
-@export var speed = 200 #alien max movement speed
+@export var speed = 150 #alien max movement speed
 var target : Vector2 
-var movement_time = 3.0 # seconds
-var moving: bool
-
-# Debug movement.
-var debug: bool = false
 
 #---SETTERS-----------------------
 
@@ -29,24 +24,26 @@ func set_new_target() -> void:
 	target = Vector2(nx, ny)
 
 # Alien search new target periodicly.
-func _on_movement_timer_timeout() -> void:
-	$MovementTimer.start(movement_time)
-	if !game_manager.debug:
+func _alien_movement_logic() -> void:
+	# Save current alien position.
+	game_manager._dungeon.aliens[alien_id].pos = position
+	
+	# Move alien in the room.
+	if randf() <= game_manager._dungeon.alien_move_chance:
 		set_new_target()
-
-# Debug tool.
-func _input(event: InputEvent) -> void:
-	if (event.is_action_pressed("cheat_alien") and game_manager.debug):
-		target = get_global_mouse_position()
 
 #---ALIEN-START--------------------
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Connect tick with dungeon manager.
+	game_manager._dungeon.tick_timeout.connect(_alien_movement_logic)
+	
+	# Set starting position as its own.
 	target = self.position
 	
 	# Start timer and search for target location for the alien.
-	_on_movement_timer_timeout()
+	_alien_movement_logic()
 
 #---ALIEN-MOVEMENT-----------------
 
