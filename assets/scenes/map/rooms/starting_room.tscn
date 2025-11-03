@@ -63,10 +63,10 @@ position = Vector2(576, 528)
 [node name="WestDoor" type="Marker2D" parent="DoorMarkers"]
 position = Vector2(144, 315)
 
-[node name="EscapePodMarkers" type="Node2D" parent="."]
+[node name="ObjectMarkers" type="Node2D" parent="."]
 
-[node name="EastEscapePod" type="Marker2D" parent="EscapePodMarkers"]
-position = Vector2(792, 315)
+[node name="EastObject" type="Marker2D" parent="ObjectMarkers"]
+position = Vector2(796.5, 315)
 
-[node name="WestEscapePod" type="Marker2D" parent="EscapePodMarkers"]
+[node name="WestObject" type="Marker2D" parent="ObjectMarkers"]
 position = Vector2(360, 315)

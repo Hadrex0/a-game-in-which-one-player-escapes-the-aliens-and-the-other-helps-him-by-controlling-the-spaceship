@@ -2,16 +2,25 @@ class_name Dungeon extends Node2D
 
 #---CONSTANTS---------------------
 
+# Positions of room corners.
 const ROOM_SIZE: Dictionary = {
 	"min": Vector2(167, 144),
 	"max": Vector2(989, 502)
 	}
+
+# Positions of directions.
 const DIRECTIONS: Array[Vector2i] = [
 	Vector2i( 0,-1),
 	Vector2i( 1, 0),
 	Vector2i( 0, 1),
 	Vector2i(-1, 0)
 	]
+
+# Number of spawn locations of objects in room.
+const OBJECT_SPAWN_LOCATIONS_NUMBER: int = 2
+
+# Max connections inside of a single room.
+const MAX_CONNECTIONS: int = 4
 
 #---VARIABLES---------------------
 
@@ -25,9 +34,19 @@ const DIRECTIONS: Array[Vector2i] = [
 @export var _start : Vector2i = Vector2i(-1, -1)
 @export var _critical_path_length : int = 50
 @export var _branch_probability : float = 0.75
+@export var _escape_pod_activated : bool = false
+@export var _colors_number: int
 var dungeon : Array = []
+var terminals : Array = []
+var special_rooms : Array = []
 var next_id : int = 0
 var room_nodes : Dictionary = {}
+var escape_pod : Dictionary = {
+	"room_id": -1,
+	"color_id": -1,
+	"location_id": -1,
+	"active": false
+	}
 var current_room = make_room(-1, Vector2i(-1, -1))
 
 # Variables for Player 1
@@ -55,12 +74,10 @@ signal tick_timeout
 
 #---INITIALIZE-VARIABLES----------
 
-# Initialize the array of the dungeon to the correct size.
-func _initialize_dungeon() -> void:
-	for x in _dimensions.x:
-		dungeon.append([])
-		for y in _dimensions.y:
-			dungeon[x].append(null)
+# Initialize max colors number.
+func _initialize_colors_number() -> void:
+	if (_colors_number == null or _colors_number > game_manager.COLORS.size() or _colors_number < 1):
+		_colors_number = game_manager.COLORS.size()
 
 # Create a room.
 func make_room(id: int, pos: Vector2i) -> Dictionary:
@@ -68,10 +85,20 @@ func make_room(id: int, pos: Vector2i) -> Dictionary:
 		"id": id,
 		"pos": pos,
 		"doors": [false, false, false, false],
-		"doors_color": [-1, -1, -1, -1],
+		"door_color": [-1, -1, -1, -1],
 		"connections": [-1, -1, -1, -1],
 		"end_color": -1,
 		"room_scene" : PackedScene
+	}
+
+# Create a terminal.
+func make_terminal(room_id: int, color_id: int) -> Dictionary:
+	return {
+		"room_id": room_id,
+		"color_id": color_id,
+		"color": game_manager.COLORS[color_id],
+		"location_id": randi_range(0, OBJECT_SPAWN_LOCATIONS_NUMBER - 1),
+		"active": false
 	}
 
 # Create an alien.
@@ -81,6 +108,19 @@ func make_alien(location: Vector2) -> Dictionary:
 		"room_pos": Vector2i(-1,-1),
 		"pos": location
 	}
+
+# Initialize the array of the dungeon to the correct size.
+func _initialize_dungeon() -> void:
+	for x in _dimensions.x:
+		dungeon.append([])
+		for y in _dimensions.y:
+			dungeon[x].append(null)
+
+#---SETTERS-----------------------
+
+# Set stance of _escape_pod_activated
+func set_escape_pod_activated(new_stance: bool):
+	_escape_pod_activated = new_stance
 
 #---GETTERS-----------------------
 
@@ -92,10 +132,17 @@ func get_dimension_x():
 func get_dimension_y():
 	return _dimensions.y
 
+# Get stance of _escape_pod_activated
+func is_escape_pod_activated():
+	return _escape_pod_activated
+
 #---GAME-START--------------------
 
 # Start spaceship at the start of the game.
 func _ready() -> void:
+	# Initialize important variables.
+	_initialize_colors_number()
+	
 	# Generate dungeon first
 	_initialize_dungeon()
 	_generate_dungeon()
@@ -106,6 +153,7 @@ func _ready() -> void:
 	# Initialize variables for game_manager singleton.
 	game_manager.dungeon_init(self)
 	game_manager.player_init(player)
+	game_manager.sound_init()
 	
 	# Display starting room.
 	update_room("StartPosition")
@@ -122,9 +170,11 @@ func _ready() -> void:
 func _generate_dungeon() -> void:
 	_place_entrance()
 	_generate_path(_start, _critical_path_length, "C")
+	_place_escape_pod()
 	_place_aliens()
+	_set_active_color()
 	_add_branches(_branch_probability)
-	_place_escape_pods()
+	_place_terminals()
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
@@ -132,10 +182,13 @@ func _place_entrance() -> void:
 	if _start.x < 0 or _start.x >= _dimensions.x or _start.y < 0 or _start.y >= _dimensions.y:
 		_start = Vector2i(randi_range(0, _dimensions.x - 1), randi_range(0, _dimensions.y - 1))
 	
+	# Add the starting room to special rooms.
+	special_rooms.append(next_id)
+	
 	# When the starting room is within the dungeon, place room there.
 	dungeon[_start.x][_start.y] = make_room(next_id, _start)
 	next_id += 1
-	
+
 # Generate dungeon based on random path across it.
 func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 	# If length of a dungeon is equal to zero return true.
@@ -144,11 +197,11 @@ func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 	
 	# Setting varbiables for the generating path.
 	var current : Vector2i = from #starting coordinates
-	var random: int = randi_range(0, 3) #random number from 0 to 3.
+	var random: int = randi_range(0, MAX_CONNECTIONS - 1) #random number from 0 to 3.
 	var direction : Vector2i = DIRECTIONS[random] #random direction.
 	
 	# For every side of the room.
-	for i in 4:
+	for i in MAX_CONNECTIONS:
 		# Coordinates of the next room.
 		var nx = current.x + direction.x
 		var ny = current.y + direction.y
@@ -169,14 +222,14 @@ func _generate_path(from : Vector2i, length : int, marker: String) -> bool:
 				next_id -= 1
 		
 		# When there cannot be room at (nx,ny) select next side.
-		random = (random + 1) % 4
+		random = (random + 1) % MAX_CONNECTIONS
 		direction = DIRECTIONS[random]
 	# If there is no room for generating another room return false.
 	return false
 
 # Create connections between the rooms of the spaceship.
 func _add_branches(probability: float):
-	# Set id of isolated room as last room id.
+	# Set id of the last isolated room as last room id.
 	var next_isolated_id = next_id
 	
 	# Go through all of the rooms.
@@ -189,11 +242,11 @@ func _add_branches(probability: float):
 				continue
 			
 			# Check all sides of the room in search of nearby rooms.
-			for i in 4: 
+			for i in MAX_CONNECTIONS: 
 				var dir = DIRECTIONS[i]
 				var nx = x+dir.x
 				var ny = y+dir.y
-				var random_color: int = randi_range(0, 3)
+				var random_color: int = randi_range(0, _colors_number - 1)
 				
 				# If if the next room coordinates are within the dungeon skip those coordinates.
 				if nx < 0 or nx >= _dimensions.x or ny < 0 or ny >= _dimensions.y: 
@@ -209,6 +262,13 @@ func _add_branches(probability: float):
 				# Check if there is no connection yet and if the connection is with singular room.
 				if room.connections[i] == -1 and !(dungeon[nx][ny].id > next_id):
 					_set_door_data(i, random_color, room, nx, ny)
+	
+	# Set id of the last room as last isolated room id.
+	next_id = next_isolated_id
+
+# Set currently active color.
+func _set_active_color() -> void:
+	game_manager.active_color_id = randi_range(0, _colors_number)
 
 # Assign data for the doors and connection.
 func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
@@ -222,25 +282,46 @@ func _set_door_data(door_id: int, door_color: int, room, room_x: int, room_y: in
 	room.doors[door_id] = true
 	dungeon[room_x][room_y].doors[opposite_id] = true
 	
-	room.doors_color[door_id] = door_color
-	dungeon[room_x][room_y].doors_color[opposite_id] = door_color
+	room.door_color[door_id] = door_color
+	dungeon[room_x][room_y].door_color[opposite_id] = door_color
 
 # Place escape pods in the dungeon.
-func _place_escape_pods() -> void:
+func _place_escape_pod() -> void:
+	# Set values of escape pod.
+	escape_pod.room_id = next_id - 1
+	escape_pod.color_id = randi_range(0, _colors_number - 1)
+	escape_pod.location_id = randi_range(0, OBJECT_SPAWN_LOCATIONS_NUMBER - 1)
 	
-	# Test-begin
+	# Add the escape pod room to special rooms.
+	special_rooms.append(escape_pod.room_id)
+
+# Place escape pods in the dungeon.
+func _place_terminals() -> void:
+	# Variable for checking if color is used.
+	var color_used: Array
+	color_used.resize(_colors_number)
+	color_used.fill(false)
 	
-	# Search for last room and place escape pod in it.
-	for x in _dimensions.x:
-		for y in _dimensions.y:
-			if dungeon[x][y] == null:
-				continue
-			
-			# When last non-isolated room is found, place escape pod there. 
-			if dungeon[x][y].id == next_id-1:
-				dungeon[x][y].end_color = randi_range(0, 3)
+	# Start from the color of the escape pod. 
+	var color_id = escape_pod.color_id
 	
-	# Test-end
+	# Place terminals in the dungeon. 
+	for i in _colors_number:
+		# Set the terminal room id.
+		var room_id = randi_range(0, next_id)
+		while special_rooms.has(room_id): #if selected room is used, use the previous free one.
+			room_id = (room_id - 1) % next_id
+		
+		# Select the terminal color.
+		while color_used[color_id]: #if selected color is used, use the next free one.
+			color_id = (color_id + 1) % _colors_number
+		color_used[color_id] = true
+		
+		# Add new terminal values of the terminal.
+		terminals.append(make_terminal(room_id, color_id))
+		
+		# Add the terminal room to special rooms.
+		special_rooms.append(terminals[i].room_id)
 
 # Place aliens in the dungeon.
 func _place_aliens() -> void:
@@ -281,8 +362,11 @@ func update_room(previous_direction: String):
 	# Put doors in correct spots.
 	_draw_doors(room, cell)
 	
-	# Put escape pod in the last non-isolated room.
-	_draw_escape_pods(room, cell)
+	# Put escape pod in correct spot.
+	_draw_escape_pod(room, cell)
+	
+	# Put terminal in correct spot.
+	_draw_terminal(room, cell)
 	
 	# Put aliens in correct spots.
 	_draw_aliens(room, cell)
@@ -293,15 +377,22 @@ func update_room(previous_direction: String):
 # Display doors in the active room.
 func _draw_doors(room_scene: Node, active_room) -> void:
 	# Print all doors in correct positions.
-	for i in 4:
+	for i in MAX_CONNECTIONS:
 		if active_room.doors[i]:
-			room_scene.call_deferred("add_door", i, active_room.connections[i], active_room.doors_color[i])
+			room_scene.call_deferred("add_door", i, active_room.connections[i], active_room.door_color[i])
 
-# Display escape pods in correct spots.
-func _draw_escape_pods(room_scene: Node, active_room) -> void:
+# Display escape pods in the active room.
+func _draw_escape_pod(room_scene: Node, active_room) -> void:
 	# Add escape pod if there is one in this active room.
-	if active_room.end_color != -1:
-		room_scene.call_deferred("add_escape_pod", active_room.end_color)
+	if active_room.id == escape_pod.room_id:
+		room_scene.call_deferred("add_escape_pod", escape_pod.color_id, escape_pod.location_id)
+
+# Display terminal in the active room.
+func _draw_terminal(room_scene: Node, active_room) -> void:
+	# Add terminal if there is one in this active room.
+	for i in terminals.size():
+		if active_room.id == terminals[i].room_id:
+			room_scene.call_deferred("add_terminal", terminals[i].color_id, terminals[i].location_id)
 
 # Display aliens in correct spots.
 func _draw_aliens(room_scene: Node, active_room) -> void:
@@ -434,10 +525,13 @@ func _on_tick_timer_timeout() -> void:
 func _debug_print() -> void:
 	_print_dungeon()
 	#_print_connections()
-	print("Go to the room ", next_id-1)
+	_print_terminals()
+	print("Go to the room ", escape_pod.room_id)
+	print("Escape pod is ",game_manager.COLORS[escape_pod.color_id])
 
 # Print map of the spaceship.
 func _print_dungeon() -> void:
+	print("--- DUNGEON MAP ---")
 	var dungeon_as_string : String = ""
 	for y in _dimensions.y:
 		for x in _dimensions.x:
@@ -454,6 +548,13 @@ func _print_dungeon() -> void:
 			dungeon_as_string += "]"
 		dungeon_as_string += "\n"
 	print(dungeon_as_string)
+
+# Print terminal informations.
+func _print_terminals() -> void:
+	print("---- TERMINALS ----")
+	for i in _colors_number:
+		print(terminals[i].color," Terminal is in room ", terminals[i].room_id)
+	print("")
 
 # Print all connections.
 func _print_connections() -> void:
@@ -481,7 +582,7 @@ func _print_connections() -> void:
 				line += str(r.pos.y) + ") connects to ["
 				
 				# Goal: line = "Room xx at (xx,xx) connects to [xx/C, xx/C, xx/C, xx/C]"
-				for i in 4:
+				for i in MAX_CONNECTIONS:
 					if r.connections[i] == -1:
 						line += " -/-"
 					else:
@@ -489,8 +590,8 @@ func _print_connections() -> void:
 							line += " "
 						line += str(r.connections[i]) + "/"
 						
-						# Get color first leter from doors_color
-						match r.doors_color[i]:
+						# Get color first leter from door_color
+						match r.door_color[i]:
 							0:
 								line += "R"
 							1:
@@ -505,6 +606,7 @@ func _print_connections() -> void:
 				
 				# Print formatted line.
 				print(line)
+	print("")
 
 # Print room in which Player is located.
 func _print_current_room() -> void:

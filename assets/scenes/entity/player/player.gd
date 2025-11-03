@@ -12,9 +12,12 @@ const friction = 2500 #how fast player stops
 @onready var speed = 300 #player max movement speed
 var input = Vector2.ZERO #variable for storing input
 
-# Variables for moving across the spaceship
+# Variables for moving across the spaceship.
 var invisible = false
 var invincibility_duration = 0.2 # seconds
+
+# Variables for player interaction.
+var touched_object: String
 
 #---PLAYER-START-------------------
 
