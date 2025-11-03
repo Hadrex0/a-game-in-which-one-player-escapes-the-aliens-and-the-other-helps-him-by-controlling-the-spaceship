@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://cowm6j5vtemi1"]
 
-[ext_resource type="Script" uid="uid://d25pxgdqxbw4a" path="res://assets/scenes/entity/alien/alien.gd" id="1_gouow"]
+[ext_resource type="Script" uid="uid://d25pxgdqxbw4a" path="res://assets/scenes/entity/alien/base_alien.gd" id="1_gouow"]
 [ext_resource type="Texture2D" uid="uid://drw5u0ksc0slu" path="res://assets/sprites/entity/alien/alien_idle.png" id="2_vvuna"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q8dur"]
@@ -187,21 +187,18 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vvuna"]
-radius = 28.0
-height = 56.0
+radius = 23.0
+height = 46.0
 
-[node name="Alien" type="RigidBody2D"]
-gravity_scale = 0.0
+[node name="Alien" type="CharacterBody2D" groups=["Alien"]]
 script = ExtResource("1_gouow")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_gouow")
 animation = &"idle"
 autoplay = "idle"
-frame = 22
-frame_progress = 0.3251889
+frame_progress = 0.2513156
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 

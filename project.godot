@@ -42,6 +42,7 @@ Red="Is it colored red"
 Green="Is it colored green"
 Escape_Pod="Is it an escape pod?"
 Terminal="Is it a terminal?"
+Alien="Is it an alien?"
 
 [input]
 

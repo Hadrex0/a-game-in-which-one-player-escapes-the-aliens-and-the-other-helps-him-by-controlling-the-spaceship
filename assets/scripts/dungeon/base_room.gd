@@ -1,5 +1,5 @@
-extends Node2D
-#here
+class_name BaseRoom extends Node2D
+
 #---CONSTANTS---------------------
 
 #---VARIABLES---------------------
@@ -58,6 +58,8 @@ func add_door(direction: int, connected_room: int, color_id: int) -> void:
 	door.connected_room = connected_room
 
 #---ADDING-ESCAPE-POD--------------
+
+# Add escape pod to room parent node.
 func add_escape_pod(color_id: int, location_id: int) -> void:
 	# Create escape pod path.
 	var escape_pod_path = _create_path("escape_pod", color_id)
@@ -72,6 +74,8 @@ func add_escape_pod(color_id: int, location_id: int) -> void:
 	escape_pod.position =_object_location[location_id].global_position
 
 #---ADDING-TERMINAL----------------
+
+# Add terminal to room parent node.
 func add_terminal(color_id: int, location_id: int) -> void:
 	# Create terminal path.
 	var terminal_path = _create_path("terminal", color_id)
@@ -81,6 +85,21 @@ func add_terminal(color_id: int, location_id: int) -> void:
 	
 	# Add selected terminal to the room.
 	add_child(terminal)
+
+#---ADDING-ALIEN-------------------
+
+# Add alien to room parent node.
+func add_alien(alien_id: int, location: Vector2) -> void:
+	# Select correct alien.
+	var alien: BaseAlien = load("res://assets/scenes/entity/alien/alien.tscn").instantiate()
+	
+	# Set correct id and location of the alien.
+	alien.alien_id = alien_id
+	alien.position = location
+	
+	# Add selected alien to the room.
+	add_child(alien)
+	
 	
 	# Set correct location of the terminal.
 	terminal.position =_object_location[location_id].global_position

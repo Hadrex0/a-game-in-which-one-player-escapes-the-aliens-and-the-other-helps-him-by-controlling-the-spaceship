@@ -148,6 +148,27 @@ func update_room(direction: String):
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]
 	_dungeon.update_room(direction)
 
+#---CHANGING-CURRENT-ROOM---------
+
+# Move alien to another room.
+func move_alien(alien_id: int, direction: String) -> void:
+	# Set coordinates of new room.
+	var nx = _dungeon.current_room.pos.x
+	var ny = _dungeon.current_room.pos.y
+	match direction:
+		"N": #if alien moved north, decrese y by one
+				ny -= 1
+		"E": #if alien moved east, increase x by one
+				nx += 1
+		"S": #if alien moved south, increase y by one
+				ny += 1
+		"W": #if alien moved west, decrese x by one
+				nx -= 1
+	
+	# Set alien room as the new one, and update screen.
+	_dungeon.aliens[alien_id].room_id = _dungeon.dungeon[nx][ny].id
+	_dungeon.remove_alien_from_display(alien_id)
+
 #---GAME-ENDS---------------------
 
 # What happens when Player wins.

@@ -2,14 +2,24 @@ class_name Dungeon extends Node2D
 
 #---CONSTANTS---------------------
 
-const ROOM_SIZE: Vector2 = Vector2(1152, 648)
+# Positions of room corners.
+const ROOM_SIZE: Dictionary = {
+	"min": Vector2(167, 144),
+	"max": Vector2(989, 502)
+	}
+
+# Positions of directions.
 const DIRECTIONS: Array[Vector2i] = [
 	Vector2i( 0,-1),
 	Vector2i( 1, 0),
 	Vector2i( 0, 1),
 	Vector2i(-1, 0)
 	]
+
+# Number of spawn locations of objects in room.
 const OBJECT_SPAWN_LOCATIONS_NUMBER: int = 2
+
+# Max connections inside of a single room.
 const MAX_CONNECTIONS: int = 4
 
 #---VARIABLES---------------------
@@ -23,7 +33,7 @@ const MAX_CONNECTIONS: int = 4
 @export var _dimensions : Vector2i = Vector2i(10,10)
 @export var _start : Vector2i = Vector2i(-1, -1)
 @export var _critical_path_length : int = 50
-@export var _branch_probability : float = 0.3
+@export var _branch_probability : float = 0.75
 @export var _escape_pod_activated : bool = false
 @export var _colors_number: int
 var dungeon : Array = []
@@ -42,6 +52,25 @@ var current_room = make_room(-1, Vector2i(-1, -1))
 # Variables for Player 1
 @onready var player: Player = $"../Player"
 @onready var entrance_markers: Node2D = $"../EntranceMarkers"
+
+# Variables for Aliens.
+@export_category("Aliens")
+@export var alien_count: int = 1
+@onready var aliens : Array = []
+@onready var _alien_spawn_markers = [
+	$"../AlienMarkers/AlienSpot1",
+	$"../AlienMarkers/AlienSpot2",
+	$"../AlienMarkers/AlienSpot3",
+	$"../AlienMarkers/AlienSpot4",
+	$"../AlienMarkers/AlienSpot5",
+	$"../AlienMarkers/AlienSpot6"
+	]
+@onready var alien_move_chance: float = 0.75
+@onready var alien_move_to_door_chance: float = 0.05
+
+# Game tick manager.
+@onready var tick_period = 1.0 # seconds
+signal tick_timeout
 
 #---INITIALIZE-VARIABLES----------
 
@@ -70,6 +99,14 @@ func make_terminal(room_id: int, color_id: int) -> Dictionary:
 		"color": game_manager.COLORS[color_id],
 		"location_id": randi_range(0, OBJECT_SPAWN_LOCATIONS_NUMBER - 1),
 		"active": false
+	}
+
+# Create an alien.
+func make_alien(location: Vector2) -> Dictionary:
+	return {
+		"room_id": randi_range(0, next_id - 1),
+		"room_pos": Vector2i(-1,-1),
+		"pos": location
 	}
 
 # Initialize the array of the dungeon to the correct size.
@@ -121,6 +158,9 @@ func _ready() -> void:
 	# Display starting room.
 	update_room("StartPosition")
 	
+	# Start tick timer.
+	_on_tick_timer_timeout()
+	
 	# Debug print.
 	_debug_print()
 
@@ -131,6 +171,7 @@ func _generate_dungeon() -> void:
 	_place_entrance()
 	_generate_path(_start, _critical_path_length, "C")
 	_place_escape_pod()
+	_place_aliens()
 	_set_active_color()
 	_add_branches(_branch_probability)
 	_place_terminals()
@@ -213,7 +254,7 @@ func _add_branches(probability: float):
 				
 				# If there is no room behind a wall, spawn a isolated room.
 				if dungeon[nx][ny] == null: 
-					if randf() >= probability:  
+					if randf() <= probability:  
 						continue
 					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny))
 					next_isolated_id += 1
@@ -282,6 +323,24 @@ func _place_terminals() -> void:
 		# Add the terminal room to special rooms.
 		special_rooms.append(terminals[i].room_id)
 
+# Place aliens in the dungeon.
+func _place_aliens() -> void:
+	# Add all aliens to the memory.
+	for i in alien_count:
+		aliens.append(make_alien(_random_alien_location()))
+	
+	# Go through all of the rooms and add room position for all aliens.
+	for x in range(_dimensions.x):
+		for y in range(_dimensions.y):
+			# If there is no room at those coordinates, skip it.
+			if dungeon[x][y] == null:
+				continue
+			
+			# Set room position of all aliens inside of this room. 
+			for i in aliens.size():
+				if aliens[i].room_id == dungeon[x][y].id:
+					aliens[i].room_pos = dungeon[x][y].pos
+
 #---ROOM-DISPLAY------------------
 
 # Update displayed room to the current room.
@@ -309,6 +368,9 @@ func update_room(previous_direction: String):
 	# Put terminal in correct spot.
 	_draw_terminal(room, cell)
 	
+	# Put aliens in correct spots.
+	_draw_aliens(room, cell)
+	
 	# Debug print
 	_print_current_room()
 
@@ -332,6 +394,12 @@ func _draw_terminal(room_scene: Node, active_room) -> void:
 		if active_room.id == terminals[i].room_id:
 			room_scene.call_deferred("add_terminal", terminals[i].color_id, terminals[i].location_id)
 
+# Display aliens in correct spots.
+func _draw_aliens(room_scene: Node, active_room) -> void:
+	for i in aliens.size():
+		if aliens[i].room_id == active_room.id:
+			room_scene.call_deferred("add_alien", i, aliens[i].pos)
+
 # Put Player in correct location given by variable "direction" 
 func _set_player_pos(direction: String) -> void:
 	# Find correct spawn location
@@ -339,6 +407,117 @@ func _set_player_pos(direction: String) -> void:
 		if entrance is Marker2D and entrance.name == direction:
 			# When encountered correct location spawn the Player.
 			player.global_position = entrance.global_position
+
+# Remove alien from screen.
+func remove_alien_from_display(alien_id: int) -> void:
+	# Search for the alien with given id on the screen. 
+	var the_alien: Node
+	var alien_nodes = get_tree().get_nodes_in_group("Alien")
+	for alien in alien_nodes:
+		if alien.alien_id == alien_id:
+			the_alien = alien
+			break
+	
+	# When there is no alien with given id, stop removing alien.
+	if the_alien == null:
+		return
+	
+	# Remove alien from display.
+	self.get_child(0).call_deferred("remove_child", the_alien)
+	the_alien.call_deferred("queue_free")
+
+#---ALIEN-MOVEMENT----------------
+
+# Alien movement handler.
+func _alien_movement() -> void:
+	for i in aliens.size():
+		# Check if alien will move.
+		if (randf() <= alien_move_chance and current_room.id != aliens[i].room_id):
+			# Moving to another room.
+			if randf() <= alien_move_to_door_chance:
+				# Check which doors are open.
+				var door_ids = _alien_look_for_open_doors(i)
+				if door_ids.size() == 0:
+					continue
+				
+				# Select next room for alien.
+				var direction = door_ids[randi_range(0, door_ids.size() - 1)]
+				
+				# Move alien to the next room.
+				_move_alien_to_room(i, direction)
+			# Moving inside the room.
+			else:
+				_move_alien_in_room(i)
+
+# Look for open doors.
+func _alien_look_for_open_doors(alien_id: int) -> Array:
+	# Make array with id of the doors that are open.
+	var answer_door_ids: Array
+	
+	# Check doors in room with given alien.
+	var x = aliens[alien_id].room_pos.x
+	var y = aliens[alien_id].room_pos.y
+	for i in dungeon[x][y].doors_color.size():
+		# Variable for stance of the currently checking doors.
+		var open = false
+		
+		# Get from game memory the stance of the door.
+		if dungeon[x][y].doors_color[i] > -1:
+			match dungeon[x][y].doors_color[i]:
+				0:
+					open = game_manager.red
+				1:
+					open = game_manager.blue
+				2:
+					open = game_manager.green
+				3:
+					open = game_manager.yellow
+		
+		# If the door is open, add it the the answer array.
+		if open:
+			answer_door_ids.append(i)
+	
+	# Return Array with found doors.
+	return answer_door_ids
+
+# Set random location of the alien.
+func _random_alien_location() -> Vector2:
+	var id = randi_range(0, _alien_spawn_markers.size() - 1)
+	return _alien_spawn_markers[id].position
+
+# Alien movement in room logic.
+func _move_alien_in_room(alien_id: int) -> void:
+	# Change alien position to random.
+	aliens[alien_id].pos = _random_alien_location()
+
+# Alien movement to room logic.
+func _move_alien_to_room(alien_id: int, direction: int) -> void:
+	# Select next room.
+	var nx = aliens[alien_id].room_pos.x + DIRECTIONS[direction].x
+	var ny = aliens[alien_id].room_pos.y + DIRECTIONS[direction].y
+	var new_room = dungeon[nx][ny]
+	
+	# Set new room in alien data.
+	aliens[alien_id].room_id = new_room.id
+	aliens[alien_id].room_pos = new_room.pos
+	aliens[alien_id].pos = entrance_markers.get_child(direction + 1).position
+	
+	# When the alien moves to the current room display them.
+	if (new_room.id == current_room.id):
+		self.get_child(0).call_deferred("add_alien", alien_id, aliens[alien_id].pos)
+
+#---GAME-TICK-HANDLER-------------
+
+# Game tick handler main function.
+func _on_tick_timer_timeout() -> void:
+	# Emit tick timeout signal
+	tick_timeout.emit()
+	
+	# Move aliens in the dungeon.
+	_alien_movement()
+	
+	# Restart tick timer.
+	$"../TickTimer".start(tick_period)
 
 #---DEBUG-PRINT-------------------
 
