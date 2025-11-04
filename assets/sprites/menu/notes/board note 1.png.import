@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jahyski1ymso"
-path="res://.godot/imported/cork board.png-8a4e6ef945e12bf75b27f90f3e1e8a7b.ctex"
+uid="uid://cxxax3vi5cg63"
+path="res://.godot/imported/board note 1.png-0fa1fde4f25575cb5e1456768828eee3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/menu/cork board.png"
-dest_files=["res://.godot/imported/cork board.png-8a4e6ef945e12bf75b27f90f3e1e8a7b.ctex"]
+source_file="res://assets/sprites/menu/notes/board note 1.png"
+dest_files=["res://.godot/imported/board note 1.png-0fa1fde4f25575cb5e1456768828eee3.ctex"]
 
 [params]
 

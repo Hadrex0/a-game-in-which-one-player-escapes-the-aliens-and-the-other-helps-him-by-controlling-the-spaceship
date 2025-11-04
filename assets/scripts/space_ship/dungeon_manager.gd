@@ -149,7 +149,6 @@ func _ready() -> void:
 	# Initialize variables for game_manager singleton.
 	game_manager.dungeon_init(self)
 	game_manager.player_init(player)
-	game_manager.sound_init()
 	
 	# Display starting room.
 	update_room("StartPosition")
@@ -159,6 +158,8 @@ func _ready() -> void:
 	
 	# Debug print.
 	_debug_print()
+	
+	audio_manager.start_game_music()
 
 #---GAME-TICK-HANDLER-------------
 

@@ -22,6 +22,7 @@ buses/default_bus_layout="res://assets/default_bus_layout.tres"
 [autoload]
 
 game_manager="*res://assets/scripts/singleton/game_manager.gd"
+audio_manager="*res://assets/scripts/singleton/audio_manager.gd"
 
 [file_customization]
 
@@ -43,6 +44,10 @@ Green="Is it colored green"
 Escape_Pod="Is it an escape pod?"
 Terminal="Is it a terminal?"
 Alien="Is it an alien?"
+Main_Menu="Is it the main menu window?"
+Game_End_Menu="Is it the game end window?"
+Settings_Menu="Is it the settings menu window?"
+Menu="Is it a menu window?"
 
 [input]
 

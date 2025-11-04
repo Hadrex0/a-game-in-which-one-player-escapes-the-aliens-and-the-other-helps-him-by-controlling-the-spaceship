@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bqwfqf0havpej"]
+
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="1_mesc2"]
+
+[resource]
+font = ExtResource("1_mesc2")
+font_size = 36
+font_color = Color(0, 0, 0, 1)
+outline_size = 12

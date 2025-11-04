@@ -20,10 +20,6 @@ signal color_activation_changed
 
 #---VARIABLES---------------------
 
-# Sounds variables. 
-var door_sfx : Node #door sound node
-var room_change_sfx : Node #room change sound node
-
 # Variables for Dungeon data.
 var _dungeon: Dungeon #dungeon data
 var active_color_id: int = 0 #currently active objects color
@@ -32,7 +28,8 @@ var active_color_id: int = 0 #currently active objects color
 var _player: Player #Player data
 
 # Variables for menu.
-var menu: bool = true
+var menu_open: bool = true #is menu open
+var last_scene: String #last scene that was displayed
 
 # Variables for path creation.
 @onready var scenes_path = "res://assets/scenes/space_ship/" #path to scenes in "space_ship" folder
@@ -47,11 +44,6 @@ func dungeon_init(created_dungeon: Dungeon) -> void:
 # Assign player data.
 func player_init(created_player: Player) -> void:
 	_player = created_player
-
-# Asign sounds nodes.
-func sound_init() -> void:
-	door_sfx = get_tree().get_root().get_node("/root/Dungeon/Sounds/DoorSFX")
-	room_change_sfx = get_tree().get_root().get_node("/root/Dungeon/Sounds/RoomChangeSFX")
 
 #---GETTERS-----------------------
 
@@ -83,7 +75,7 @@ func create_entity_path(entity: String) -> String:
 func set_action_for_event(event):
 	for action in InputMap.get_actions():
 		# When ui action is pressed, but manu is not displayed ignore it.
-		if (action.contains("ui_") and !menu):
+		if (action.contains("ui_") and !menu_open):
 			continue
 		
 		# Return pressed action.
@@ -137,39 +129,67 @@ func _activate_color(color_id: int) -> void:
 	
 	# Play sound if the doors in the current room are changing.
 	if (color_id != previous_color_id and (door_colors.has(color_id) or door_colors.has(previous_color_id))):
-		_door_sound()
+		audio_manager.play_door_sound()
 	
 	# Change active color.
 	active_color_id = color_id
 	color_stance_changed.emit(COLORS[color_id])
 
-#---AUDIO-HANDLER-----------------
+#---MAIN-MENU---------------------
 
-# Play the door opening/closing sound.
-func _door_sound() -> void:
-	door_sfx.play()
+# Return to main menu.
+func open_main_menu() -> void:
+	# A menu is open.
+	game_manager.menu_open = true
+	
+	# Change scene to main menu.
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/main_menu.tscn")
 
-# Play the room changing sound.
-func _room_change_sound() -> void:
-	room_change_sfx.play()
+#---SETTINGS----------------------
 
-#---MENU-HANDLER------------------
+# Open settings menu.
+func open_settings_menu() -> void:
+	# A menu is open.
+	game_manager.menu_open = true
+	
+	# Save current scene for returning.
+	last_scene = get_tree().current_scene.scene_file_path
+	
+	# Change scene to main menu.
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/settings_menu.tscn")
+
+# Close settings menu and return to previous scene.
+func close_settings_menu() -> void:
+	# Set menu open to correct value.
+	game_manager.menu_open = last_scene.find("menu")
+	
+	# Change scene to main menu.
+	get_tree().call_deferred("change_scene_to_file", last_scene)
+
+#---GAME-MENU---------------------
 
 # Start game.
 func game_start() -> void:
 	# Menu isn't active.
-	game_manager.menu = false
+	game_manager.menu_open = false
 	
 	# Change scene to dungeon.
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
-
-# Return to main menu.
-func return_to_menu() -> void:
-	# Menu is active.
-	game_manager.menu = true
 	
-	# Change scene to main menu.
-	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/main_menu.tscn")
+	# Start game music.
+	audio_manager.start_game_music()
+
+#---GAME-END-MENU-----------------
+
+# What happens when Player wins.
+func game_won() -> void:
+	print("YOU WON!")
+	open_main_menu()
+
+# What happens when Player looses.
+func game_lost() -> void:
+	print("YOU LOST!")
+	open_main_menu()
 
 #---CHANGING-CURRENT-ROOM---------
 
@@ -189,13 +209,13 @@ func update_room(direction: String):
 				nx -= 1
 	
 	# Play the room changing sound.
-	_room_change_sound()
+	audio_manager.play_paper_flip_sound()
 	
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]
 	_dungeon.update_room(direction)
 
-#---CHANGING-CURRENT-ROOM---------
+#---MOVING-ALIENS-----------------
 
 # Move alien to another room.
 func move_alien(alien_id: int, direction: String) -> void:
@@ -215,15 +235,3 @@ func move_alien(alien_id: int, direction: String) -> void:
 	# Set alien room as the new one, and update screen.
 	_dungeon.aliens[alien_id].room_id = _dungeon.dungeon[nx][ny].id
 	_dungeon.remove_alien_from_display(alien_id)
-
-#---GAME-ENDS---------------------
-
-# What happens when Player wins.
-func game_won() -> void:
-	print("YOU WON!")
-	return_to_menu()
-
-# What happens when Player looses.
-func game_lost() -> void:
-	print("YOU LOST!")
-	return_to_menu()

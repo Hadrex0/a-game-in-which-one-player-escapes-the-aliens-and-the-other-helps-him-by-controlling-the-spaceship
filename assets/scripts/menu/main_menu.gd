@@ -1,38 +1,45 @@
-extends Control
+class_name MainMenu extends BaseMenu
 
-#---MAIN MENU---------------------
+#---CONSTANTS---------------------
 
-func _on_host_mouse_entered() -> void:
-	$"SFX flip".play()
+#---VARIABLES---------------------
 
+#---HOST-BUTTON-------------------
+
+# Host button funcionality.
 func _on_host_button_up() -> void:
-	$"SFX tear".play()
-	$"BGM".stop()
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Open host menu.
 	game_manager.game_start()
 
-func _on_settings_mouse_entered() -> void:
-	$"SFX flip".play()
+#---JOIN-BUTTON-------------------
 
+# Host button funcionality.
+func _on_join_button_up() -> void:
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Open join menu.
+	
+
+#---SETTINGS-BUTTON---------------
+
+# Host button funcionality.
 func _on_settings_button_up() -> void:
-	$"SFX tear".play()
-	$"main menu".hide()
-	$"settings".show()
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Open settings menu.
+	game_manager.open_settings_menu()
 
-#---SETTINGS----------------------
+#---QUIT-GAME-BUTTON--------------
 
-func _on_leave_button_up() -> void:
-	$"SFX tear".play()
-	$"settings".hide()
-	$"main menu".show()
-
-func _on_leave_mouse_entered() -> void:
-	$"SFX flip".play()
-
-func _on_general_2_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
-
-func _on_music_2_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("BMG"), value)
-
-func _on_sfx_2_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), value)
+# Host button funcionality.
+func _on_quit_game_button_up() -> void:
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Quit game.
+	get_tree().quit()

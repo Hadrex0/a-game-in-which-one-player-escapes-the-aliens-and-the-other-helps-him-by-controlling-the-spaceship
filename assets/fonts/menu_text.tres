@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dtglk3u6ejl0f"]
+
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="1_wtan5"]
+
+[resource]
+font = ExtResource("1_wtan5")
+font_size = 26
+font_color = Color(0, 0, 0, 1)
+outline_size = 10

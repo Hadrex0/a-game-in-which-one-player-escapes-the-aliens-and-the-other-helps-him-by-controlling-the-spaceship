@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c84g124otm05q"
-path="res://.godot/imported/Boo-womp.wav-73cb73b593056b62b79c8955a5a2040d.sample"
+path="res://.godot/imported/door_sound.wav-00b035ef30b928797bcc6d9302f76596.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx/game/Boo-womp.wav"
-dest_files=["res://.godot/imported/Boo-womp.wav-73cb73b593056b62b79c8955a5a2040d.sample"]
+source_file="res://assets/audio/sfx/door_sound.wav"
+dest_files=["res://.godot/imported/door_sound.wav-00b035ef30b928797bcc6d9302f76596.sample"]
 
 [params]
 
