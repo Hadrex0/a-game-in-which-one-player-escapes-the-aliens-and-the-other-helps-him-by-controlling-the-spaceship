@@ -13,6 +13,7 @@
 
 [node name="SettingsMenu" type="Control" groups=["Menu", "Settings_Menu"]]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -87,6 +88,23 @@ label_settings = ExtResource("2_ditn3")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Fullscreen" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_pv2c8")
+text = "FULLSCREEN"
+label_settings = ExtResource("3_lpwph")
+vertical_alignment = 1
+
 [node name="AudioSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -124,8 +142,9 @@ vertical_alignment = 1
 
 [node name="GeneralVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume"]
 layout_mode = 2
-min_value = -50.0
-max_value = 0.0
+max_value = 1.0
+step = 0.001
+value = 1.0
 
 [node name="MusicVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
 layout_mode = 2
@@ -143,8 +162,9 @@ vertical_alignment = 1
 
 [node name="MusicVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume"]
 layout_mode = 2
-min_value = -50.0
-max_value = 0.0
+max_value = 1.0
+step = 0.001
+value = 1.0
 
 [node name="SFXVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
 layout_mode = 2
@@ -162,8 +182,9 @@ vertical_alignment = 1
 
 [node name="SFXVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume"]
 layout_mode = 2
-min_value = -50.0
-max_value = 0.0
+max_value = 1.0
+step = 0.001
+value = 1.0
 
 [node name="ButtonsSection" type="HBoxContainer" parent="SettingsMenu/SettingsContainer"]
 layout_mode = 2
@@ -213,6 +234,10 @@ label_settings = ExtResource("7_m5ny1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="toggled" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume/GeneralVolume" to="." method="_on_general_volume_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
 [connection signal="button_up" from="SettingsMenu/SettingsContainer/ButtonsSection/Apply" to="." method="_on_apply_button_up"]
 [connection signal="mouse_entered" from="SettingsMenu/SettingsContainer/ButtonsSection/Apply" to="." method="_on_button_hover"]
 [connection signal="button_up" from="SettingsMenu/SettingsContainer/ButtonsSection/Exit" to="." method="_on_exit_button_up"]

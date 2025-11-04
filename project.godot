@@ -23,6 +23,7 @@ buses/default_bus_layout="res://assets/default_bus_layout.tres"
 
 game_manager="*res://assets/scripts/singleton/game_manager.gd"
 audio_manager="*res://assets/scripts/singleton/audio_manager.gd"
+settings_manager="*res://assets/scripts/singleton/settings_manager.gd"
 
 [file_customization]
 
