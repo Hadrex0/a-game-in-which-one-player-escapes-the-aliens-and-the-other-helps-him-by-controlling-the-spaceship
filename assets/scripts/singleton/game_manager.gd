@@ -176,9 +176,6 @@ func game_start() -> void:
 	
 	# Change scene to dungeon.
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
-	
-	# Start game music.
-	audio_manager.start_game_music()
 
 # What happens when Player wins.
 func game_won() -> void:

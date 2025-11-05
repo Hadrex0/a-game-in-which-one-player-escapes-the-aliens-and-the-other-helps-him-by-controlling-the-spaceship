@@ -159,7 +159,8 @@ func _ready() -> void:
 	# Debug print.
 	_debug_print()
 	
-	audio_manager.start_game_music()
+	# Start game music.
+	audio_manager.play_background("game")
 
 #---GAME-TICK-HANDLER-------------
 

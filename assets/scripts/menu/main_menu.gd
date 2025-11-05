@@ -4,6 +4,13 @@ class_name MainMenu extends BaseMenu
 
 #---VARIABLES---------------------
 
+#---START-SETTINGS-MENU-----------
+
+# Called when the node enters the scene tree for the first time.
+func  _ready() -> void:
+	# Start main menu music.
+	audio_manager.play_background("main_menu")
+
 #---HOST-BUTTON-------------------
 
 # Host button funcionality.

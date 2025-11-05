@@ -9,6 +9,7 @@ extends Node
 	AudioStreamPlayer.new(), #menu background music
 	AudioStreamPlayer.new() #game background music
 	]
+@onready var current_background: AudioStreamPlayer
 
 # Variables for sounds.
 @onready var paper_flip_sound = AudioStreamPlayer.new() #sound of paper flip
@@ -100,15 +101,28 @@ func _on_sound_timer_timeout() -> void:
 
 #---START-MUSIC-------------------
 
-# Start menu music.
-func start_menu_music() -> void:
-	music[0].play()
-
-# Start game music.
-func start_game_music() -> void:
-	music[1].play()
+# Start playing menu music.
+func play_background(track: String) -> void:
+	# Stop currently playing background music.
+	if current_background != null:
+		current_background.stop()
+	
+	# Select correct background track.
+	match track:
+		"main_menu":
+			current_background = music[0]
+		"game":
+			current_background = music[1]
+	
+	# Play selected background music.
+	current_background.play()
 
 #---STOP-MUSIC--------------------
+
+# Stop all music.
+func stop_music() -> void:
+	for song in music:
+		song.stop()
 
 # Stop menu music.
 func stop_menu_music() -> void:
