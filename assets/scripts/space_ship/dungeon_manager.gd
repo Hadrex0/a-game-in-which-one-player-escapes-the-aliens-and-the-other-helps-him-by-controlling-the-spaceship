@@ -100,7 +100,7 @@ func make_terminal(room_id: int, color_id: int) -> Dictionary:
 # Create an alien.
 func make_alien(location: Vector2) -> Dictionary:
 	return {
-		"room_id": randi_range(0, next_id - 1),
+		"room_id": randi_range(1, next_id - 1),
 		"room_pos": Vector2i(-1,-1),
 		"pos": location
 	}
@@ -332,9 +332,9 @@ func _place_terminals() -> void:
 	# Place terminals in the dungeon. 
 	for i in _colors_number:
 		# Set the terminal room id.
-		var room_id = randi_range(0, next_id)
+		var room_id = randi_range(0, next_id - 1)
 		while special_rooms.has(room_id): #if selected room is used, use the previous free one.
-			room_id = (room_id - 1) % next_id
+			room_id = (room_id + 1) % next_id
 		
 		# Add new terminal values of the terminal.
 		terminals.append(make_terminal(room_id, i))

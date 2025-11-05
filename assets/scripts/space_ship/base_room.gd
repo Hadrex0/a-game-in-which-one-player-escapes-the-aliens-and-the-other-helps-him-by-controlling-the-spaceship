@@ -53,7 +53,7 @@ func add_escape_pod(color_id: int, location_id: int) -> void:
 	add_child(escape_pod)
 	
 	# Set correct location of the escape pod.
-	escape_pod.position = get_child(location_id).global_position
+	escape_pod.position = _object_location.get_child(location_id).global_position
 
 #---ADDING-TERMINAL----------------
 

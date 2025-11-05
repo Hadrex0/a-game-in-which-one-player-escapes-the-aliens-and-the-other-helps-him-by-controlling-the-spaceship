@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3 uid="uid://cbs1jyjg8ypkv"]
+
+[ext_resource type="Script" uid="uid://dls3okforwa1w" path="res://assets/scripts/menu/game_end_menu.gd" id="1_2fghi"]
+[ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_qi6ro"]
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="2_2fghi"]
+[ext_resource type="LabelSettings" uid="uid://bqwfqf0havpej" path="res://assets/fonts/menu_title.tres" id="3_sto3f"]
+[ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="4_4gyp0"]
+[ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/notes/board note 5.png" id="5_mnbww"]
+[ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="6_ts3ba"]
+[ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="7_uujpl"]
+
+[node name="GameEndMenu" type="Control" groups=["Game_End_Menu", "Menu"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2fghi")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_qi6ro")
+expand_mode = 3
+
+[node name="SettingsMenu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 40
+
+[node name="SettingsContainer" type="VBoxContainer" parent="SettingsMenu"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="TitleSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Statistics" type="VBoxContainer" parent="SettingsMenu/SettingsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="General" type="Label" parent="SettingsMenu/SettingsContainer/Statistics"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_2fghi")
+text = "YOUR STATISTICS"
+label_settings = ExtResource("3_sto3f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsSection" type="HBoxContainer" parent="SettingsMenu/SettingsContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Return" type="TextureButton" parent="SettingsMenu/SettingsContainer/ButtonsSection"]
+layout_mode = 2
+texture_normal = ExtResource("4_4gyp0")
+texture_pressed = ExtResource("5_mnbww")
+texture_hover = ExtResource("6_ts3ba")
+
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/ButtonsSection/Return"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_2fghi")
+text = "RETURN"
+label_settings = ExtResource("7_uujpl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_up" from="SettingsMenu/SettingsContainer/ButtonsSection/Return" to="." method="_on_return_button_up"]
+[connection signal="mouse_entered" from="SettingsMenu/SettingsContainer/ButtonsSection/Return" to="." method="_on_button_hover"]

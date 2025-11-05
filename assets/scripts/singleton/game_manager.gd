@@ -30,6 +30,7 @@ var _player: Player #Player data
 # Variables for menu.
 var menu_open: bool = true #is menu open
 var last_scene: String #last scene that was displayed
+var game_result: String #result of the game end
 
 # Variables for path creation.
 @onready var scenes_path = "res://assets/scenes/space_ship/" #path to scenes in "space_ship" folder
@@ -179,17 +180,25 @@ func game_start() -> void:
 	# Start game music.
 	audio_manager.start_game_music()
 
-#---GAME-END-MENU-----------------
-
 # What happens when Player wins.
 func game_won() -> void:
-	print("YOU WON!")
-	open_main_menu()
+	game_result = "won"
+	open_game_end_menu()
 
 # What happens when Player looses.
 func game_lost() -> void:
-	print("YOU LOST!")
-	open_main_menu()
+	game_result = "lost"
+	open_game_end_menu()
+
+#---GAME-END-MENU-----------------
+
+# Open game end menu.
+func open_game_end_menu() -> void:
+	# A menu is open.
+	game_manager.menu_open = true
+	
+	# Change scene to main menu.
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/game_end_menu.tscn")
 
 #---CHANGING-CURRENT-ROOM---------
 
