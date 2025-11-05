@@ -257,6 +257,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="toggled" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="item_selected" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution/OptionButton" to="." method="_on_resolution_option_button_item_selected"]
 [connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume/GeneralVolume" to="." method="_on_general_volume_value_changed"]
 [connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume/MusicVolume" to="." method="_on_music_volume_value_changed"]
 [connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume/SFXVolume" to="." method="_on_sfx_volume_value_changed"]

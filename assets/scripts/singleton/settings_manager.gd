@@ -57,10 +57,10 @@ func _ready() -> void:
 func save_settings() -> void:
 	# Set starting video options. 
 	config.set_value("video", "fullscreen", video_settings.fullscreen)
-	if resolutions.find_key(video_settings.resolution) == null:
-		config.set_value("video", "resolution", default_resolution)
-	else:
+	if resolutions.keys().has(video_settings.resolution):
 		config.set_value("video", "resolution", video_settings.resolution)
+	else:
+		config.set_value("video", "resolution", default_resolution)
 	
 	# Set starting audio options.
 	config.set_value("audio", "general", audio_settings.general)
@@ -82,7 +82,7 @@ func _load_video_settings():
 	# Load video settings from file.
 	for key in config.get_section_keys("video"):
 		var file_value = config.get_value("video", key)
-		if (key == "resolution" and resolutions.find_key(file_value) == null):
+		if (key == "resolution" and !resolutions.keys().has(file_value)):
 			video_settings[key] = default_resolution
 		else:
 			video_settings[key] = file_value

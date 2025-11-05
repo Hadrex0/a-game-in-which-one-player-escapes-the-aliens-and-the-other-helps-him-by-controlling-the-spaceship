@@ -25,8 +25,9 @@ func _resolution_init() -> void:
 	for resolution in settings_manager.resolutions:
 		video.resolution.add_item(resolution)
 	
-	# Update resolution value to resolution of the screen.
-	update_resolution_value()
+	# Set resolution value.
+	var resolution_id = settings_manager.resolutions.keys().find(settings_manager.video_settings.resolution)
+	video.resolution.selected = resolution_id
 
 #---START-SETTINGS-MENU-----------
 
@@ -87,17 +88,9 @@ func _on_check_box_toggled(fullscreen_on: bool) -> void:
 	# Save button stance to settings the memory.
 	settings_manager.video_settings.fullscreen = video.fullscreen.button_pressed
 
-# Upade resolution button.
-func update_resolution_value():
-	# Get window resolution as string.
-	var window_size_string = str(get_window().size.x, "x", get_window().size.y)
-	
-	# Set option button label to active resolution.
-	var resolution_id = settings_manager.resolutions.keys().find(window_size_string)
-	video.resolution.selected = resolution_id
-	
-	# Save button stance to settings the memory.
-	settings_manager.video_settings.resolution = video.resolution.selected
+# Selected other resolution.
+func _on_resolution_option_button_item_selected(id: int) -> void:
+	settings_manager.video_settings.resolution = settings_manager.resolutions.keys().get(id)
 
 #---AUDIO-SETTINGS----------------
 
