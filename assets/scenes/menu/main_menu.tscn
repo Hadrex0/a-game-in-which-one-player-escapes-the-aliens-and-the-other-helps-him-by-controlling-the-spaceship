@@ -16,25 +16,15 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 80.0
-offset_top = 40.0
-offset_right = -82.0
-offset_bottom = -38.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jk1qb")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.081
-anchor_top = -0.07
-anchor_right = 1.0830001
-anchor_bottom = 1.067
-offset_left = 0.19000244
-offset_top = -0.099998474
-offset_right = -0.17004395
-offset_bottom = -0.19000244
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_5dd4i")
@@ -42,20 +32,14 @@ expand_mode = 3
 
 [node name="MainMenu" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.081
-anchor_top = -0.07
-anchor_right = 1.0830001
-anchor_bottom = 1.067
-offset_left = 0.19000244
-offset_top = -0.099998474
-offset_right = -0.17004395
-offset_bottom = -0.19000244
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 80
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 40
 
 [node name="MainMenuContainer" type="VBoxContainer" parent="MainMenu"]

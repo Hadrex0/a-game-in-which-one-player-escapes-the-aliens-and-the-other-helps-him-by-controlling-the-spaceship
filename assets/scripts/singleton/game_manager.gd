@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 #---CONSTANTS---------------------
 
@@ -162,10 +162,6 @@ func open_settings_menu() -> void:
 func close_settings_menu() -> void:
 	# Set menu open to correct value.
 	game_manager.menu_open = last_scene.find("menu")
-	
-	# Reload last saved settings.
-	settings_manager.video_loader()
-	settings_manager.audio_loader()
 	
 	# Change scene to main menu.
 	get_tree().call_deferred("change_scene_to_file", last_scene)

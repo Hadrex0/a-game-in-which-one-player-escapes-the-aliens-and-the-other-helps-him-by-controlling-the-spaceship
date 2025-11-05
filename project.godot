@@ -25,6 +25,12 @@ game_manager="*res://assets/scripts/singleton/game_manager.gd"
 audio_manager="*res://assets/scripts/singleton/audio_manager.gd"
 settings_manager="*res://assets/scripts/singleton/settings_manager.gd"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
 [file_customization]
 
 folder_colors={

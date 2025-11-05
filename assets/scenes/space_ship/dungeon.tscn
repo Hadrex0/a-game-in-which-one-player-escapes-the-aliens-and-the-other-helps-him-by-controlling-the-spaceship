@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="5_y4eva"]
 
 [node name="Dungeon" type="Node2D"]
+auto_translate_mode = 1
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource("1_ffeav")
@@ -15,44 +16,44 @@ safe_margin = 2.0
 [node name="EntranceMarkers" type="Node2D" parent="."]
 
 [node name="StartPosition" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(576, 315)
+position = Vector2(640, 360)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="N" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(576, 433)
+position = Vector2(640, 540)
 scale = Vector2(0.226, 0.226)
 
 [node name="E" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(238, 315)
+position = Vector2(238, 360)
 scale = Vector2(0.051076, 0.051076)
 
 [node name="S" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(576, 212)
+position = Vector2(640, 180)
 scale = Vector2(0.226, 0.226)
 
 [node name="W" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(921, 315)
+position = Vector2(1078, 360)
 scale = Vector2(0.226, 0.226)
 
 [node name="AlienMarkers" type="Node2D" parent="."]
 
 [node name="AlienSpot1" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(360, 207)
+position = Vector2(396, 270)
 
 [node name="AlienSpot2" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(792, 207)
+position = Vector2(884, 270)
 
 [node name="AlienSpot3" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(468, 315)
+position = Vector2(518, 360)
 
 [node name="AlienSpot4" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(684, 315)
+position = Vector2(762, 360)
 
 [node name="AlienSpot5" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(360, 423)
+position = Vector2(396, 450)
 
 [node name="AlienSpot6" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(792, 423)
+position = Vector2(884, 450)
 
 [node name="TickTimer" type="Timer" parent="."]
 

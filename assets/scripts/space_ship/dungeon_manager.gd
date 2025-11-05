@@ -4,8 +4,8 @@ class_name Dungeon extends Node2D
 
 # Positions of room corners.
 const ROOM_SIZE: Dictionary = {
-	"min": Vector2(167, 144),
-	"max": Vector2(989, 502)
+	"min": Vector2(182.0, 160.0),
+	"max": Vector2(1098.0, 560.0)
 	}
 
 # Positions of directions.

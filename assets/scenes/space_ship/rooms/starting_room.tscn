@@ -8,16 +8,16 @@
 [sub_resource type="QuadMesh" id="QuadMesh_kpvfv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j134y"]
-size = Vector2(1153, 140)
+size = Vector2(1280, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dpiby"]
-size = Vector2(161, 645)
+size = Vector2(182, 720)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3tykw"]
-size = Vector2(1152, 142)
+size = Vector2(1280, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thc5n"]
-size = Vector2(167, 643)
+size = Vector2(182, 720)
 
 [node name="SpawnRoom" type="Node2D"]
 script = ExtResource("1_mxg2v")
@@ -28,45 +28,45 @@ collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_d21kd")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="RoomPhisics"]
-position = Vector2(576.25, 323.25)
-scale = Vector2(1153.5, 647.5)
+position = Vector2(638, 360)
+scale = Vector2(1282, 720)
 mesh = SubResource("QuadMesh_kpvfv")
 texture = ExtResource("1_2lhjd")
 
 [node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
-position = Vector2(576.5, 72)
+position = Vector2(640, 80)
 shape = SubResource("RectangleShape2D_j134y")
 
 [node name="EastWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
-position = Vector2(1072.5, 323.5)
+position = Vector2(1189, 363)
 shape = SubResource("RectangleShape2D_dpiby")
 
 [node name="SouthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
-position = Vector2(577, 574)
+position = Vector2(640, 640)
 shape = SubResource("RectangleShape2D_3tykw")
 
 [node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
-position = Vector2(83.5, 323.5)
+position = Vector2(91, 360)
 shape = SubResource("RectangleShape2D_thc5n")
 
 [node name="DoorMarkers" type="Node2D" parent="."]
 
 [node name="NorthDoor" type="Marker2D" parent="DoorMarkers"]
-position = Vector2(576, 117)
+position = Vector2(640, 130)
 
 [node name="EastDoor" type="Marker2D" parent="DoorMarkers"]
-position = Vector2(1017, 315)
+position = Vector2(1128, 360)
 
 [node name="SouthDoor" type="Marker2D" parent="DoorMarkers"]
-position = Vector2(576, 528)
+position = Vector2(640, 590)
 
 [node name="WestDoor" type="Marker2D" parent="DoorMarkers"]
-position = Vector2(144, 315)
+position = Vector2(152, 360)
 
 [node name="ObjectMarkers" type="Node2D" parent="."]
 
 [node name="EastObject" type="Marker2D" parent="ObjectMarkers"]
-position = Vector2(796.5, 315)
+position = Vector2(884, 360)
 
 [node name="WestObject" type="Marker2D" parent="ObjectMarkers"]
-position = Vector2(360, 315)
+position = Vector2(396, 360)

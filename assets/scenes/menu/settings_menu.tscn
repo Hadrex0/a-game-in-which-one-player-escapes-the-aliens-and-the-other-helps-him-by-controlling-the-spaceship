@@ -22,7 +22,7 @@ script = ExtResource("1_lpwph")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -37,9 +37,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 80
+theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 70
-theme_override_constants/margin_right = 80
+theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 40
 
 [node name="SettingsContainer" type="VBoxContainer" parent="SettingsMenu"]
@@ -90,9 +90,7 @@ vertical_alignment = 1
 
 [node name="Fullscreen" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
 layout_mode = 2
-
-[node name="CheckBox" type="CheckBox" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
-layout_mode = 2
+theme_override_constants/separation = 25
 
 [node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
 layout_mode = 2
@@ -104,6 +102,30 @@ theme_override_fonts/font = ExtResource("2_pv2c8")
 text = "FULLSCREEN"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Resolution" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_pv2c8")
+text = "RESOLUTION"
+label_settings = ExtResource("3_lpwph")
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="AudioSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
 layout_mode = 2
@@ -143,7 +165,7 @@ vertical_alignment = 1
 [node name="GeneralVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume"]
 layout_mode = 2
 max_value = 1.0
-step = 0.001
+step = 0.01
 value = 1.0
 
 [node name="MusicVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
@@ -163,7 +185,7 @@ vertical_alignment = 1
 [node name="MusicVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume"]
 layout_mode = 2
 max_value = 1.0
-step = 0.001
+step = 0.01
 value = 1.0
 
 [node name="SFXVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
@@ -183,7 +205,7 @@ vertical_alignment = 1
 [node name="SFXVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume"]
 layout_mode = 2
 max_value = 1.0
-step = 0.001
+step = 0.01
 value = 1.0
 
 [node name="ButtonsSection" type="HBoxContainer" parent="SettingsMenu/SettingsContainer"]
