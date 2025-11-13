@@ -11,16 +11,16 @@ func _print_dungeon_map(dungeon_map: String):
 
 
 func _on_red_button_up() -> void:
-	game_manager._activate_door("red")
+	game_manager._activate_door("Red")
 
 
 func _on_blue_button_up() -> void:
-	game_manager._activate_door("blue")
+	game_manager._activate_door("Blue")
 
 
 func _on_yellow_button_up() -> void:
-	game_manager._activate_door("yellow")
+	game_manager._activate_door("Yellow")
 
 
 func _on_green_button_up() -> void:
-	game_manager._activate_door("green")
+	game_manager._activate_door("Green")
