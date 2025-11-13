@@ -24,6 +24,8 @@ const MAX_CONNECTIONS: int = 4
 
 #---SIGNALS-----------------------
 
+# Signal to send a dungeon map
+
 # Signal to make actions that depend on the ticks.
 signal tick_timeout
 
@@ -538,7 +540,6 @@ func _print_dungeon() -> void:
 	var dungeon_as_string : String = ""
 	for y in _dimensions.y:
 		for x in _dimensions.x:
-			
 			# Setting the room map in the pattern: "[xx]" (xx - room id). 
 			var cell = dungeon[x][y]
 			dungeon_as_string += "["
@@ -551,6 +552,7 @@ func _print_dungeon() -> void:
 			dungeon_as_string += "]"
 		dungeon_as_string += "\n"
 	print(dungeon_as_string)
+	game_manager.dungeon_map = dungeon_as_string
 
 # Print terminal informations.
 func _print_terminals() -> void:

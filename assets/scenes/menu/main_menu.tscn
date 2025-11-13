@@ -11,7 +11,7 @@
 [ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="8_r3xx2"]
 [ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/notes/board note 4.png" id="9_j7ex8"]
 
-[node name="MainMenu" type="Control" groups=["Main_Menu", "Menu"]]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("exeption_message", "exeption_message_timer") groups=["Main_Menu", "Menu"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +19,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jk1qb")
+exeption_message = NodePath("MainMenu/MainMenuContainer/Exeption Message")
+exeption_message_timer = NodePath("MainMenu/MainMenuContainer/Exeption Message/Timer")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -46,16 +48,27 @@ theme_override_constants/margin_bottom = 40
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="TitleSection" type="VBoxContainer" parent="MainMenu/MainMenuContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Logo" type="TextureRect" parent="MainMenu/MainMenuContainer/TitleSection"]
+[node name="Logo" type="TextureRect" parent="MainMenu/MainMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("4_flqon")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Exeption Message" type="Label" parent="MainMenu/MainMenuContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="MainMenu/MainMenuContainer/Exeption Message"]
+wait_time = 3.0
+one_shot = true
 
 [node name="ButtonsSection" type="HBoxContainer" parent="MainMenu/MainMenuContainer"]
 layout_mode = 2
@@ -163,6 +176,7 @@ label_settings = ExtResource("8_r3xx2")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="timeout" from="MainMenu/MainMenuContainer/Exeption Message/Timer" to="." method="_on_timer_timeout"]
 [connection signal="button_up" from="MainMenu/MainMenuContainer/ButtonsSection/Host" to="." method="_on_host_button_up"]
 [connection signal="mouse_entered" from="MainMenu/MainMenuContainer/ButtonsSection/Host" to="." method="_on_button_hover"]
 [connection signal="button_up" from="MainMenu/MainMenuContainer/ButtonsSection/Join" to="." method="_on_join_button_up"]

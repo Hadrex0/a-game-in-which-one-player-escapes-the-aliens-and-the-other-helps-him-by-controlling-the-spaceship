@@ -1,0 +1,123 @@
+[gd_scene load_steps=13 format=3 uid="uid://gxfox34h1182"]
+
+[ext_resource type="Script" uid="uid://dcivsux3vqemq" path="res://assets/scripts/control_panel/control_panel.gd" id="1_f2oxk"]
+[ext_resource type="Texture2D" uid="uid://c3n3rsxebgsck" path="res://assets/sprites/panel/background/open_notebook_temp.png" id="1_r5kng"]
+[ext_resource type="Texture2D" uid="uid://b46s1ioulvf5e" path="res://assets/sprites/panel/dungeon_panel/photo_temp.png" id="2_f2oxk"]
+[ext_resource type="Texture2D" uid="uid://ck7o31j1lt4ff" path="res://assets/sprites/panel/buttons/red_button.png" id="3_lqcvv"]
+[ext_resource type="Texture2D" uid="uid://bkdwegrtaoxti" path="res://assets/sprites/panel/buttons/red_button_hover.png" id="4_5lxrl"]
+[ext_resource type="FontFile" uid="uid://bhagv7iba354v" path="res://assets/fonts/Consolas-Regular.ttf" id="4_lqcvv"]
+[ext_resource type="Texture2D" uid="uid://tsbv55lsrmv2" path="res://assets/sprites/panel/buttons/blue_button.png" id="5_t3kl5"]
+[ext_resource type="Texture2D" uid="uid://nvk3g23iiep7" path="res://assets/sprites/panel/buttons/blue_button_hover.png" id="6_oq2mu"]
+[ext_resource type="Texture2D" uid="uid://b7tliujhdfgem" path="res://assets/sprites/panel/buttons/yellow_button.png" id="7_ud8lh"]
+[ext_resource type="Texture2D" uid="uid://cagfwhs8it4ji" path="res://assets/sprites/panel/buttons/yellow_button_hover.png" id="8_yvjsd"]
+[ext_resource type="Texture2D" uid="uid://cs8888gn1a824" path="res://assets/sprites/panel/buttons/green_button.png" id="9_oqug4"]
+[ext_resource type="Texture2D" uid="uid://d11368rwq833y" path="res://assets/sprites/panel/buttons/green_button_hover.png" id="10_6xao4"]
+
+[node name="ControlPanel" type="Control" node_paths=PackedStringArray("dungeon_map_string")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f2oxk")
+dungeon_map_string = NodePath("podzial na prwo i lewo lmao/zdjecie/MarginContainer/map")
+metadata/_edit_use_anchors_ = true
+
+[node name="tlo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_r5kng")
+expand_mode = 3
+
+[node name="podzial na prwo i lewo lmao" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="zdjecie" type="TextureRect" parent="podzial na prwo i lewo lmao"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_f2oxk")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="podzial na prwo i lewo lmao/zdjecie"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="map" type="Label" parent="podzial na prwo i lewo lmao/zdjecie/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_lqcvv")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="margines" type="MarginContainer" parent="podzial na prwo i lewo lmao"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="przyciski" type="VBoxContainer" parent="podzial na prwo i lewo lmao/margines"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="red blue" type="HBoxContainer" parent="podzial na prwo i lewo lmao/margines/przyciski"]
+layout_mode = 2
+alignment = 1
+
+[node name="red" type="TextureButton" parent="podzial na prwo i lewo lmao/margines/przyciski/red blue"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("3_lqcvv")
+texture_pressed = ExtResource("3_lqcvv")
+texture_hover = ExtResource("4_5lxrl")
+stretch_mode = 3
+
+[node name="blue" type="TextureButton" parent="podzial na prwo i lewo lmao/margines/przyciski/red blue"]
+layout_mode = 2
+texture_normal = ExtResource("5_t3kl5")
+texture_pressed = ExtResource("5_t3kl5")
+texture_hover = ExtResource("6_oq2mu")
+stretch_mode = 3
+
+[node name="yellow green" type="HBoxContainer" parent="podzial na prwo i lewo lmao/margines/przyciski"]
+layout_mode = 2
+alignment = 1
+
+[node name="yellow" type="TextureButton" parent="podzial na prwo i lewo lmao/margines/przyciski/yellow green"]
+layout_mode = 2
+texture_normal = ExtResource("7_ud8lh")
+texture_pressed = ExtResource("7_ud8lh")
+texture_hover = ExtResource("8_yvjsd")
+stretch_mode = 5
+
+[node name="green" type="TextureButton" parent="podzial na prwo i lewo lmao/margines/przyciski/yellow green"]
+layout_mode = 2
+texture_normal = ExtResource("9_oqug4")
+texture_pressed = ExtResource("9_oqug4")
+texture_hover = ExtResource("10_6xao4")
+stretch_mode = 5
+
+[connection signal="button_up" from="podzial na prwo i lewo lmao/margines/przyciski/red blue/red" to="." method="_on_red_button_up"]
+[connection signal="button_up" from="podzial na prwo i lewo lmao/margines/przyciski/red blue/blue" to="." method="_on_blue_button_up"]
+[connection signal="button_up" from="podzial na prwo i lewo lmao/margines/przyciski/yellow green/yellow" to="." method="_on_yellow_button_up"]
+[connection signal="button_up" from="podzial na prwo i lewo lmao/margines/przyciski/yellow green/green" to="." method="_on_green_button_up"]

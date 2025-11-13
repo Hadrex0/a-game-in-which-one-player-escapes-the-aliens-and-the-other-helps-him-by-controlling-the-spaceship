@@ -4,6 +4,9 @@ class_name MainMenu extends BaseMenu
 
 #---VARIABLES---------------------
 
+@export var exeption_message: Label
+@export var exeption_message_timer: Timer
+
 #---START-SETTINGS-MENU-----------
 
 # Called when the node enters the scene tree for the first time.
@@ -29,7 +32,8 @@ func _on_join_button_up() -> void:
 	_button_click_soud()
 	
 	# Open join menu.
-	
+	exeption_message.text = await game_manager.game_join()
+	exeption_message_timer.start()
 
 #---SETTINGS-BUTTON---------------
 
@@ -50,3 +54,7 @@ func _on_quit_game_button_up() -> void:
 	
 	# Quit game.
 	get_tree().quit()
+
+
+func _on_timer_timeout() -> void:
+	exeption_message.text = ""

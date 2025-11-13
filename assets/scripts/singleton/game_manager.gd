@@ -18,7 +18,19 @@ signal color_stance_changed
 # Signal to activate objects on the screen.
 signal color_activation_changed
 
+# Signal to send dungeon map
+signal _send_dungeon_map(map)
+
 #---VARIABLES---------------------
+
+# Entering debug mode
+var DEBUG_MODE: bool = false
+
+# Variable for dungeon as txt
+var dungeon_map: String = ""
+
+# Variable for exeption messages
+var client_fail: String = ""
 
 # Variables for Dungeon data.
 var _dungeon: Dungeon #dungeon data
@@ -93,16 +105,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if action != null:
 		# Checking which action is pressed.
 		match action:
+			"p1_debug_mode": #entering debug mode
+				DEBUG_MODE = true
 			"p1_interaction": #pressed interaction key
 				_interaction()
 			"p2_activate_red": #change active color to red
-				_activate_color(COLORS.find("Red"))
+				if DEBUG_MODE: _activate_color(COLORS.find("Red"))
 			"p2_activate_blue": #change active color to blue
-				_activate_color(COLORS.find("Blue"))
+				if DEBUG_MODE: _activate_color(COLORS.find("Blue"))
 			"p2_activate_green": #change active color to green
-				_activate_color(COLORS.find("Green"))
+				if DEBUG_MODE: _activate_color(COLORS.find("Green"))
 			"p2_activate_yellow": #change active color to yellow
-				_activate_color(COLORS.find("Yellow"))
+				if DEBUG_MODE: _activate_color(COLORS.find("Yellow"))
 
 # Player 1 interaction.
 func _interaction() -> void:
@@ -121,20 +135,6 @@ func _interaction() -> void:
 					# Active the terminal.
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
-
-# Player 2 interaction.
-func _activate_color(color_id: int) -> void:
-	# Set previous color id and color of the door.
-	var previous_color_id = active_color_id
-	var door_colors = _dungeon.current_room.door_color
-	
-	# Play sound if the doors in the current room are changing.
-	if (color_id != previous_color_id and (door_colors.has(color_id) or door_colors.has(previous_color_id))):
-		audio_manager.play_door_sound()
-	
-	# Change active color.
-	active_color_id = color_id
-	color_stance_changed.emit(COLORS[color_id])
 
 #---MAIN-MENU---------------------
 
@@ -174,8 +174,28 @@ func game_start() -> void:
 	# Menu isn't active.
 	game_manager.menu_open = false
 	
+	# Start server
+	network_handler.start_server()
+	
 	# Change scene to dungeon.
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
+
+# Join game.
+func game_join() -> String:
+	# Menu isn't active
+	game_manager.menu_open = false
+	
+	# Awaits for connection
+	var connected := await network_handler.start_client()
+	
+	# Enters Player 2 screen or not depending on connection
+	if connected:
+		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
+		rpc("_client_connected")
+	else:
+		client_fail = "⚠️ Failed to connect to server"
+
+	return client_fail
 
 # What happens when Player wins.
 func game_won() -> void:
@@ -241,3 +261,34 @@ func move_alien(alien_id: int, direction: String) -> void:
 	# Set alien room as the new one, and update screen.
 	_dungeon.aliens[alien_id].room_id = _dungeon.dungeon[nx][ny].id
 	_dungeon.remove_alien_from_display(alien_id)
+
+#--- NETWORKING ---
+
+#Gets a signal when a client connects
+@rpc("any_peer")
+func _client_connected() -> void:
+	rpc("_send_map_to_client", dungeon_map)
+
+#Send the map to the client
+@rpc("any_peer")
+func _send_map_to_client(dungeon_map_received: String) -> void:
+	dungeon_map = dungeon_map_received
+	emit_signal("_send_dungeon_map", dungeon_map)
+
+# Player 2 interaction.
+@rpc("any_peer")
+func _activate_color(color_id: int) -> void:
+	# Set previous color id and color of the door.
+	var previous_color_id = active_color_id
+	var door_colors = _dungeon.current_room.door_color
+	
+	# Play sound if the doors in the current room are changing.
+	if (color_id != previous_color_id and (door_colors.has(color_id) or door_colors.has(previous_color_id))):
+		audio_manager.play_door_sound()
+	
+	# Change active color.
+	active_color_id = color_id
+	color_stance_changed.emit(COLORS[color_id])
+
+func _activate_door(color) -> void:
+	rpc("_activate_color", COLORS.find(color))
