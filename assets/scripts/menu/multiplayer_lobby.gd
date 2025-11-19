@@ -65,3 +65,6 @@ func _on_apply_button_up() -> void:
 func _on_switch_roles_button_up() -> void:
 	_button_click_soud()
 	game_manager._send_switch_assignments()
+
+func _on_copy_to_clipboard_button_up() -> void:
+	DisplayServer.clipboard_set(join_code.text)

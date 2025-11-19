@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cretske0erjrl"]
+[gd_scene load_steps=20 format=3 uid="uid://cretske0erjrl"]
 
 [ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_60h7y"]
 [ext_resource type="Script" uid="uid://d1nk2dfxk8omo" path="res://assets/scripts/menu/multiplayer_lobby.gd" id="1_h8yh1"]
@@ -11,9 +11,12 @@
 [ext_resource type="FontFile" uid="uid://bhagv7iba354v" path="res://assets/fonts/Consolas-Regular.ttf" id="7_cqufl"]
 [ext_resource type="Texture2D" uid="uid://cpqq6u3do3td7" path="res://assets/sprites/menu/papers/paper buttons/switch_idle.png" id="8_akxhu"]
 [ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="8_et83m"]
+[ext_resource type="Texture2D" uid="uid://bc6ihl5vslwy7" path="res://assets/sprites/menu/papers/paper buttons/copy_to_clipboard_idle.png" id="8_muo76"]
 [ext_resource type="Texture2D" uid="uid://0e36iolo8hqj" path="res://assets/sprites/menu/papers/paper buttons/switch_pressed.png" id="9_51318"]
 [ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="9_muo76"]
+[ext_resource type="Texture2D" uid="uid://bw21w8oy45tp3" path="res://assets/sprites/menu/papers/paper buttons/copy_to_clipboard_click.png" id="9_w78a3"]
 [ext_resource type="Texture2D" uid="uid://bliw0yylm26gy" path="res://assets/sprites/menu/papers/paper buttons/switch_hover.png" id="10_et83m"]
+[ext_resource type="Texture2D" uid="uid://b38nam3q2vph6" path="res://assets/sprites/menu/papers/paper buttons/copy_to_clipboard_hover.png" id="10_rse3m"]
 [ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="10_w78a3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rse3m"]
@@ -135,6 +138,12 @@ theme_override_fonts/font = ExtResource("7_cqufl")
 text = "0.0.0.0:0000"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CopyToClipboard" type="TextureButton" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/CodeSection"]
+layout_mode = 2
+texture_normal = ExtResource("8_muo76")
+texture_pressed = ExtResource("9_w78a3")
+texture_hover = ExtResource("10_rse3m")
 
 [node name="HSeparator" type="HSeparator" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
 layout_mode = 2
@@ -359,6 +368,7 @@ label_settings = ExtResource("9_muo76")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="button_up" from="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/CodeSection/CopyToClipboard" to="." method="_on_copy_to_clipboard_button_up"]
 [connection signal="button_up" from="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/SwitchContainer/SwitchRoles" to="." method="_on_switch_roles_button_up"]
 [connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Apply" to="." method="_on_apply_button_up"]
 [connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Exit" to="." method="_on_exit_button_up"]
