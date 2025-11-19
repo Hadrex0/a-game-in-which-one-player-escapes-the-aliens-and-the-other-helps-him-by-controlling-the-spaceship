@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceoj22mllqmt5"]
+
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="1_oq10t"]
+[ext_resource type="Texture2D" uid="uid://c73gc6pimc4pf" path="res://assets/sprites/menu/papers/paper buttons/enter_idle.png" id="2_no3i0"]
+[ext_resource type="Texture2D" uid="uid://cfe0icvsrwl7j" path="res://assets/sprites/menu/papers/paper buttons/enter_click.png" id="3_no3i0"]
+
+[node name="UserInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Virtual Joystick" parent="." instance=ExtResource("1_oq10t")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 34.0
+offset_top = 392.0
+offset_right = 334.0
+offset_bottom = 692.0
+grow_horizontal = 2
+grow_vertical = 2
+visibility_mode = 1
+action_left = "p1_move_left"
+action_right = "p1_move_right"
+action_up = "p1_move_up"
+action_down = "p1_move_down"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2(976, 509)
+texture_normal = ExtResource("2_no3i0")
+texture_pressed = ExtResource("3_no3i0")
+action = "p1_interaction"
+visibility_mode = 1
