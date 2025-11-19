@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="a game in which one player escapes the aliens and the other helps him by controlling the spaceship"
+config/version="alfa"
 run/main_scene="uid://dbed8o5tia3mp"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
@@ -39,7 +40,14 @@ folder_colors={
 "res://Assets/": "yellow",
 "res://Scenes/": "red",
 "res://Scripts/": "green",
-"res://Shaders/": "purple"
+"res://Shaders/": "purple",
+"res://assets/audio/": "yellow",
+"res://assets/scenes/": "blue",
+"res://assets/scenes/space_ship/entity/": "teal",
+"res://assets/scenes/space_ship/objects/": "purple",
+"res://assets/scripts/": "green",
+"res://assets/scripts/menu/": "teal",
+"res://assets/scripts/singleton/": "purple"
 }
 
 [global_group]
@@ -120,3 +128,7 @@ p1_debug_mode={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194308,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

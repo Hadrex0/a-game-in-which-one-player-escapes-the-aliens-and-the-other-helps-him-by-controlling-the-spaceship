@@ -1,0 +1,256 @@
+[gd_scene load_steps=13 format=3 uid="uid://cretske0erjrl"]
+
+[ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_60h7y"]
+[ext_resource type="Script" uid="uid://d1nk2dfxk8omo" path="res://assets/scripts/menu/multiplayer_lobby.gd" id="1_h8yh1"]
+[ext_resource type="FontFile" uid="uid://dxl20ep87cn2d" path="res://assets/fonts/Adumu.ttf" id="2_h8yh1"]
+[ext_resource type="LabelSettings" uid="uid://bqwfqf0havpej" path="res://assets/fonts/menu_title.tres" id="3_cqufl"]
+[ext_resource type="Texture2D" uid="uid://dtfvuewa1cvov" path="res://assets/sprites/menu/papers/paper_pinned.png" id="4_408jq"]
+[ext_resource type="LabelSettings" uid="uid://dtglk3u6ejl0f" path="res://assets/fonts/menu_text.tres" id="5_q5q5s"]
+[ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/notes/board note 4.png" id="6_akxhu"]
+[ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/notes/board note 5.png" id="7_51318"]
+[ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="8_et83m"]
+[ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="9_muo76"]
+[ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="10_w78a3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rse3m"]
+
+[node name="MultiplayerLobby" type="Control" node_paths=PackedStringArray("join_code", "is_connected_one", "is_connected_two", "Player1", "Player2")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h8yh1")
+join_code = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Code")
+is_connected_one = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1/isConnected")
+is_connected_two = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2/isConnected")
+Player1 = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1/Player1")
+Player2 = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2/Player2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_60h7y")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LobbyMenu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 40
+
+[node name="LobbyContainer" type="VBoxContainer" parent="LobbyMenu"]
+layout_mode = 2
+
+[node name="General" type="Label" parent="LobbyMenu/LobbyContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "LOBBY"
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SplitSection" type="HBoxContainer" parent="LobbyMenu/LobbyContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftPaper" type="PanelContainer" parent="LobbyMenu/LobbyContainer/SplitSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rse3m")
+
+[node name="paper" type="TextureRect" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper"]
+layout_mode = 2
+texture = ExtResource("4_408jq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margines" type="MarginContainer" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="PlayersSection" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAYERS"
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Code" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "JOIN CODE:"
+label_settings = ExtResource("5_q5q5s")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Player1" type="HBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+alignment = 1
+
+[node name="Player1" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAYER 1: "
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="isConnected" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.15686275)
+theme_override_constants/outline_size = 5
+text = "disconnected"
+
+[node name="Player2" type="HBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+alignment = 1
+
+[node name="Player2" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAYER 2: "
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="isConnected" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.15686275)
+theme_override_constants/outline_size = 5
+text = "disconnected"
+
+[node name="RightPaper" type="PanelContainer" parent="LobbyMenu/LobbyContainer/SplitSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rse3m")
+
+[node name="paper" type="TextureRect" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper"]
+layout_mode = 2
+texture = ExtResource("4_408jq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margines" type="MarginContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SeetingsSection" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SeetingsSection"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "SETTINGS"
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsSection" type="HBoxContainer" parent="LobbyMenu/LobbyContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Apply" type="TextureButton" parent="LobbyMenu/LobbyContainer/ButtonsSection"]
+layout_mode = 2
+texture_normal = ExtResource("6_akxhu")
+texture_pressed = ExtResource("7_51318")
+texture_hover = ExtResource("8_et83m")
+
+[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/ButtonsSection/Apply"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAY"
+label_settings = ExtResource("9_muo76")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit" type="TextureButton" parent="LobbyMenu/LobbyContainer/ButtonsSection"]
+layout_mode = 2
+texture_normal = ExtResource("10_w78a3")
+texture_pressed = ExtResource("7_51318")
+texture_hover = ExtResource("8_et83m")
+
+[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/ButtonsSection/Exit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "EXIT"
+label_settings = ExtResource("9_muo76")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Apply" to="." method="_on_apply_button_up"]
+[connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Exit" to="." method="_on_exit_button_up"]

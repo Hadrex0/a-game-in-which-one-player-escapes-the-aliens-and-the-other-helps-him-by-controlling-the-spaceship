@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://btbjca4jiwcec"]
+[gd_scene load_steps=14 format=3 uid="uid://btbjca4jiwcec"]
 
 [ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_5ll56"]
 [ext_resource type="Script" uid="uid://2o4v8vl7y0bi" path="res://assets/scripts/menu/settings_menu.gd" id="1_lpwph"]
@@ -7,9 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="3_e81r7"]
 [ext_resource type="LabelSettings" uid="uid://dtglk3u6ejl0f" path="res://assets/fonts/menu_text.tres" id="3_lpwph"]
 [ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="4_om2a4"]
+[ext_resource type="Texture2D" uid="uid://dtfvuewa1cvov" path="res://assets/sprites/menu/papers/paper_pinned.png" id="5_c0f7i"]
 [ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/notes/board note 5.png" id="5_ditn3"]
 [ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="7_m5ny1"]
 [ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/notes/board note 4.png" id="8_sp7vo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5ny1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sp7vo"]
 
 [node name="SettingsMenu" type="Control" groups=["Menu", "Settings_Menu"]]
 layout_mode = 3
@@ -67,16 +72,34 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 25
 
-[node name="VideoSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
+[node name="VideoSettings" type="PanelContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_m5ny1")
+
+[node name="paper" type="TextureRect" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings"]
+layout_mode = 2
+texture = ExtResource("5_c0f7i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margines" type="MarginContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VideoSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Title" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
+[node name="Title" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="General" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Title"]
+[node name="General" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Title"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -88,11 +111,12 @@ label_settings = ExtResource("2_ditn3")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Fullscreen" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
+[node name="Fullscreen" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection"]
 layout_mode = 2
 theme_override_constants/separation = 25
+alignment = 1
 
-[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Fullscreen"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -103,15 +127,16 @@ text = "FULLSCREEN"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
 
-[node name="CheckBox" type="CheckBox" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen"]
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Fullscreen"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Resolution" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection"]
+[node name="Resolution" type="HBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection"]
 layout_mode = 2
 theme_override_constants/separation = 25
+alignment = 1
 
-[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution"]
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Resolution"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -122,21 +147,39 @@ text = "RESOLUTION"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution"]
+[node name="OptionButton" type="OptionButton" parent="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Resolution"]
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="AudioSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
+[node name="AudioSettings" type="PanelContainer" parent="SettingsMenu/SettingsContainer/SettingsSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_sp7vo")
+
+[node name="paper" type="TextureRect" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings"]
+layout_mode = 2
+texture = ExtResource("5_c0f7i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margines" type="MarginContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings"]
+layout_mode = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 75
+theme_override_constants/margin_bottom = 20
+
+[node name="AudioSection" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Title" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
+[node name="Title" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="General" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/Title"]
+[node name="General" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/Title"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -148,10 +191,10 @@ label_settings = ExtResource("2_ditn3")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GeneralVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
+[node name="GeneralVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume"]
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/GeneralVolume"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -162,16 +205,16 @@ text = "GENERAL AUDIO"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
 
-[node name="GeneralVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume"]
+[node name="GeneralVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/GeneralVolume"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="MusicVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
+[node name="MusicVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume"]
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/MusicVolume"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -182,16 +225,16 @@ text = "MUSIC"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
 
-[node name="MusicVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume"]
+[node name="MusicVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/MusicVolume"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="SFXVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection"]
+[node name="SFXVolume" type="VBoxContainer" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume"]
+[node name="Title" type="Label" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/SFXVolume"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -202,7 +245,7 @@ text = "SFX"
 label_settings = ExtResource("3_lpwph")
 vertical_alignment = 1
 
-[node name="SFXVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume"]
+[node name="SFXVolume" type="HSlider" parent="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/SFXVolume"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
@@ -256,11 +299,11 @@ label_settings = ExtResource("7_m5ny1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="toggled" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen/CheckBox" to="." method="_on_check_box_toggled"]
-[connection signal="item_selected" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution/OptionButton" to="." method="_on_resolution_option_button_item_selected"]
-[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume/GeneralVolume" to="." method="_on_general_volume_value_changed"]
-[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume/MusicVolume" to="." method="_on_music_volume_value_changed"]
-[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="toggled" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Fullscreen/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="item_selected" from="SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Resolution/OptionButton" to="." method="_on_resolution_option_button_item_selected"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/GeneralVolume/GeneralVolume" to="." method="_on_general_volume_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/MusicVolume/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/SFXVolume/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
 [connection signal="button_up" from="SettingsMenu/SettingsContainer/ButtonsSection/Apply" to="." method="_on_apply_button_up"]
 [connection signal="mouse_entered" from="SettingsMenu/SettingsContainer/ButtonsSection/Apply" to="." method="_on_button_hover"]
 [connection signal="button_up" from="SettingsMenu/SettingsContainer/ButtonsSection/Exit" to="." method="_on_exit_button_up"]

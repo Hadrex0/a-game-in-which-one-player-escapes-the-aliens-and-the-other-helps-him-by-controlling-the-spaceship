@@ -156,11 +156,22 @@ func open_settings_menu() -> void:
 	# Save current scene for returning.
 	last_scene = get_tree().current_scene.scene_file_path
 	
-	# Change scene to main menu.
+	# Change scene to settings menu.
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/settings_menu.tscn")
 
-# Close settings menu and return to previous scene.
-func close_settings_menu() -> void:
+#---LOBBY-------------------------
+func open_lobby_menu() -> void:
+	# A menu is open.
+	game_manager.menu_open = true
+	
+	# Save current scene for returning.
+	last_scene = get_tree().current_scene.scene_file_path
+	
+	# Change scene to lobby menu.
+	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/multiplayer_lobby.tscn")
+
+# Return to previous scene.
+func exit_to_menu() -> void:
 	# Set menu open to correct value.
 	game_manager.menu_open = last_scene.find("menu")
 	
@@ -169,29 +180,43 @@ func close_settings_menu() -> void:
 
 #---GAME-MENU---------------------
 
-# Start game.
+# Game start.
 func game_start() -> void:
+	job_assignment()
+	rpc("job_assignment")
+
+@rpc("any_peer")
+func job_assignment() -> void:
+	match network_handler.PLAYER_ID:
+		1:
+			# Change scene to dungeon for player 1.
+			get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
+		2:
+			# Change scene to controls for player 2.
+			get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
+
+# Start host.
+func game_host() -> void:
 	# Menu isn't active.
 	game_manager.menu_open = false
 	
 	# Start server
 	network_handler.start_server()
 	
-	# Change scene to dungeon.
-	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
+	# Change scene to Lobby as host
+	open_lobby_menu()
 
 # Join game.
-func game_join() -> String:
+func game_join(CODE: int) -> String:
 	# Menu isn't active
 	game_manager.menu_open = false
 	
 	# Awaits for connection
-	var connected := await network_handler.start_client()
+	var connected := await network_handler.start_client(CODE)
 	
 	# Enters Player 2 screen or not depending on connection
 	if connected:
-		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
-		rpc("_client_connected")
+		open_lobby_menu()
 	else:
 		client_fail = "⚠️ Failed to connect to server"
 
@@ -264,12 +289,7 @@ func move_alien(alien_id: int, direction: String) -> void:
 
 #--- NETWORKING ---
 
-#Gets a signal when a client connects
-@rpc("any_peer")
-func _client_connected() -> void:
-	rpc("_send_map_to_client", dungeon_map)
-
-#Send the map to the client
+# Send the map to the client
 @rpc("any_peer")
 func _send_map_to_client(dungeon_map_received: String) -> void:
 	dungeon_map = dungeon_map_received

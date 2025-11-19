@@ -6,15 +6,15 @@ class_name SettingsMenu extends BaseMenu
 
 # Variables for video settings.
 @onready var video: Dictionary = { #video options
-	"fullscreen": $SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Fullscreen/CheckBox,
-	"resolution": $SettingsMenu/SettingsContainer/SettingsSection/VideoSection/Resolution/OptionButton
+	"fullscreen": $SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Fullscreen/CheckBox,
+	"resolution": $SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Resolution/OptionButton
 	}
 
 # Variables for audio settings.
 @onready var audio: Dictionary = { #audio options
-	"general_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSection/GeneralVolume/GeneralVolume,
-	"music_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSection/MusicVolume/MusicVolume,
-	"sfx_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSection/SFXVolume/SFXVolume
+	"general_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/GeneralVolume/GeneralVolume,
+	"music_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/MusicVolume/MusicVolume,
+	"sfx_volume": $SettingsMenu/SettingsContainer/SettingsSection/AudioSettings/Margines/AudioSection/SFXVolume/SFXVolume
 	}
 
 #---INITIALIZE-VARIABLES----------
@@ -66,7 +66,7 @@ func _on_exit_button_up() -> void:
 	settings_manager.load_settings()
 	
 	# Return to previous scene.
-	game_manager.close_settings_menu()
+	game_manager.exit_to_menu()
 
 #---VIDEO-SETTINGS----------------
 

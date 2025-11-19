@@ -6,6 +6,7 @@ class_name MainMenu extends BaseMenu
 
 @export var exeption_message: Label
 @export var exeption_message_timer: Timer
+@export var code_enter_box: LineEdit
 
 #---START-SETTINGS-MENU-----------
 
@@ -22,7 +23,7 @@ func _on_host_button_up() -> void:
 	_button_click_soud()
 	
 	# Open host menu.
-	game_manager.game_start()
+	game_manager.game_host()
 
 #---JOIN-BUTTON-------------------
 
@@ -31,9 +32,9 @@ func _on_join_button_up() -> void:
 	# Play button click sound.
 	_button_click_soud()
 	
-	# Open join menu.
-	exeption_message.text = await game_manager.game_join()
-	exeption_message_timer.start()
+	# Show menu to enter the code to join.
+	$CodeMenu.show()
+	$MainMenu.hide()
 
 #---SETTINGS-BUTTON---------------
 
@@ -58,3 +59,26 @@ func _on_quit_game_button_up() -> void:
 
 func _on_timer_timeout() -> void:
 	exeption_message.text = ""
+
+
+func _on_cancel_button_up() -> void:
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Hide code entering menu to join.
+	$CodeMenu.hide()
+	$MainMenu.show()
+
+
+func _on_enter_button_up() -> void:
+	# Play button click sound.
+	_button_click_soud()
+	
+	# Hide code entering menu to join.
+	$CodeMenu.hide()
+	$MainMenu.show()
+	
+	# Open join menu.
+	var CODE = int(code_enter_box.text)
+	exeption_message.text = await game_manager.game_join(CODE)
+	exeption_message_timer.start()
