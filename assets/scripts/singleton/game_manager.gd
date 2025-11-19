@@ -12,6 +12,9 @@ const COLORS: Array = [
 
 #---SIGNALS-----------------------
 
+# Signal to change assignments
+signal _switched_assignments
+
 # Signal to open/close objects on the screen.
 signal color_stance_changed
 
@@ -35,6 +38,11 @@ var active_color_id: int = 0 #currently active objects color
 
 # Variables for Player 1.
 var _player: Player #Player data
+
+# Decide which job player has assigned
+# False = Escape
+# True = Control
+var assignment: bool = false
 
 # Variables for menu.
 var menu_open: bool = true #is menu open
@@ -184,13 +192,12 @@ func game_start() -> void:
 
 @rpc("any_peer")
 func job_assignment() -> void:
-	match network_handler.PLAYER_ID:
-		1:
-			# Change scene to dungeon for player 1.
-			get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
-		2:
-			# Change scene to controls for player 2.
-			get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
+	if !assignment:
+		# Change scene to dungeon for a player.
+		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
+	else:
+		# Change scene to controls for a player.
+		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
 
 # Start host.
 func game_host() -> void:
@@ -284,6 +291,15 @@ func move_alien(alien_id: int, direction: String) -> void:
 	_dungeon.remove_alien_from_display(alien_id)
 
 #--- NETWORKING ---
+
+func _send_switch_assignments() -> void:
+	_switch_assignments()
+	rpc("_switch_assignments")
+
+@rpc("any_peer")
+func _switch_assignments() -> void:
+	assignment = !assignment
+	emit_signal("_switched_assignments")
 
 # Send the map to the client
 @rpc("any_peer")

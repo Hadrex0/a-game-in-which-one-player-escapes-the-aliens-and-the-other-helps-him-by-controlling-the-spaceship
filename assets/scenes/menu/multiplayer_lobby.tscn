@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cretske0erjrl"]
+[gd_scene load_steps=17 format=3 uid="uid://cretske0erjrl"]
 
 [ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_60h7y"]
 [ext_resource type="Script" uid="uid://d1nk2dfxk8omo" path="res://assets/scripts/menu/multiplayer_lobby.gd" id="1_h8yh1"]
@@ -9,13 +9,16 @@
 [ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/notes/board note 4.png" id="6_akxhu"]
 [ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/notes/board note 5.png" id="7_51318"]
 [ext_resource type="FontFile" uid="uid://bhagv7iba354v" path="res://assets/fonts/Consolas-Regular.ttf" id="7_cqufl"]
+[ext_resource type="Texture2D" uid="uid://cpqq6u3do3td7" path="res://assets/sprites/menu/papers/paper buttons/switch_idle.png" id="8_akxhu"]
 [ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="8_et83m"]
+[ext_resource type="Texture2D" uid="uid://0e36iolo8hqj" path="res://assets/sprites/menu/papers/paper buttons/switch_pressed.png" id="9_51318"]
 [ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="9_muo76"]
+[ext_resource type="Texture2D" uid="uid://bliw0yylm26gy" path="res://assets/sprites/menu/papers/paper buttons/switch_hover.png" id="10_et83m"]
 [ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="10_w78a3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rse3m"]
 
-[node name="MultiplayerLobby" type="Control" node_paths=PackedStringArray("join_code", "is_connected_one", "is_connected_two", "Player1", "Player2")]
+[node name="MultiplayerLobby" type="Control" node_paths=PackedStringArray("join_code", "is_connected_one", "is_connected_two", "Player1", "Player2", "EscapeJob", "ControlJob")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +31,8 @@ is_connected_one = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Mar
 is_connected_two = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2/isConnected")
 Player1 = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1/Player1")
 Player2 = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2/Player2")
+EscapeJob = NodePath("LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/EscapeRole/EPlayer")
+ControlJob = NodePath("LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/ControlRole/CPlayer")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -196,17 +201,17 @@ stretch_mode = 5
 
 [node name="Margines" type="MarginContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper"]
 layout_mode = 2
-theme_override_constants/margin_left = 20
+theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 20
+theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 20
 
-[node name="SeetingsSection" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines"]
+[node name="SettingSection" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SeetingsSection"]
+[node name="Title" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -217,6 +222,94 @@ text = "SETTINGS"
 label_settings = ExtResource("3_cqufl")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Role" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "ROLE ASSIGNEMT:"
+label_settings = ExtResource("5_q5q5s")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Roles" type="HBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="EscapeRole" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Escape" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/EscapeRole"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "ESCAPE"
+label_settings = ExtResource("5_q5q5s")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EPlayer" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/EscapeRole"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAYER"
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlRole" type="VBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Control" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/ControlRole"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "CONTROL"
+label_settings = ExtResource("5_q5q5s")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPlayer" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/Roles/ControlRole"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_h8yh1")
+text = "PLAYER"
+label_settings = ExtResource("3_cqufl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwitchContainer" type="HBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection"]
+layout_mode = 2
+alignment = 1
+
+[node name="SwitchRoles" type="TextureButton" parent="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/SwitchContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("8_akxhu")
+texture_pressed = ExtResource("9_51318")
+texture_hover = ExtResource("10_et83m")
 
 [node name="ButtonsSection" type="HBoxContainer" parent="LobbyMenu/LobbyContainer"]
 layout_mode = 2
@@ -266,5 +359,6 @@ label_settings = ExtResource("9_muo76")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="button_up" from="LobbyMenu/LobbyContainer/SplitSection/RightPaper/Margines/SettingSection/SwitchContainer/SwitchRoles" to="." method="_on_switch_roles_button_up"]
 [connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Apply" to="." method="_on_apply_button_up"]
 [connection signal="button_up" from="LobbyMenu/LobbyContainer/ButtonsSection/Exit" to="." method="_on_exit_button_up"]

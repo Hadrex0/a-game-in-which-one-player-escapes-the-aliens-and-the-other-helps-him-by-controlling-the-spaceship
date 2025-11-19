@@ -59,7 +59,7 @@ func start_client(ENTERED_CODE: String) -> bool:
 	can_connect = false
 	peer = ENetMultiplayerPeer.new()
 	if ENTERED_CODE.find(":") == -1:
-		err_message = "⚠️ Code bad nigga"
+		err_message = "⚠️ The code entered is in the wrong format"
 		push_error(err_message)
 		return false
 	else:
@@ -95,6 +95,7 @@ func start_client(ENTERED_CODE: String) -> bool:
 			PORT = int(CODES[1])
 			IP_ADDRESS = CODES[0]
 			PLAYER_ID = 2
+			game_manager.assignment = true
 			_client_connection(true)
 			_host_connection(true)
 			rpc("_client_connection",true)
