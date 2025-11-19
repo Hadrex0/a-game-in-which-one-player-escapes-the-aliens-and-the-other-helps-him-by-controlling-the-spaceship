@@ -79,6 +79,6 @@ func _on_enter_button_up() -> void:
 	$MainMenu.show()
 	
 	# Open join menu.
-	var CODE = int(code_enter_box.text)
+	var CODE = code_enter_box.text
 	exeption_message.text = await game_manager.game_join(CODE)
 	exeption_message_timer.start()

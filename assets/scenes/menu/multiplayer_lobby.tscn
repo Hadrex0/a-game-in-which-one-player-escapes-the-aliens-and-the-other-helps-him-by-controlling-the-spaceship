@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cretske0erjrl"]
+[gd_scene load_steps=14 format=3 uid="uid://cretske0erjrl"]
 
 [ext_resource type="Texture2D" uid="uid://jahyski1ymso" path="res://assets/sprites/menu/background/cork board.png" id="1_60h7y"]
 [ext_resource type="Script" uid="uid://d1nk2dfxk8omo" path="res://assets/scripts/menu/multiplayer_lobby.gd" id="1_h8yh1"]
@@ -8,6 +8,7 @@
 [ext_resource type="LabelSettings" uid="uid://dtglk3u6ejl0f" path="res://assets/fonts/menu_text.tres" id="5_q5q5s"]
 [ext_resource type="Texture2D" uid="uid://21o4rhtgukyh" path="res://assets/sprites/menu/notes/board note 4.png" id="6_akxhu"]
 [ext_resource type="Texture2D" uid="uid://c0ax2mck7vbff" path="res://assets/sprites/menu/notes/board note 5.png" id="7_51318"]
+[ext_resource type="FontFile" uid="uid://bhagv7iba354v" path="res://assets/fonts/Consolas-Regular.ttf" id="7_cqufl"]
 [ext_resource type="Texture2D" uid="uid://c4u2c0s6rsgwg" path="res://assets/sprites/menu/notes/board note 3.png" id="8_et83m"]
 [ext_resource type="LabelSettings" uid="uid://sorudr2pewmw" path="res://assets/fonts/menu_button.tres" id="9_muo76"]
 [ext_resource type="Texture2D" uid="uid://c7tf40w1gtlvn" path="res://assets/sprites/menu/notes/board note 2.png" id="10_w78a3"]
@@ -22,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h8yh1")
-join_code = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Code")
+join_code = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/CodeSection/Code")
 is_connected_one = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1/isConnected")
 is_connected_two = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player2/isConnected")
 Player1 = NodePath("LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/Player1/Player1")
@@ -105,7 +106,11 @@ label_settings = ExtResource("3_cqufl")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Code" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+[node name="CodeSection" type="HBoxContainer" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection"]
+layout_mode = 2
+alignment = 1
+
+[node name="Join" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/CodeSection"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -114,6 +119,15 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_h8yh1")
 text = "JOIN CODE:"
 label_settings = ExtResource("5_q5q5s")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Code" type="Label" parent="LobbyMenu/LobbyContainer/SplitSection/LeftPaper/Margines/PlayersSection/CodeSection"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_cqufl")
+text = "0.0.0.0:0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 

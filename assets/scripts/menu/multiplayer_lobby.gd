@@ -9,7 +9,7 @@ class_name MultiplayerLobby extends BaseMenu
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	network_handler.connect("_player_connection_changed", Callable(self,"_update_connections"))
-	join_code.text = "JOIN CODE: %d" % [network_handler.PORT]
+	join_code.text = "%s:%d" % [network_handler.IP_ADDRESS, network_handler.PORT]
 	match network_handler.PLAYER_ID:
 		1:
 			Player1.text = "(you) PLAYER 1: "

@@ -11,10 +11,9 @@ config_version=5
 [application]
 
 config/name="a game in which one player escapes the aliens and the other helps him by controlling the spaceship"
-config/version="alfa"
 run/main_scene="uid://dbed8o5tia3mp"
 config/features=PackedStringArray("4.5", "Mobile")
-config/icon="res://icon.svg"
+config/icon="uid://8hxlw4fotdax"
 
 [audio]
 

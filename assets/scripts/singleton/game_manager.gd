@@ -29,9 +29,6 @@ var DEBUG_MODE: bool = false
 # Variable for dungeon as txt
 var dungeon_map: String = ""
 
-# Variable for exeption messages
-var client_fail: String = ""
-
 # Variables for Dungeon data.
 var _dungeon: Dungeon #dungeon data
 var active_color_id: int = 0 #currently active objects color
@@ -207,7 +204,7 @@ func game_host() -> void:
 	open_lobby_menu()
 
 # Join game.
-func game_join(CODE: int) -> String:
+func game_join(CODE: String) -> String:
 	# Menu isn't active
 	game_manager.menu_open = false
 	
@@ -217,10 +214,9 @@ func game_join(CODE: int) -> String:
 	# Enters Player 2 screen or not depending on connection
 	if connected:
 		open_lobby_menu()
+		return ""
 	else:
-		client_fail = "⚠️ Failed to connect to server"
-
-	return client_fail
+		return network_handler.err_message
 
 # What happens when Player wins.
 func game_won() -> void:

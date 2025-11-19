@@ -6,7 +6,10 @@ var IP_ADDRESS: String
 var PORT: int = 0
 var PLAYER_ID: int = 0
 
+# Bool to check if client can connect to the host
 var can_connect: bool = false
+# Variable for exeption messages
+var err_message: String = ""
 
 # Is player 1 connected
 var HOST_CONNECTED: bool = false
@@ -44,20 +47,28 @@ func start_server() -> void:
 	peer = ENetMultiplayerPeer.new()
 	PORT = randi_range(0,16382) + PORT_BEGIN
 	peer.create_server(PORT)
+	IP_ADDRESS = get_local_ipv4()
 	multiplayer.multiplayer_peer = peer
 	PLAYER_ID = 1
 	_host_connection(true)
 	print("--- Server Started ---")
 
-func start_client(ENTERED_PORT: int) -> bool:
+func start_client(ENTERED_CODE: String) -> bool:
 	var connected := false
+	var CODES
 	can_connect = false
 	peer = ENetMultiplayerPeer.new()
-	IP_ADDRESS = get_local_ipv4()
-	var error := peer.create_client(IP_ADDRESS, ENTERED_PORT)
-	if error != OK:
-		push_error("⚠️ Failed to connect to server")
+	if ENTERED_CODE.find(":") == -1:
+		err_message = "⚠️ Code bad nigga"
+		push_error(err_message)
 		return false
+	else:
+		CODES = str(ENTERED_CODE).split(":")
+		var error := peer.create_client(CODES[0], int(CODES[1]))
+		if error != OK:
+			err_message = "⚠️ Failed to connect to server"
+			push_error(err_message)
+			return false
 
 	multiplayer.multiplayer_peer = peer
 
@@ -81,7 +92,8 @@ func start_client(ENTERED_PORT: int) -> bool:
 		
 		if can_connect:
 			connected = true
-			PORT = ENTERED_PORT
+			PORT = int(CODES[1])
+			IP_ADDRESS = CODES[0]
 			PLAYER_ID = 2
 			_client_connection(true)
 			_host_connection(true)
