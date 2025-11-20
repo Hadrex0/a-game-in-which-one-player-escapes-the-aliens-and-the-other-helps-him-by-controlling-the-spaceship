@@ -56,7 +56,7 @@ func _update_assignment() -> void:
 func _on_exit_button_up() -> void:
 	_button_click_soud()
 	network_handler.stop_server()
-	game_manager.exit_to_menu()
+	game_manager.open_main_menu()
 
 func _on_apply_button_up() -> void:
 	_button_click_soud()

@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://bc7jsinbr5s1q"]
+
+[ext_resource type="Texture2D" uid="uid://dog685ua8xspa" path="res://assets/sprites/map/objects/buttons/red_button_up_highlighted.png" id="1_b1a5j"]
+[ext_resource type="Script" uid="uid://dv7qapvwjovnj" path="res://assets/scripts/space_ship/objects/base_button.gd" id="1_w5g4a"]
+[ext_resource type="Texture2D" uid="uid://dqih303bdcyy3" path="res://assets/sprites/map/objects/buttons/red_button_up.png" id="2_w5g4a"]
+[ext_resource type="Texture2D" uid="uid://ddxj0cpohi1q1" path="res://assets/sprites/map/objects/buttons/red_button_pressed.png" id="3_rb7j6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e1d6i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b1a5j")
+}],
+"loop": true,
+"name": &"highlighted",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w5g4a")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_rb7j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rb7j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rb7j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rb7j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rb7j6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_w5g4a")
+}],
+"loop": true,
+"name": &"pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjl73"]
+size = Vector2(103, 102.333336)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aej2p"]
+size = Vector2(56, 52)
+
+[node name="RedButton" type="Area2D" groups=["Button", "Red"]]
+script = ExtResource("1_w5g4a")
+color = "Red"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_e1d6i")
+animation = &"pressed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 20)
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_vjl73")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 19.5)
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_aej2p")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

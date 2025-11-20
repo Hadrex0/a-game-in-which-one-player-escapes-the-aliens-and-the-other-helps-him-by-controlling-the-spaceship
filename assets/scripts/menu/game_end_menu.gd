@@ -37,4 +37,4 @@ func _on_return_button_up() -> void:
 	_button_click_soud()
 	
 	# Open main menu.
-	game_manager.open_main_menu()
+	game_manager.open_lobby_menu()

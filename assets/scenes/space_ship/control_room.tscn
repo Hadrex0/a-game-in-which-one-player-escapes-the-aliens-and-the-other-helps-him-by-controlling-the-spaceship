@@ -1,0 +1,85 @@
+[gd_scene load_steps=16 format=3 uid="uid://doy6bbd4iv6w5"]
+
+[ext_resource type="Script" uid="uid://rkg8d58w7kvl" path="res://assets/scripts/space_ship/control_room/control_room.gd" id="1_7c458"]
+[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="2_60al0"]
+[ext_resource type="PackedScene" uid="uid://bc7jsinbr5s1q" path="res://assets/scenes/space_ship/objects/buttons/red_button.tscn" id="3_esl63"]
+[ext_resource type="PackedScene" uid="uid://b8mcu5qxqphtt" path="res://assets/scenes/space_ship/objects/buttons/blue_button.tscn" id="4_2edhi"]
+[ext_resource type="PackedScene" uid="uid://dj8esuaeg8bu3" path="res://assets/scenes/space_ship/objects/buttons/green_button.tscn" id="5_723nk"]
+[ext_resource type="PackedScene" uid="uid://v1ojakm11pni" path="res://assets/scenes/space_ship/objects/buttons/yellow_button.tscn" id="6_28j85"]
+[ext_resource type="PackedScene" uid="uid://5ktej830tjcd" path="res://assets/scenes/space_ship/objects/buttons/gray_button.tscn" id="7_60al0"]
+[ext_resource type="PackedScene" uid="uid://gxfox34h1182" path="res://assets/scenes/UI/control_room_ui.tscn" id="7_jlgwy"]
+[ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="8_avnx7"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x4x3i"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_4ts5w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vccou"]
+size = Vector2(1280, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_osnev"]
+size = Vector2(182, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sxhy6"]
+size = Vector2(1280, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eest2"]
+size = Vector2(182, 720)
+
+[node name="ControlRoom" type="Node2D" node_paths=PackedStringArray("player", "UI")]
+script = ExtResource("1_7c458")
+player = NodePath("Player")
+UI = NodePath("CanvasLayer/ControlRoomUi")
+
+[node name="RoomPhisics" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_x4x3i")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="RoomPhisics"]
+position = Vector2(638, 360)
+scale = Vector2(1282, 720)
+mesh = SubResource("QuadMesh_4ts5w")
+texture = ExtResource("2_60al0")
+
+[node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(640, 80)
+shape = SubResource("RectangleShape2D_vccou")
+
+[node name="EastWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(1189, 363)
+shape = SubResource("RectangleShape2D_osnev")
+
+[node name="SouthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(640, 640)
+shape = SubResource("RectangleShape2D_sxhy6")
+
+[node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(91, 360)
+shape = SubResource("RectangleShape2D_eest2")
+
+[node name="Buttons" type="Node2D" parent="."]
+
+[node name="RedButton" parent="Buttons" instance=ExtResource("3_esl63")]
+position = Vector2(737, 202)
+
+[node name="BlueButton" parent="Buttons" instance=ExtResource("4_2edhi")]
+position = Vector2(988, 202)
+
+[node name="GreenButton" parent="Buttons" instance=ExtResource("5_723nk")]
+position = Vector2(737, 352)
+
+[node name="YellowButton" parent="Buttons" instance=ExtResource("6_28j85")]
+position = Vector2(988, 352)
+
+[node name="GrayButton" parent="Buttons" instance=ExtResource("7_60al0")]
+position = Vector2(860, 495)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="ControlRoomUi" parent="CanvasLayer" instance=ExtResource("7_jlgwy")]
+
+[node name="Player" parent="." instance=ExtResource("8_avnx7")]
+z_index = 1
+position = Vector2(640, 352)

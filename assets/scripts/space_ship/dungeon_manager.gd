@@ -24,8 +24,6 @@ const MAX_CONNECTIONS: int = 4
 
 #---SIGNALS-----------------------
 
-# Signal to send a dungeon map
-
 # Signal to make actions that depend on the ticks.
 signal tick_timeout
 
@@ -138,6 +136,7 @@ func is_escape_pod_activated():
 
 # Start spaceship at the start of the game.
 func _ready() -> void:
+	game_manager.connect("_send_detected_rooms", Callable(self,"_send_detected_rooms"))
 	# Initialize important variables.
 	_initialize_colors_number()
 	
@@ -199,6 +198,37 @@ func _generate_dungeon() -> void:
 	
 	# Add terminals.
 	_place_terminals()
+
+# Send data about rooms with detected life forms
+func _send_detected_rooms() -> void:
+	game_manager.detected_life_forms = ""
+	
+	var rooms_array: Array = []
+	
+	# Collect unique room IDs from aliens
+	for i in alien_count:
+		if aliens[i].room_id not in rooms_array:
+			rooms_array.append(aliens[i].room_id)
+	
+	# Pick a random room to replace
+	var random_index = randi() % rooms_array.size()
+	var temp_room = rooms_array[random_index]
+	rooms_array[random_index] = current_room
+	rooms_array.append(temp_room) # add the replaced room at the end if you still want it
+	
+	# Build string with formatting
+	var formatted_string := ""
+	for room_id in rooms_array:
+		if room_id < 10:
+			formatted_string += "[ %d]" % room_id
+		else:
+			formatted_string += "[%d]" % room_id
+	
+	game_manager.detected_life_forms = formatted_string
+	game_manager._send_life_forms()
+
+
+	
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
@@ -552,7 +582,7 @@ func _print_dungeon() -> void:
 			dungeon_as_string += "]"
 		dungeon_as_string += "\n"
 	print(dungeon_as_string)
-	game_manager.dungeon_map = dungeon_as_string
+	game_manager._map_generated(dungeon_as_string)
 
 # Print terminal informations.
 func _print_terminals() -> void:

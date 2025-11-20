@@ -24,17 +24,23 @@ signal color_activation_changed
 # Signal to send dungeon map
 signal _send_dungeon_map(map)
 
+# Signal of a player pressing a button
+signal _pressed_button(color: String)
+
+# Signal to send rooms with active life forms
+signal _send_detected_rooms()
+signal _receive_detected_rooms()
+
 #---VARIABLES---------------------
 
 # Entering debug mode
 var DEBUG_MODE: bool = false
 
-# Variable for dungeon as txt
-var dungeon_map: String = ""
-
 # Variables for Dungeon data.
 var _dungeon: Dungeon #dungeon data
 var active_color_id: int = 0 #currently active objects color
+var active_button_color: String = ""
+var detected_life_forms: String
 
 # Variables for Player 1.
 var _player: Player #Player data
@@ -140,6 +146,11 @@ func _interaction() -> void:
 					# Active the terminal.
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
+		"Button":
+			emit_signal("_pressed_button", active_button_color)
+			if active_button_color == "gray":
+				rpc("_get_life_forms")
+			else: _activate_door(active_button_color)
 
 #---MAIN-MENU---------------------
 
@@ -197,7 +208,7 @@ func job_assignment() -> void:
 		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
 	else:
 		# Change scene to controls for a player.
-		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/control_panel/control_panel.tscn")
+		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/control_room.tscn")
 
 # Start host.
 func game_host() -> void:
@@ -227,12 +238,17 @@ func game_join(CODE: String) -> String:
 
 # What happens when Player wins.
 func game_won() -> void:
-	game_result = "won"
-	open_game_end_menu()
+	game_end("won")
+	rpc("game_end", "won")
 
 # What happens when Player looses.
 func game_lost() -> void:
-	game_result = "lost"
+	game_end("lost")
+	rpc("game_end", "lost")
+
+@rpc("any_peer")
+func game_end(state: String) -> void:
+	game_result = state
 	open_game_end_menu()
 
 #---GAME-END-MENU-----------------
@@ -301,11 +317,13 @@ func _switch_assignments() -> void:
 	assignment = !assignment
 	emit_signal("_switched_assignments")
 
+func _map_generated(map: String) -> void:
+	rpc("_send_map_to_client", map)
+
 # Send the map to the client
 @rpc("any_peer")
 func _send_map_to_client(dungeon_map_received: String) -> void:
-	dungeon_map = dungeon_map_received
-	emit_signal("_send_dungeon_map", dungeon_map)
+	emit_signal("_send_dungeon_map", dungeon_map_received)
 
 # Player 2 interaction.
 @rpc("any_peer")
@@ -322,5 +340,17 @@ func _activate_color(color_id: int) -> void:
 	active_color_id = color_id
 	color_stance_changed.emit(COLORS[color_id])
 
-func _activate_door(color) -> void:
+func _activate_door(color: String) -> void:
 	rpc("_activate_color", COLORS.find(color))
+
+@rpc("any_peer")
+func _get_life_forms() -> void:
+	emit_signal("_send_detected_rooms")
+
+func _send_life_forms() -> void:
+	rpc("_receive_life_forms", detected_life_forms)
+
+@rpc("any_peer")
+func _receive_life_forms(detected_rooms: String) -> void:
+	detected_life_forms = detected_rooms
+	emit_signal("_receive_detected_rooms")

@@ -86,7 +86,7 @@ script = ExtResource("1_yr0cc")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_h61qs")
-animation = &"activation"
+animation = &"highlighted"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 20)

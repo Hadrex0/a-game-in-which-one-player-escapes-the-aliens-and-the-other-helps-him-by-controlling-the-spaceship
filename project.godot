@@ -68,6 +68,7 @@ Main_Menu="Is it the main menu window?"
 Game_End_Menu="Is it the game end window?"
 Settings_Menu="Is it the settings menu window?"
 Menu="Is it a menu window?"
+Button=""
 
 [input]
 
