@@ -148,7 +148,6 @@ func _interaction() -> void:
 					color_activation_changed.emit(COLORS[color_id])
 		"Button":
 			emit_signal("_pressed_button", active_button_color)
-			var dupa = active_button_color
 			if active_button_color == "Gray":
 				rpc("_get_life_forms")
 			else: 
