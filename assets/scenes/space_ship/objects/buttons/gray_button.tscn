@@ -43,7 +43,7 @@ script = ExtResource("1_in78u")
 color = "Gray"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_ndrk1")
 animation = &"pressed"
 

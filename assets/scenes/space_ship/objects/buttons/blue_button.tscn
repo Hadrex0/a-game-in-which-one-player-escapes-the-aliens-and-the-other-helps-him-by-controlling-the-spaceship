@@ -42,7 +42,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_bo1tm")
 }],
-"loop": true,
+"loop": false,
 "name": &"pressed",
 "speed": 5.0
 }]
@@ -58,7 +58,7 @@ script = ExtResource("4_bo1tm")
 color = "Blue"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_0jcih")
 animation = &"pressed"
 
