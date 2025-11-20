@@ -213,7 +213,7 @@ func _send_detected_rooms() -> void:
 	# Pick a random room to replace
 	var random_index = randi() % rooms_array.size()
 	var temp_room = rooms_array[random_index]
-	rooms_array[random_index] = current_room
+	rooms_array[random_index] = current_room.id
 	rooms_array.append(temp_room) # add the replaced room at the end if you still want it
 	
 	# Build string with formatting

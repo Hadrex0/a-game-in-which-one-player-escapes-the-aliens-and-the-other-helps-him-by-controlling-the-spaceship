@@ -147,10 +147,11 @@ func _interaction() -> void:
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
 		"Button":
-			if active_button_color == "gray":
+			emit_signal("_pressed_button", active_button_color)
+			var dupa = active_button_color
+			if active_button_color == "Gray":
 				rpc("_get_life_forms")
 			else: 
-				emit_signal("_pressed_button", active_button_color)
 				_activate_door(active_button_color)
 
 #---MAIN-MENU---------------------
