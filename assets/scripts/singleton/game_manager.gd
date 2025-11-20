@@ -147,10 +147,11 @@ func _interaction() -> void:
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
 		"Button":
-			emit_signal("_pressed_button", active_button_color)
 			if active_button_color == "gray":
 				rpc("_get_life_forms")
-			else: _activate_door(active_button_color)
+			else: 
+				emit_signal("_pressed_button", active_button_color)
+				_activate_door(active_button_color)
 
 #---MAIN-MENU---------------------
 
@@ -328,6 +329,9 @@ func _send_map_to_client(dungeon_map_received: String) -> void:
 # Player 2 interaction.
 @rpc("any_peer")
 func _activate_color(color_id: int) -> void:
+	if color_id == -1:
+		return
+	
 	# Set previous color id and color of the door.
 	var previous_color_id = active_color_id
 	var door_colors = _dungeon.current_room.door_color

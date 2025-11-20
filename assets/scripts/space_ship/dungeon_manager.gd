@@ -227,9 +227,6 @@ func _send_detected_rooms() -> void:
 	game_manager.detected_life_forms = formatted_string
 	game_manager._send_life_forms()
 
-
-	
-
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
 	# If entrence coordinates are outside of the spacespip, generate new entrance.
