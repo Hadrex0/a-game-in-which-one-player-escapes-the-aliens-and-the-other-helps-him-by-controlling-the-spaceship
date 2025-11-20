@@ -13,26 +13,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dppr1")
-dungeon_map_string = NodePath("LeftRight/Map/MarginContainer/map")
-detected_rooms = NodePath("LeftRight/MarginContainer/Bottom/Rooms")
+dungeon_map_string = NodePath("HBoxContainer/Map/MarginContainer/map")
+detected_rooms = NodePath("")
 metadata/_edit_use_anchors_ = true
 
-[node name="LeftRight" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+size_flags_vertical = 3
+theme_override_constants/separation = 100
 
-[node name="Map" type="TextureRect" parent="LeftRight"]
+[node name="Map" type="TextureRect" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource("1_qketx")
 expand_mode = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="LeftRight/Map"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Map"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,7 +43,7 @@ theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 100
 
-[node name="map" type="Label" parent="LeftRight/Map/MarginContainer"]
+[node name="map" type="Label" parent="HBoxContainer/Map/MarginContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_dppr1")
@@ -52,29 +51,10 @@ theme_override_font_sizes/font_size = 15
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="LeftRight"]
+[node name="Void" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 30
-
-[node name="Bottom" type="VBoxContainer" parent="LeftRight/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="Found" type="Label" parent="LeftRight/MarginContainer/Bottom"]
-layout_mode = 2
-theme_type_variation = &"HeaderSmall"
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_dppr1")
-text = "Life forms detected at:"
-vertical_alignment = 1
-
-[node name="Rooms" type="Label" parent="LeftRight/MarginContainer/Bottom"]
-layout_mode = 2
-theme_type_variation = &"HeaderSmall"
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_dppr1")
-vertical_alignment = 1

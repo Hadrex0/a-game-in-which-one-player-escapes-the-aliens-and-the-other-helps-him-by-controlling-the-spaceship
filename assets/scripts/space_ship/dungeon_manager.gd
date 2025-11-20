@@ -22,6 +22,11 @@ const OBJECT_SPAWN_LOCATIONS_NUMBER: int = 2
 # Max connections inside of a single room.
 const MAX_CONNECTIONS: int = 4
 
+# Preloaded room scenes.
+var room_scenes = {
+	"starting_room" : load("res://assets/scenes/space_ship/rooms/starting_room.tscn")
+	}
+
 #---SIGNALS-----------------------
 
 # Signal to make actions that depend on the ticks.
@@ -37,14 +42,11 @@ signal tick_timeout
 @export var _branch_probability : float = 0.3 #propability for creating isolated room
 @export var _colors_number: int #how many of the colors are active
 @onready var next_id : int = 0 #id of the last room
-@onready var room_type : Dictionary = { #types of rooms in the dungeon
-	"starting_room": "starting_room"
-	}
 
 # Variables for storing dungeon data.
 @onready var dungeon : Array = [] #array for storing dungeon map
 @onready var special_rooms : Array = [] #array for storing ids of special rooms
-@onready var current_room = make_room(-1, Vector2i(-1, -1), room_type.starting_room) #currently active room
+@onready var current_room = make_room(-1, Vector2i(-1, -1), room_scenes.starting_room) #currently active room
 @onready var terminals : Array = [] #array for storing terminals data
 @onready var escape_pod : Dictionary = { #escape pod data
 	"room_id": -1,
@@ -77,14 +79,14 @@ func _initialize_colors_number() -> void:
 		_colors_number = game_manager.COLORS.size()
 
 # Create a room.
-func make_room(id: int, pos: Vector2i, room_scene: String) -> Dictionary:
+func make_room(id: int, pos: Vector2i, room_scene: PackedScene) -> Dictionary:
 	return {
 		"id": id, #id of the room 
 		"pos": pos, #position of the room
 		"doors": [false, false, false, false], #are there doors on the wall
 		"door_color": [-1, -1, -1, -1], #color of the doors
 		"connections": [-1, -1, -1, -1], #id's of the connected rooms
-		"room_type" : room_scene #scene type of the room
+		"room_type" : room_scene, #scene type of the room
 	}
 
 # Create a terminal.
@@ -136,7 +138,7 @@ func is_escape_pod_activated():
 
 # Start spaceship at the start of the game.
 func _ready() -> void:
-	game_manager.connect("_send_detected_rooms", Callable(self,"_send_detected_rooms"))
+	#game_manager.send_detected_rooms.connect(_send_detected_rooms)
 	# Initialize important variables.
 	_initialize_colors_number()
 	
@@ -198,34 +200,9 @@ func _generate_dungeon() -> void:
 	
 	# Add terminals.
 	_place_terminals()
-
-# Send data about rooms with detected life forms
-func _send_detected_rooms() -> void:
-	game_manager.detected_life_forms = ""
 	
-	var rooms_array: Array = []
-	
-	# Collect unique room IDs from aliens
-	for i in alien_count:
-		if aliens[i].room_id not in rooms_array:
-			rooms_array.append(aliens[i].room_id)
-	
-	# Pick a random room to replace
-	var random_index = randi() % rooms_array.size()
-	var temp_room = rooms_array[random_index]
-	rooms_array[random_index] = current_room.id
-	rooms_array.append(temp_room) # add the replaced room at the end if you still want it
-	
-	# Build string with formatting
-	var formatted_string := ""
-	for room_id in rooms_array:
-		if room_id < 10:
-			formatted_string += "[ %d]" % room_id
-		else:
-			formatted_string += "[%d]" % room_id
-	
-	game_manager.detected_life_forms = formatted_string
-	game_manager._send_life_forms()
+	# Send dungeon data to player 2.
+	_send_dungeon()
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
@@ -237,7 +214,7 @@ func _place_entrance() -> void:
 	special_rooms.append(next_id)
 	
 	# When the starting room is within the dungeon, add a room there.
-	dungeon[_start.x][_start.y] = make_room(next_id, _start, room_type.starting_room)
+	dungeon[_start.x][_start.y] = make_room(next_id, _start, room_scenes.starting_room)
 	next_id += 1
 
 # Generate dungeon based on random path across it.
@@ -260,7 +237,7 @@ func _generate_path(from : Vector2i, length : int) -> bool:
 		# If next room is within the spaceship.
 		if nx >= 0 and nx < _dimensions.x and ny >= 0 and ny < _dimensions.y and dungeon[nx][ny] == null:
 			# Create a room.
-			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), room_type.starting_room)
+			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), room_scenes.starting_room)
 			next_id += 1
 			
 			# Generate next room using reccurence.
@@ -312,7 +289,7 @@ func _add_branches(probability: float):
 						continue
 					
 					# Create an isolated room.
-					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny), room_type.starting_room)
+					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny), room_scenes.starting_room)
 					next_isolated_id += 1
 					
 					# Assign door data.
@@ -390,6 +367,14 @@ func _place_aliens() -> void:
 				if aliens[i].room_id == dungeon[x][y].id:
 					aliens[i].room_pos = dungeon[x][y].pos
 
+# Send dungeon data to Player 2.
+func _send_dungeon() -> void:
+	var dungeon_info = {
+		"dungeon": dungeon,
+		"terminals": terminals
+	}
+	game_manager._map_generated(dungeon_info)
+
 #---ROOM-DISPLAY------------------
 
 # Update displayed room to the current room.
@@ -403,11 +388,8 @@ func update_room(previous_direction: String):
 		self.call_deferred("remove_child", previous_room)
 		previous_room.call_deferred("queue_free")
 	
-	# Create escape pod scene path.
-	var room_path = game_manager.create_room_path(current_room.room_type)
-	
 	# Add current room to the active scene.
-	var room: Node = load(room_path).instantiate()
+	var room: Node = current_room.room_type.instantiate()
 	
 	# Add current room to active scene.
 	self.call_deferred("add_child", room)
@@ -579,7 +561,6 @@ func _print_dungeon() -> void:
 			dungeon_as_string += "]"
 		dungeon_as_string += "\n"
 	print(dungeon_as_string)
-	game_manager._map_generated(dungeon_as_string)
 
 # Print terminal informations.
 func _print_terminals() -> void:

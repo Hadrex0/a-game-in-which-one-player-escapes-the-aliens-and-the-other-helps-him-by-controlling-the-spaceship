@@ -70,7 +70,7 @@ func _on_color_activation_changed(activated_color: String) -> void:
 
 # When something touches the terminal.
 func _on_body_entered(body: Node2D) -> void:
-	# Check if the Player touched the door.
+	# Check if the Player touched the terminal.
 	if body.is_in_group("Player"): 
 		# When the terminal is not active, highlight it.
 		if !active:
@@ -81,7 +81,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 # When something stops touching the terminal.
 func _on_body_exited(body: Node2D) -> void:
-	# Check if the Player touched the door.
+	# Check if the Player touched the terminal.
 	if body.is_in_group("Player"): 
 		# When the terminal is not active, unhighlight it.
 		if !active:

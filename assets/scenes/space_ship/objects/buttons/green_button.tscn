@@ -9,6 +9,25 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_t5x2o")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_evv7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_t5x2o")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("1_5k3xb")
 }],
 "loop": true,
@@ -17,33 +36,21 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_t5x2o")
+"texture": ExtResource("3_evv7w")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"opened",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_evv7w")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_evv7w")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_evv7w")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_evv7w")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_evv7w")
-}, {
-"duration": 1.0,
 "texture": ExtResource("2_t5x2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_evv7w")
 }],
 "loop": false,
-"name": &"pressed",
+"name": &"opening",
 "speed": 5.0
 }]
 
@@ -55,12 +62,11 @@ size = Vector2(56, 52)
 
 [node name="GreenButton" type="Area2D" groups=["Button", "Green"]]
 script = ExtResource("4_t5x2o")
-color = "Green"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.32, 0.32)
 sprite_frames = SubResource("SpriteFrames_v2anr")
-animation = &"pressed"
+animation = &"closing"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 20)

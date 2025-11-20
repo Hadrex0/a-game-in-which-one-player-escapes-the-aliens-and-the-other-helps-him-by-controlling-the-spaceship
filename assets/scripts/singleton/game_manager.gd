@@ -22,14 +22,14 @@ signal color_stance_changed
 signal color_activation_changed
 
 # Signal to send dungeon map
-signal _send_dungeon_map(map)
+signal send_dungeon_map(map)
 
 # Signal of a player pressing a button
-signal _pressed_button(color: String)
+signal pressed_button(color: String)
 
 # Signal to send rooms with active life forms
-signal _send_detected_rooms()
-signal _receive_detected_rooms()
+signal receive_detected_rooms
+signal show_detected_rooms
 
 #---VARIABLES---------------------
 
@@ -55,10 +55,6 @@ var menu_open: bool = true #is menu open
 var last_scene: String #last scene that was displayed
 var game_result: String #result of the game end
 
-# Variables for path creation.
-@onready var scenes_path = "res://assets/scenes/space_ship/" #path to scenes in "space_ship" folder
-@onready var extension = ".tscn" #scene extension
-
 #---INITIALIZE-VARIABLES----------
 
 # Assign dungeon data.
@@ -78,20 +74,6 @@ func get_player() -> Player:
 # Get dungeon data
 func get_dungeon() -> Dungeon:
 	return _dungeon
-
-#---FILE-PATH-CREATION-------------
-
-# Create path to given object.
-func create_object_path(object: String, color_id: int) -> String:
-	return scenes_path + "objects/" + object + "/" + game_manager.COLORS[color_id] + "_" + object + extension
-
-# Create path to given room.
-func create_room_path(room_name: String) -> String:
-	return scenes_path + "rooms/"  + room_name + extension
-
-# Create path to given entity.
-func create_entity_path(entity: String) -> String:
-	return scenes_path + "entity/"  + entity + "/" + entity + extension
 
 #---INPUT-HANDLER-----------------
 
@@ -129,7 +111,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			"p2_activate_yellow": #change active color to yellow
 				if DEBUG_MODE: _activate_color(COLORS.find("Yellow"))
 
-# Player 1 interaction.
+# Player interaction.
 func _interaction() -> void:
 	match _player.touched_object:
 		"Terminal": # Player is interacting with a terminal.
@@ -147,9 +129,9 @@ func _interaction() -> void:
 					_dungeon.terminals[i].active = true
 					color_activation_changed.emit(COLORS[color_id])
 		"Button":
-			emit_signal("_pressed_button", active_button_color)
+			emit_signal("pressed_button", active_button_color)
 			if active_button_color == "Gray":
-				rpc("_get_life_forms")
+				rpc("_search_life_forms")
 			else: 
 				_activate_door(active_button_color)
 
@@ -318,13 +300,13 @@ func _switch_assignments() -> void:
 	assignment = !assignment
 	emit_signal("_switched_assignments")
 
-func _map_generated(map: String) -> void:
-	rpc("_send_map_to_client", map)
+func _map_generated(map_info: Dictionary) -> void:
+	rpc("_send_map_to_client", map_info)
 
 # Send the map to the client
 @rpc("any_peer")
-func _send_map_to_client(dungeon_map_received: String) -> void:
-	emit_signal("_send_dungeon_map", dungeon_map_received)
+func _send_map_to_client(map_info_received: Dictionary) -> void:
+	emit_signal("send_dungeon_map", map_info_received)
 
 # Player 2 interaction.
 @rpc("any_peer")
@@ -347,14 +329,25 @@ func _activate_color(color_id: int) -> void:
 func _activate_door(color: String) -> void:
 	rpc("_activate_color", COLORS.find(color))
 
-@rpc("any_peer")
-func _get_life_forms() -> void:
-	emit_signal("_send_detected_rooms")
-
-func _send_life_forms() -> void:
-	rpc("_receive_life_forms", detected_life_forms)
+func show_entities(visible: bool) -> void:
+	emit_signal("show_detected_rooms", visible)
 
 @rpc("any_peer")
-func _receive_life_forms(detected_rooms: String) -> void:
-	detected_life_forms = detected_rooms
-	emit_signal("_receive_detected_rooms")
+func _search_life_forms() -> void:
+	var entities: Array
+	
+	# Add position of the Player.
+	entities.append(get_dungeon().current_room.pos)
+	
+	# Fill with positions of aliens.
+	for alien in get_dungeon().aliens:
+		if entities.has(alien.room_pos):
+			continue
+		else:
+			entities.append(alien.room_pos)
+	
+	rpc("_receive_life_forms", entities)
+
+@rpc("any_peer")
+func _receive_life_forms(entities: Array) -> void:
+	emit_signal("receive_detected_rooms", entities)

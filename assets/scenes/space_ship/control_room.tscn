@@ -24,7 +24,7 @@ size = Vector2(182, 720)
 size = Vector2(1280, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eest2"]
-size = Vector2(182, 720)
+size = Vector2(461, 720)
 
 [node name="ControlRoom" type="Node2D" node_paths=PackedStringArray("player", "UI")]
 script = ExtResource("1_7c458")
@@ -55,7 +55,7 @@ position = Vector2(640, 640)
 shape = SubResource("RectangleShape2D_sxhy6")
 
 [node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
-position = Vector2(91, 360)
+position = Vector2(230.5, 360)
 shape = SubResource("RectangleShape2D_eest2")
 
 [node name="Buttons" type="Node2D" parent="."]

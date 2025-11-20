@@ -26,6 +26,7 @@ func stop_server() -> void:
 	match PLAYER_ID:
 		1:
 			_host_connection(false)
+			_client_connection(false)
 			rpc("_host_connection", false)
 			print("--- Server Stopped ---")
 		2:
