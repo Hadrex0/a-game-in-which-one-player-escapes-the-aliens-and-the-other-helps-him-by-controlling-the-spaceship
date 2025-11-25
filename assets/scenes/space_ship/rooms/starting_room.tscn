@@ -66,7 +66,7 @@ position = Vector2(152, 360)
 [node name="ObjectMarkers" type="Node2D" parent="."]
 
 [node name="EastObject" type="Marker2D" parent="ObjectMarkers"]
-position = Vector2(884, 360)
+position = Vector2(897, 360)
 
 [node name="WestObject" type="Marker2D" parent="ObjectMarkers"]
-position = Vector2(396, 360)
+position = Vector2(381, 360)

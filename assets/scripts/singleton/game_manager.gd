@@ -130,10 +130,7 @@ func _interaction() -> void:
 					color_activation_changed.emit(COLORS[color_id])
 		"Button":
 			emit_signal("pressed_button", active_button_color)
-			if active_button_color == "Gray":
-				rpc("_search_life_forms")
-			else: 
-				_activate_door(active_button_color)
+			_activate_button(active_button_color)
 
 #---MAIN-MENU---------------------
 
@@ -181,6 +178,7 @@ func exit_to_menu() -> void:
 
 # Game start.
 func game_start() -> void:
+	initialize_startnig_color()
 	job_assignment()
 	rpc("job_assignment")
 
@@ -325,12 +323,30 @@ func _activate_color(color_id: int) -> void:
 	# Change active color.
 	active_color_id = color_id
 	color_stance_changed.emit(COLORS[color_id])
+	
+	# Synchronize active color across all players.
+	rpc("update_active_color", active_color_id)
 
-func _activate_door(color: String) -> void:
-	rpc("_activate_color", COLORS.find(color))
+func _activate_button(color: String) -> void:
+	var pressed_color_id = COLORS.find(color)
+	if pressed_color_id != active_color_id:
+		audio_manager.play_door_sound()
+	
+	if color == "Gray":
+		rpc("_search_life_forms")
+	else:
+		rpc("_activate_color", pressed_color_id)
 
 func show_entities(visible: bool) -> void:
 	emit_signal("show_detected_rooms", visible)
+
+func initialize_startnig_color() -> void:
+	active_color_id = randi_range(0, COLORS.size())
+	rpc("update_active_color", active_color_id)
+
+@rpc("any_peer")
+func update_active_color(new_color: int) -> void:
+	active_color_id = new_color
 
 @rpc("any_peer")
 func _search_life_forms() -> void:

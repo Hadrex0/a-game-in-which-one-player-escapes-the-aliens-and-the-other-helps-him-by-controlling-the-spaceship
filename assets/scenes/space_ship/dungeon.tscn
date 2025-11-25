@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2vyo8wjl5f80"]
+[gd_scene load_steps=5 format=3 uid="uid://d2vyo8wjl5f80"]
 
 [ext_resource type="Script" uid="uid://cr6vo6i8db0k1" path="res://assets/scripts/space_ship/dungeon_manager.gd" id="1_ffeav"]
 [ext_resource type="Script" uid="uid://fg65j8vwp6mg" path="res://assets/scripts/space_ship/dungeon.gd" id="1_rlmda"]
+[ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://assets/scenes/space_ship/rooms/starting_room.tscn" id="2_0ggdj"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="5_y4eva"]
 
 [node name="Dungeon" type="Node2D"]
 auto_translate_mode = 1
 script = ExtResource("1_rlmda")
+
+[node name="SpawnRoom" parent="." instance=ExtResource("2_0ggdj")]
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource("1_ffeav")
@@ -22,40 +25,58 @@ position = Vector2(640, 360)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="N" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(640, 540)
+position = Vector2(640, 520)
 scale = Vector2(0.226, 0.226)
 
 [node name="E" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(238, 360)
+position = Vector2(222, 360)
 scale = Vector2(0.051076, 0.051076)
 
 [node name="S" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(640, 180)
+position = Vector2(640, 200)
 scale = Vector2(0.226, 0.226)
 
 [node name="W" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(1078, 360)
+position = Vector2(1056, 360)
+scale = Vector2(0.226, 0.226)
+
+[node name="AlienEntranceMarkers" type="Node2D" parent="."]
+
+[node name="N" type="Marker2D" parent="AlienEntranceMarkers"]
+position = Vector2(640, 490)
+scale = Vector2(0.226, 0.226)
+
+[node name="E" type="Marker2D" parent="AlienEntranceMarkers"]
+position = Vector2(252, 360)
+scale = Vector2(0.051076, 0.051076)
+
+[node name="S" type="Marker2D" parent="AlienEntranceMarkers"]
+position = Vector2(640, 230)
+scale = Vector2(0.226, 0.226)
+
+[node name="W" type="Marker2D" parent="AlienEntranceMarkers"]
+position = Vector2(1026, 360)
 scale = Vector2(0.226, 0.226)
 
 [node name="AlienMarkers" type="Node2D" parent="."]
 
 [node name="AlienSpot1" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(396, 270)
+position = Vector2(381, 270)
 
 [node name="AlienSpot2" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(884, 270)
+position = Vector2(897, 270)
 
 [node name="AlienSpot3" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(518, 360)
+position = Vector2(510, 360)
 
 [node name="AlienSpot4" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(762, 360)
+position = Vector2(768, 360)
 
 [node name="AlienSpot5" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(396, 450)
+position = Vector2(381, 450)
 
 [node name="AlienSpot6" type="Marker2D" parent="AlienMarkers"]
-position = Vector2(884, 450)
+position = Vector2(897, 450)
 
 [node name="TickTimer" type="Timer" parent="."]
 

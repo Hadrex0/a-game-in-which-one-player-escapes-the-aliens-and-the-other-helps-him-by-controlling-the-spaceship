@@ -1,4 +1,4 @@
-class_name Player extends CharacterBody2D
+class_name Player extends BseEntity
 
 #---CONSTANTS---------------------
 
@@ -11,10 +11,6 @@ const friction = 2500 #how fast player stops
 # Variables for player movement.
 @onready var speed = 300 #player max movement speed
 @onready var input = Vector2.ZERO #variable for storing input
-
-# Variables for moving across the spaceship.
-@onready var detectable = false #is Player detectable
-@onready var undetectability_duration = 0.2 #undetectability duration in seconds
 
 # Variables for player interaction.
 @onready var touched_object: String #object that player is touching
@@ -43,20 +39,6 @@ func _physics_process(delta):
 # When Player is touching something
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Check if the Player is touched by the alien.
-	if body.is_in_group("Alien"):
-		game_manager.game_lost()
-
-#---PLAYER-INVISIBILITY------------
-
-# Player can't interact with doors for some time.
-func undetectability_start() -> void:
-	# Player starts being invincible.
-	detectable = true
-	
-	# Start invincibility timer.
-	$UndetectabilityTimer.start(undetectability_duration)
-
-# Player can interact with doors again.
-func _on_undetectability_timer_timeout() -> void:
-	# Player stops being invincible.
-	detectable = false
+	if body.is_in_group("Alien") and entity_touch:
+		if body.entity_touch:
+			game_manager.game_lost()

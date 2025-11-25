@@ -61,6 +61,7 @@ signal tick_timeout
 @onready var aliens : Array = [] #array for storing alien data
 @onready var alien_move_chance: float = 0.75 #chance for aliens to move in general
 @onready var alien_move_to_door_chance: float = 0.1 #chance for aliens to move to another room
+@onready var _alien_entrance_markers = $"../AlienEntranceMarkers"
 @onready var _alien_spawn_markers = $"../AlienMarkers"
 
 # Variables for Player 1
@@ -192,9 +193,6 @@ func _generate_dungeon() -> void:
 	# Place aliens in random rooms.
 	_place_aliens()
 	
-	# Activate random color.
-	_active_random_color()
-	
 	# Add connections, doors, and isolated rooms.
 	_add_branches(_branch_probability)
 	
@@ -303,10 +301,6 @@ func _add_branches(probability: float):
 	# Set id of the last room as last isolated room id.
 	next_id = next_isolated_id
 
-# Set currently active color.
-func _active_random_color() -> void:
-	game_manager.active_color_id = randi_range(0, _colors_number)
-
 # Assign data for the doors and connection.
 func _assign_door_data(door_id: int, door_color: int, room, room_x: int, room_y: int) -> void:
 	# Set the opposite door id.
@@ -369,10 +363,13 @@ func _place_aliens() -> void:
 
 # Send dungeon data to Player 2.
 func _send_dungeon() -> void:
+	# Prepare dungeon data.
 	var dungeon_info = {
 		"dungeon": dungeon,
 		"terminals": terminals
 	}
+	
+	# Send dungeon data.
 	game_manager._map_generated(dungeon_info)
 
 #---ROOM-DISPLAY------------------
@@ -527,7 +524,7 @@ func _move_alien_to_room(alien_id: int, direction: int) -> void:
 	# Set new room in alien data.
 	aliens[alien_id].room_id = new_room.id
 	aliens[alien_id].room_pos = new_room.pos
-	aliens[alien_id].pos = entrance_markers.get_child(direction + 1).position
+	aliens[alien_id].pos = _alien_entrance_markers.get_child(direction).position
 	
 	# When the alien moves to the current room display them.
 	if (new_room.id == current_room.id):

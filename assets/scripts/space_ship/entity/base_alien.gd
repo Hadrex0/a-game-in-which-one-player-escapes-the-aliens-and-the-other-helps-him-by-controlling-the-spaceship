@@ -1,4 +1,4 @@
-class_name BaseAlien extends CharacterBody2D
+class_name BaseAlien extends BseEntity
 
 #---CONSTANTS---------------------
 
@@ -36,6 +36,9 @@ func _alien_movement_logic() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Prepare inherited variables.
+	#super()
+	
 	# Connect tick with dungeon manager.
 	game_manager.get_dungeon().tick_timeout.connect(_alien_movement_logic)
 	

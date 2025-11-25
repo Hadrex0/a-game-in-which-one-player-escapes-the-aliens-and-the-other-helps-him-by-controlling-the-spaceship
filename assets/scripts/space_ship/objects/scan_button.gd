@@ -45,5 +45,6 @@ func _on_cooldown_timer_timeout() -> void:
 	# Hide scanned rooms. 
 	game_manager.show_entities(false)
 	
-	# Play opening/closing animation.
-	_change_object_stance_animation(open) 
+	# Play opening/closing animation and sound.
+	audio_manager.play_door_sound()
+	_change_object_stance_animation(open)
