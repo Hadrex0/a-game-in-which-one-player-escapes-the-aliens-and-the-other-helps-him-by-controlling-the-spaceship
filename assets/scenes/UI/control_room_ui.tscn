@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bbexgn6x4slh1" path="res://assets/sprites/menu/papers/ripped_paper_1.png" id="1_qketx"]
 [ext_resource type="FontFile" uid="uid://bhagv7iba354v" path="res://assets/fonts/Consolas-Regular.ttf" id="2_dppr1"]
 
-[node name="ControlRoomUi" type="Control" node_paths=PackedStringArray("dungeon_map_string", "detected_rooms")]
+[node name="ControlRoomUi" type="Control" node_paths=PackedStringArray("dungeon_map_string")]
 z_index = -10
 layout_mode = 3
 anchors_preset = 15
@@ -14,7 +14,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dppr1")
 dungeon_map_string = NodePath("HBoxContainer/Map/MarginContainer/map")
-detected_rooms = NodePath("")
 metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -38,7 +37,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 200
+theme_override_constants/margin_left = 150
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 100
@@ -47,7 +46,7 @@ theme_override_constants/margin_bottom = 100
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_dppr1")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
