@@ -35,7 +35,8 @@ func _resolution_init() -> void:
 # Called when the node enters the scene tree for the first time.
 func  _ready() -> void:
 	game_manager.game_pause_change.connect(game_paused)
-	if !game_manager.menu_open: $".".hide()
+	if !game_manager.menu_open: 
+		$".".hide()
 	# Set video settings.
 	_resolution_init()
 	video.fullscreen.button_pressed = settings_manager.video_settings.fullscreen
@@ -127,6 +128,8 @@ func _on_sfx_volume_value_changed(value: float) -> void:
 func game_paused() -> void:
 	isOpened = !isOpened
 	if isOpened:
+		$Background.hide()
 		$".".show()
 	else:
 		$".".hide()
+		$Background.show()
