@@ -235,7 +235,7 @@ func _generate_path(from : Vector2i, length : int) -> bool:
 		# If next room is within the spaceship.
 		if nx >= 0 and nx < _dimensions.x and ny >= 0 and ny < _dimensions.y and dungeon[nx][ny] == null:
 			# Create a room.
-			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), room_scenes.starting_room)
+			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), room_scenes.room_a)
 			next_id += 1
 			
 			# Generate next room using reccurence.

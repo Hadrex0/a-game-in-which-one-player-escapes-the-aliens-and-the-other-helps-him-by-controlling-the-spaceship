@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://doy6bbd4iv6w5"]
 
 [ext_resource type="Script" uid="uid://rkg8d58w7kvl" path="res://assets/scripts/space_ship/control_room/control_room.gd" id="1_7c458"]
-[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="2_60al0"]
+[ext_resource type="Texture2D" uid="uid://ku00plkula4l" path="res://assets/sprites/map/rooms/control_room.png" id="2_2edhi"]
 [ext_resource type="PackedScene" uid="uid://bc7jsinbr5s1q" path="res://assets/scenes/space_ship/objects/buttons/red_button.tscn" id="3_esl63"]
 [ext_resource type="PackedScene" uid="uid://b8mcu5qxqphtt" path="res://assets/scenes/space_ship/objects/buttons/blue_button.tscn" id="4_2edhi"]
 [ext_resource type="PackedScene" uid="uid://dj8esuaeg8bu3" path="res://assets/scenes/space_ship/objects/buttons/green_button.tscn" id="5_723nk"]
@@ -43,7 +43,7 @@ physics_material_override = SubResource("PhysicsMaterial_x4x3i")
 position = Vector2(638, 360)
 scale = Vector2(1282, 720)
 mesh = SubResource("QuadMesh_4ts5w")
-texture = ExtResource("2_60al0")
+texture = ExtResource("2_2edhi")
 
 [node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(640, 80)
@@ -91,3 +91,4 @@ layer = 0
 z_index = 0
 
 [node name="SettingsMenu" parent="CanvasLayer" instance=ExtResource("10_esl63")]
+visible = false

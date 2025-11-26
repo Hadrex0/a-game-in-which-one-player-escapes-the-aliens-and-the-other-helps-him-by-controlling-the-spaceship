@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3sppiamat0nb"]
+[gd_scene load_steps=9 format=3 uid="uid://c3sppiamat0nb"]
 
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="1_2lhjd"]
 [ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://assets/scripts/space_ship/base_room.gd" id="1_mxg2v"]
-[ext_resource type="PackedScene" uid="uid://c7ycm5clrwigx" path="res://assets/scenes/space_ship/objects/door/red_door.tscn" id="2_d3hb4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mxg2v"]
 
@@ -22,7 +21,6 @@ size = Vector2(167, 643)
 
 [node name="RoomA" type="Node2D"]
 script = ExtResource("1_mxg2v")
-_red_door = ExtResource("2_d3hb4")
 
 [node name="RoomPhisics" type="StaticBody2D" parent="."]
 collision_layer = 3
@@ -68,3 +66,11 @@ rotation = 3.1415927
 [node name="WestDoor" type="Marker2D" parent="DoorMarkers"]
 position = Vector2(144, 315)
 rotation = -1.5707964
+
+[node name="ObjectMarkers" type="Node2D" parent="."]
+
+[node name="EastObject" type="Marker2D" parent="ObjectMarkers"]
+position = Vector2(897, 360)
+
+[node name="WestObject" type="Marker2D" parent="ObjectMarkers"]
+position = Vector2(381, 360)
