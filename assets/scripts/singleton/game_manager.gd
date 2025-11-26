@@ -12,6 +12,9 @@ const COLORS: Array = [
 
 #---SIGNALS-----------------------
 
+# Singal to change state of pause in game
+signal game_pause_change
+
 # Signal to change assignments
 signal _switched_assignments
 
@@ -42,7 +45,7 @@ var active_color_id: int = 0 #currently active objects color
 var active_button_color: String = ""
 var detected_life_forms: String
 
-# Variables for Player 1.
+# Variables for a Player.
 var _player: Player #Player data
 
 # Decide which job player has assigned
@@ -102,6 +105,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				DEBUG_MODE = true
 			"p1_interaction": #pressed interaction key
 				_interaction()
+			"p1_leave_to_menu":
+				print("tried to leave")
+				rpc("open_lobby_menu")
+				open_lobby_menu()
+			"p1_pause":
+				pause_game()
 			"p2_activate_red": #change active color to red
 				if DEBUG_MODE: _activate_color(COLORS.find("Red"))
 			"p2_activate_blue": #change active color to blue
@@ -137,7 +146,7 @@ func _interaction() -> void:
 # Return to main menu.
 func open_main_menu() -> void:
 	# A menu is open.
-	game_manager.menu_open = true
+	menu_open = true
 	
 	# Change scene to main menu.
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/main_menu.tscn")
@@ -147,7 +156,7 @@ func open_main_menu() -> void:
 # Open settings menu.
 func open_settings_menu() -> void:
 	# A menu is open.
-	game_manager.menu_open = true
+	menu_open = true
 	
 	# Save current scene for returning.
 	last_scene = get_tree().current_scene.scene_file_path
@@ -156,9 +165,10 @@ func open_settings_menu() -> void:
 	get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/menu/settings_menu.tscn")
 
 #---LOBBY-------------------------
+@rpc("any_peer")
 func open_lobby_menu() -> void:
 	# A menu is open.
-	game_manager.menu_open = true
+	menu_open = true
 	
 	# Save current scene for returning.
 	last_scene = get_tree().current_scene.scene_file_path
@@ -169,7 +179,7 @@ func open_lobby_menu() -> void:
 # Return to previous scene.
 func exit_to_menu() -> void:
 	# Set menu open to correct value.
-	game_manager.menu_open = last_scene.find("menu")
+	menu_open = last_scene.find("menu")
 	
 	# Change scene to main menu.
 	get_tree().call_deferred("change_scene_to_file", last_scene)
@@ -184,6 +194,7 @@ func game_start() -> void:
 
 @rpc("any_peer")
 func job_assignment() -> void:
+	menu_open = false
 	if !assignment:
 		# Change scene to dungeon for a player.
 		get_tree().call_deferred("change_scene_to_file", "res://assets/scenes/space_ship/dungeon.tscn")
@@ -367,3 +378,18 @@ func _search_life_forms() -> void:
 @rpc("any_peer")
 func _receive_life_forms(entities: Array) -> void:
 	emit_signal("receive_detected_rooms", entities)
+
+func pause_game() -> void:
+	rpc("call_pause_game")
+	call_pause_game()
+
+@rpc("any_peer")
+func call_pause_game() -> void:
+	var node
+	if !assignment:
+		node = get_tree().get_root().get_node("Dungeon")
+	else:
+		node = get_tree().get_root().get_node("ControlRoom")
+	node.get_tree().paused = !node.get_tree().paused
+	print("THE GAME IS PAUSED: " + str(node.get_tree().paused))
+	emit_signal("game_pause_change")

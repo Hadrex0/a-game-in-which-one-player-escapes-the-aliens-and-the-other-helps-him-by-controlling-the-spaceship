@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tsbv55lsrmv2"
-path="res://.godot/imported/blue_button.png-54cd3d092aeaaddf135069714be74eff.ctex"
+uid="uid://bvugui6plr1kq"
+path="res://.godot/imported/leave_idle.png-3648ff261db8bc393298f08ebc9c4910.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/buttons/blue_button.png"
-dest_files=["res://.godot/imported/blue_button.png-54cd3d092aeaaddf135069714be74eff.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/leave_idle.png"
+dest_files=["res://.godot/imported/leave_idle.png-3648ff261db8bc393298f08ebc9c4910.ctex"]
 
 [params]
 

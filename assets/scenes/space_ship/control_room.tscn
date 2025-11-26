@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://doy6bbd4iv6w5"]
+[gd_scene load_steps=18 format=3 uid="uid://doy6bbd4iv6w5"]
 
 [ext_resource type="Script" uid="uid://rkg8d58w7kvl" path="res://assets/scripts/space_ship/control_room/control_room.gd" id="1_7c458"]
 [ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="2_60al0"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://5ktej830tjcd" path="res://assets/scenes/space_ship/objects/buttons/gray_button.tscn" id="7_60al0"]
 [ext_resource type="PackedScene" uid="uid://gxfox34h1182" path="res://assets/scenes/UI/control_room_ui.tscn" id="7_jlgwy"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="8_avnx7"]
+[ext_resource type="PackedScene" uid="uid://ceoj22mllqmt5" path="res://assets/scenes/UI/user_interface.tscn" id="10_2edhi"]
+[ext_resource type="PackedScene" uid="uid://btbjca4jiwcec" path="res://assets/scenes/menu/settings_menu.tscn" id="10_esl63"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x4x3i"]
 
@@ -27,6 +29,7 @@ size = Vector2(1280, 160)
 size = Vector2(461, 720)
 
 [node name="ControlRoom" type="Node2D" node_paths=PackedStringArray("player", "UI")]
+process_mode = 1
 script = ExtResource("1_7c458")
 player = NodePath("Player")
 UI = NodePath("CanvasLayer/ControlRoomUi")
@@ -75,11 +78,16 @@ position = Vector2(988, 352)
 [node name="GrayButton" parent="Buttons" instance=ExtResource("7_60al0")]
 position = Vector2(860, 495)
 
+[node name="Player" parent="." instance=ExtResource("8_avnx7")]
+z_index = 1
+position = Vector2(640, 352)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 0
 
 [node name="ControlRoomUi" parent="CanvasLayer" instance=ExtResource("7_jlgwy")]
 
-[node name="Player" parent="." instance=ExtResource("8_avnx7")]
-z_index = 1
-position = Vector2(640, 352)
+[node name="UserInterface" parent="CanvasLayer" instance=ExtResource("10_2edhi")]
+z_index = 0
+
+[node name="SettingsMenu" parent="CanvasLayer" instance=ExtResource("10_esl63")]

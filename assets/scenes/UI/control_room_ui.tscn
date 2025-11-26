@@ -40,7 +40,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 150
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 200
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_bottom = 200
 
 [node name="map" type="Label" parent="HBoxContainer/Map/MarginContainer"]
 layout_mode = 2

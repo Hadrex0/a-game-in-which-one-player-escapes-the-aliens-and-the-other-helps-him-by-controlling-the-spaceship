@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck7o31j1lt4ff"
-path="res://.godot/imported/red_button.png-22f5c13b787fb92c14adc3d88995f5fa.ctex"
+uid="uid://cdwv7vcfv2qr0"
+path="res://.godot/imported/interact_idle.png-ab723b0fbcc47d87b4e61cf10abf0307.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/buttons/red_button.png"
-dest_files=["res://.godot/imported/red_button.png-22f5c13b787fb92c14adc3d88995f5fa.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/interact_idle.png"
+dest_files=["res://.godot/imported/interact_idle.png-ab723b0fbcc47d87b4e61cf10abf0307.ctex"]
 
 [params]
 

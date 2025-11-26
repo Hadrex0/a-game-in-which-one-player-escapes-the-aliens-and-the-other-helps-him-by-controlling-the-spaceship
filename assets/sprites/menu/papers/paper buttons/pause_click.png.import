@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cagfwhs8it4ji"
-path="res://.godot/imported/yellow_button_hover.png-21652f86151e58e02ea5734bd4762ccf.ctex"
+uid="uid://bqpve1xef7e3x"
+path="res://.godot/imported/pause_click.png-72566388b2161e070375ca526ac43316.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/buttons/yellow_button_hover.png"
-dest_files=["res://.godot/imported/yellow_button_hover.png-21652f86151e58e02ea5734bd4762ccf.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/pause_click.png"
+dest_files=["res://.godot/imported/pause_click.png-72566388b2161e070375ca526ac43316.ctex"]
 
 [params]
 

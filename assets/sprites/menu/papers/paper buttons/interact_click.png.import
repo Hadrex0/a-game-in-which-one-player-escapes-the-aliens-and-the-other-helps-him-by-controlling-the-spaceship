@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b46s1ioulvf5e"
-path="res://.godot/imported/photo_temp.png-c61e9795c4637b8fe3214923a0158afa.ctex"
+uid="uid://dr1hvuf5kqls3"
+path="res://.godot/imported/interact_click.png-3b6840edcbd901230df6dd5f5c18f410.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/dungeon_panel/photo_temp.png"
-dest_files=["res://.godot/imported/photo_temp.png-c61e9795c4637b8fe3214923a0158afa.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/interact_click.png"
+dest_files=["res://.godot/imported/interact_click.png-3b6840edcbd901230df6dd5f5c18f410.ctex"]
 
 [params]
 

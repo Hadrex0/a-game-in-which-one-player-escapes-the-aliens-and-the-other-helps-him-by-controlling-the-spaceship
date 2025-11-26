@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2vyo8wjl5f80"]
+[gd_scene load_steps=6 format=3 uid="uid://d2vyo8wjl5f80"]
 
 [ext_resource type="Script" uid="uid://cr6vo6i8db0k1" path="res://assets/scripts/space_ship/dungeon_manager.gd" id="1_ffeav"]
-[ext_resource type="Script" uid="uid://fg65j8vwp6mg" path="res://assets/scripts/space_ship/dungeon.gd" id="1_rlmda"]
 [ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://assets/scenes/space_ship/rooms/starting_room.tscn" id="2_0ggdj"]
+[ext_resource type="PackedScene" uid="uid://ceoj22mllqmt5" path="res://assets/scenes/UI/user_interface.tscn" id="4_pv7l3"]
+[ext_resource type="PackedScene" uid="uid://btbjca4jiwcec" path="res://assets/scenes/menu/settings_menu.tscn" id="5_pv7l3"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="5_y4eva"]
 
 [node name="Dungeon" type="Node2D"]
+process_mode = 1
 auto_translate_mode = 1
-script = ExtResource("1_rlmda")
 
 [node name="SpawnRoom" parent="." instance=ExtResource("2_0ggdj")]
 
@@ -79,5 +80,12 @@ position = Vector2(381, 450)
 position = Vector2(897, 450)
 
 [node name="TickTimer" type="Timer" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UserInterface" parent="CanvasLayer" instance=ExtResource("4_pv7l3")]
+z_index = 0
+
+[node name="SettingsMenu" parent="CanvasLayer" instance=ExtResource("5_pv7l3")]
 
 [connection signal="timeout" from="TickTimer" to="Rooms" method="_on_tick_timer_timeout"]

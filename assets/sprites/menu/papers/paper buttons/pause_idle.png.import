@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7tliujhdfgem"
-path="res://.godot/imported/yellow_button.png-b729387940127d84fab9d9ed945217d4.ctex"
+uid="uid://dhf3wpotmv2gv"
+path="res://.godot/imported/pause_idle.png-e7049c09731736f0548221ad88b04b36.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/buttons/yellow_button.png"
-dest_files=["res://.godot/imported/yellow_button.png-b729387940127d84fab9d9ed945217d4.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/pause_idle.png"
+dest_files=["res://.godot/imported/pause_idle.png-e7049c09731736f0548221ad88b04b36.ctex"]
 
 [params]
 

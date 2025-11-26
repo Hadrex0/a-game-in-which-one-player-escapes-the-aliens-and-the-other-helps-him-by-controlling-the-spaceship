@@ -3,7 +3,8 @@ class_name SettingsMenu extends BaseMenu
 #---CONSTANTS---------------------
 
 #---VARIABLES---------------------
-
+# Variable to check if the setting menu is opened
+var isOpened = false
 # Variables for video settings.
 @onready var video: Dictionary = { #video options
 	"fullscreen": $SettingsMenu/SettingsContainer/SettingsSection/VideoSettings/Margines/VideoSection/Fullscreen/CheckBox,
@@ -33,6 +34,8 @@ func _resolution_init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func  _ready() -> void:
+	game_manager.game_pause_change.connect(game_paused)
+	if !game_manager.menu_open: $".".hide()
 	# Set video settings.
 	_resolution_init()
 	video.fullscreen.button_pressed = settings_manager.video_settings.fullscreen
@@ -66,7 +69,9 @@ func _on_exit_button_up() -> void:
 	settings_manager.load_settings()
 	
 	# Return to previous scene.
-	game_manager.exit_to_menu()
+	if game_manager.menu_open: game_manager.exit_to_menu()
+	else: 
+		game_manager.pause_game()
 
 #---VIDEO-SETTINGS----------------
 
@@ -117,3 +122,11 @@ func _on_sfx_volume_value_changed(value: float) -> void:
 	
 	# Save SFX volume to settings the memory.
 	settings_manager.audio_settings.sfx = audio.sfx_volume.value
+
+# Show ingame
+func game_paused() -> void:
+	isOpened = !isOpened
+	if isOpened:
+		$".".show()
+	else:
+		$".".hide()

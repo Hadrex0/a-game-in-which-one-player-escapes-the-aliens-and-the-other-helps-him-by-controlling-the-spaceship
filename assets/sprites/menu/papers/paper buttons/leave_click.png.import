@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nvk3g23iiep7"
-path="res://.godot/imported/blue_button_hover.png-588d9198cb2c0060fa5ad612a54b8a88.ctex"
+uid="uid://bussbj1caxaoi"
+path="res://.godot/imported/leave_click.png-3d4e7e5b375907ed087c33e94e0d7cb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/panel/buttons/blue_button_hover.png"
-dest_files=["res://.godot/imported/blue_button_hover.png-588d9198cb2c0060fa5ad612a54b8a88.ctex"]
+source_file="res://assets/sprites/menu/papers/paper buttons/leave_click.png"
+dest_files=["res://.godot/imported/leave_click.png-3d4e7e5b375907ed087c33e94e0d7cb6.ctex"]
 
 [params]
 

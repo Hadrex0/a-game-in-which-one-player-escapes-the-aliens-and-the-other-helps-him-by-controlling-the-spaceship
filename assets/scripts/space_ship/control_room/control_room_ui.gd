@@ -1,7 +1,6 @@
 extends Control
 
 @export var dungeon_map_string: Label
-@export var detected_rooms: Label
 var dungeon: Array
 
 func _init_dungeon_map(dungeon_info: Dictionary) -> void:

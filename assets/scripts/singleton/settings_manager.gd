@@ -3,7 +3,7 @@ extends Node
 #---CONSTANTS---------------------
 
 # Path for settings file.
-const SETTINGS_FILE_PATH = "res://settings.ini"
+const SETTINGS_FILE_PATH = "user://settings.ini"
 
 #---VARIABLES---------------------
 

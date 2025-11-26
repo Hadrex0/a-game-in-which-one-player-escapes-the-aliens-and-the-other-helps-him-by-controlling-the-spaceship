@@ -17,6 +17,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sp7vo"]
 
 [node name="SettingsMenu" type="Control" groups=["Menu", "Settings_Menu"]]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
