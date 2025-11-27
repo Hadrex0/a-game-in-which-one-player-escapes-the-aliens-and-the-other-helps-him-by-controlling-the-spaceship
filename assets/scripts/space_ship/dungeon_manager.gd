@@ -23,9 +23,13 @@ const OBJECT_SPAWN_LOCATIONS_NUMBER: int = 2
 const MAX_CONNECTIONS: int = 4
 
 # Preloaded room scenes.
-var room_scenes = {
-	"starting_room" : load("res://assets/scenes/space_ship/rooms/starting_room.tscn")
-	}
+var room_scenes: Array = [
+	load("res://assets/scenes/space_ship/rooms/starting_room.tscn"),
+	load("res://assets/scenes/space_ship/rooms/room_a.tscn"),
+	load("res://assets/scenes/space_ship/rooms/room_b.tscn"),
+	load("res://assets/scenes/space_ship/rooms/room_c.tscn"),
+	load("res://assets/scenes/space_ship/rooms/room_d.tscn")
+	]
 
 #---SIGNALS-----------------------
 
@@ -46,7 +50,7 @@ signal tick_timeout
 # Variables for storing dungeon data.
 @onready var dungeon : Array = [] #array for storing dungeon map
 @onready var special_rooms : Array = [] #array for storing ids of special rooms
-@onready var current_room = make_room(-1, Vector2i(-1, -1), room_scenes.starting_room) #currently active room
+@onready var current_room = make_room(-1, Vector2i(-1, -1), room_scenes[0]) #currently active room
 @onready var terminals : Array = [] #array for storing terminals data
 @onready var escape_pod : Dictionary = { #escape pod data
 	"room_id": -1,
@@ -212,7 +216,7 @@ func _place_entrance() -> void:
 	special_rooms.append(next_id)
 	
 	# When the starting room is within the dungeon, add a room there.
-	dungeon[_start.x][_start.y] = make_room(next_id, _start, room_scenes.starting_room)
+	dungeon[_start.x][_start.y] = make_room(next_id, _start, room_scenes[0])
 	next_id += 1
 
 # Generate dungeon based on random path across it.
@@ -234,8 +238,14 @@ func _generate_path(from : Vector2i, length : int) -> bool:
 		
 		# If next room is within the spaceship.
 		if nx >= 0 and nx < _dimensions.x and ny >= 0 and ny < _dimensions.y and dungeon[nx][ny] == null:
-			# Create a room.
-			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), room_scenes.room_a)
+			# Create a random room.
+			var random_value = randi_range(1, 20)
+			var random_room
+			if random_value <= 10: random_room = room_scenes[1]
+			elif random_value <= 14: random_room = room_scenes[2]
+			elif random_value <= 18: random_room = room_scenes[3]
+			else: random_room = room_scenes[4]
+			dungeon[nx][ny] = make_room(next_id, Vector2i(nx, ny), random_room)
 			next_id += 1
 			
 			# Generate next room using reccurence.
@@ -287,7 +297,7 @@ func _add_branches(probability: float):
 						continue
 					
 					# Create an isolated room.
-					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny), room_scenes.starting_room)
+					dungeon[nx][ny] = make_room(next_isolated_id, Vector2i(nx, ny), room_scenes[1])
 					next_isolated_id += 1
 					
 					# Assign door data.

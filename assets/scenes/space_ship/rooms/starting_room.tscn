@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://d3ikl5x5t73e5"]
 
-[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="1_2lhjd"]
 [ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://assets/scripts/space_ship/base_room.gd" id="1_mxg2v"]
+[ext_resource type="Texture2D" uid="uid://fgv0ac3uq3ig" path="res://assets/sprites/map/rooms/starting_room.png" id="2_2tc03"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d21kd"]
 
@@ -31,7 +31,7 @@ physics_material_override = SubResource("PhysicsMaterial_d21kd")
 position = Vector2(638, 360)
 scale = Vector2(1282, 720)
 mesh = SubResource("QuadMesh_kpvfv")
-texture = ExtResource("1_2lhjd")
+texture = ExtResource("2_2tc03")
 
 [node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(640, 80)

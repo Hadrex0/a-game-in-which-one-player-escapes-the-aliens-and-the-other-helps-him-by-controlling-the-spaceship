@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3sppiamat0nb"]
+[gd_scene load_steps=12 format=3 uid="uid://dy2ve00tcdyym"]
 
-[ext_resource type="Texture2D" uid="uid://bcokgtfkgab0i" path="res://assets/sprites/map/rooms/room_background.png" id="1_2lhjd"]
-[ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://assets/scripts/space_ship/base_room.gd" id="1_mxg2v"]
+[ext_resource type="Script" uid="uid://c64axiapeh5nx" path="res://assets/scripts/space_ship/base_room.gd" id="1_2o3w2"]
+[ext_resource type="Texture2D" uid="uid://d1jro2j353ssc" path="res://assets/sprites/map/rooms/room_c.png" id="2_2o3w2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rgm44"]
 
@@ -19,8 +19,20 @@ size = Vector2(1280, 160)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r2rv6"]
 size = Vector2(182, 720)
 
-[node name="RoomA" type="Node2D"]
-script = ExtResource("1_mxg2v")
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mvcxe"]
+radius = 54.0
+height = 138.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_skhml"]
+radius = 48.0
+height = 286.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uppyb"]
+radius = 76.25
+height = 266.5
+
+[node name="RoomC" type="Node2D"]
+script = ExtResource("1_2o3w2")
 
 [node name="RoomPhisics" type="StaticBody2D" parent="."]
 collision_layer = 3
@@ -31,7 +43,7 @@ physics_material_override = SubResource("PhysicsMaterial_rgm44")
 position = Vector2(638, 360)
 scale = Vector2(1282, 720)
 mesh = SubResource("QuadMesh_y0uti")
-texture = ExtResource("1_2lhjd")
+texture = ExtResource("2_2o3w2")
 
 [node name="NorthWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(640, 80)
@@ -48,6 +60,18 @@ shape = SubResource("RectangleShape2D_20wy3")
 [node name="WestWallCollision" type="CollisionShape2D" parent="RoomPhisics"]
 position = Vector2(91, 360)
 shape = SubResource("RectangleShape2D_r2rv6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(814, 546)
+shape = SubResource("CapsuleShape2D_mvcxe")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(820, 255)
+shape = SubResource("CapsuleShape2D_skhml")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RoomPhisics"]
+position = Vector2(371, 525)
+shape = SubResource("CapsuleShape2D_uppyb")
 
 [node name="DoorMarkers" type="Node2D" parent="."]
 

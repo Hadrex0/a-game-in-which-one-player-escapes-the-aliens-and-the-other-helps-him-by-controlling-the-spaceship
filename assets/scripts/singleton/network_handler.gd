@@ -96,7 +96,7 @@ func start_client(ENTERED_CODE: String) -> bool:
 			PORT = int(CODES[1])
 			IP_ADDRESS = CODES[0]
 			PLAYER_ID = 2
-			game_manager.assignment = true
+			rpc("_check_assignment")
 			_client_connection(true)
 			_host_connection(true)
 			rpc("_client_connection",true)
@@ -171,3 +171,11 @@ func _host_connection(CONNECTION: bool) -> void:
 	HOST_CONNECTED = CONNECTION
 	_emit_connection_changed()
 	rpc("_emit_connection_changed")
+
+@rpc("any_peer")
+func _check_assignment() -> void:
+	rpc("_set_assignment", !game_manager.assignment)
+
+@rpc("any_peer")
+func _set_assignment(job: bool) -> void:
+	game_manager.assignment = job
