@@ -280,7 +280,7 @@ func update_room(direction: String):
 	# Play the room changing sound.
 	audio_manager.play_paper_flip_sound()
 	
-	# Wait a half a second to change mid animation
+	# Wait half a second to change a scene mid animation
 	var timeout := 0.15
 	var timer := 0.0
 	while timer < timeout:
