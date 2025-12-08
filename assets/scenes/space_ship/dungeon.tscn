@@ -1,10 +1,151 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2vyo8wjl5f80"]
+[gd_scene load_steps=29 format=3 uid="uid://d2vyo8wjl5f80"]
 
 [ext_resource type="Script" uid="uid://cr6vo6i8db0k1" path="res://assets/scripts/space_ship/dungeon_manager.gd" id="1_ffeav"]
 [ext_resource type="PackedScene" uid="uid://d3ikl5x5t73e5" path="res://assets/scenes/space_ship/rooms/starting_room.tscn" id="2_0ggdj"]
+[ext_resource type="Texture2D" uid="uid://dw126jdrixhtc" path="res://assets/sprites/ui/Transitions/strona_poczatkowa.png" id="4_owtwv"]
 [ext_resource type="PackedScene" uid="uid://ceoj22mllqmt5" path="res://assets/scenes/UI/user_interface.tscn" id="4_pv7l3"]
 [ext_resource type="PackedScene" uid="uid://btbjca4jiwcec" path="res://assets/scenes/menu/settings_menu.tscn" id="5_pv7l3"]
+[ext_resource type="Texture2D" uid="uid://beoad2s17j6xw" path="res://assets/sprites/ui/Transitions/strona_w_gore_1.png" id="5_wm0ua"]
 [ext_resource type="PackedScene" uid="uid://ssjcsb526q2b" path="res://assets/scenes/space_ship/entity/player/player.tscn" id="5_y4eva"]
+[ext_resource type="Texture2D" uid="uid://u8t6te3y105h" path="res://assets/sprites/ui/Transitions/strona_w_gore_2.png" id="6_n3pee"]
+[ext_resource type="Texture2D" uid="uid://cwcof3umqhqfe" path="res://assets/sprites/ui/Transitions/strona_w_gore_3.png" id="7_3sre7"]
+[ext_resource type="Texture2D" uid="uid://bq3cxa6eex7t1" path="res://assets/sprites/ui/Transitions/strona_w_gore_4.png" id="8_36sto"]
+[ext_resource type="Texture2D" uid="uid://dq6mqrh5u75b" path="res://assets/sprites/ui/Transitions/strona_w_gore_5.png" id="9_13hak"]
+[ext_resource type="Texture2D" uid="uid://cygnvppublab2" path="res://assets/sprites/ui/Transitions/strona_koncowa.png" id="10_12rgv"]
+[ext_resource type="Texture2D" uid="uid://b7skdiylgyt44" path="res://assets/sprites/ui/Transitions/strona_w_prawo_1.png" id="11_yfxre"]
+[ext_resource type="Texture2D" uid="uid://cmb43qh8necm2" path="res://assets/sprites/ui/Transitions/strona_w_prawo_2.png" id="12_tmruu"]
+[ext_resource type="Texture2D" uid="uid://ccce38whvff0h" path="res://assets/sprites/ui/Transitions/strona_w_prawo_3.png" id="13_q0xmk"]
+[ext_resource type="Texture2D" uid="uid://dufiv6krc8v4k" path="res://assets/sprites/ui/Transitions/strona_w_prawo_4.png" id="14_kqsej"]
+[ext_resource type="Texture2D" uid="uid://dcdmvhf0xci7i" path="res://assets/sprites/ui/Transitions/strona_w_prawo_5.png" id="15_ts71s"]
+[ext_resource type="Texture2D" uid="uid://dgu113o6cusjo" path="res://assets/sprites/ui/Transitions/strona_w_lewo_1.png" id="16_8tjce"]
+[ext_resource type="Texture2D" uid="uid://b5v2osnjeo2xh" path="res://assets/sprites/ui/Transitions/strona_w_lewo_2.png" id="17_ma7q6"]
+[ext_resource type="Texture2D" uid="uid://quv7qnba10qd" path="res://assets/sprites/ui/Transitions/strona_w_lewo_3.png" id="18_7i7h6"]
+[ext_resource type="Texture2D" uid="uid://cxo63f7e4k04g" path="res://assets/sprites/ui/Transitions/strona_w_lewo_4.png" id="19_ot31a"]
+[ext_resource type="Texture2D" uid="uid://cw03yr6mhws6a" path="res://assets/sprites/ui/Transitions/strona_w_lewo_5.png" id="20_rryn3"]
+[ext_resource type="Texture2D" uid="uid://crrm67dxwaoo5" path="res://assets/sprites/ui/Transitions/strona_w_dol_1.png" id="21_hdtgt"]
+[ext_resource type="Texture2D" uid="uid://0mk6vx1osx0b" path="res://assets/sprites/ui/Transitions/strona_w_dol_2.png" id="22_832m4"]
+[ext_resource type="Texture2D" uid="uid://dk4nob2acu5lg" path="res://assets/sprites/ui/Transitions/strona_w_dol_3.png" id="23_1suvx"]
+[ext_resource type="Texture2D" uid="uid://bk6ogsg8l8utt" path="res://assets/sprites/ui/Transitions/strona_w_dol_4.png" id="24_cuf4g"]
+[ext_resource type="Texture2D" uid="uid://c0d28j8r4ubxo" path="res://assets/sprites/ui/Transitions/strona_w_dol_5.png" id="25_kkryq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bkq7d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wm0ua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n3pee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_3sre7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_36sto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_13hak")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_12rgv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}],
+"loop": false,
+"name": &"page_down",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yfxre")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tmruu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_q0xmk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_kqsej")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ts71s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_12rgv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}],
+"loop": false,
+"name": &"page_left",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_8tjce")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ma7q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_7i7h6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_ot31a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_rryn3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_12rgv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}],
+"loop": false,
+"name": &"page_right",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_hdtgt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_832m4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_1suvx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_cuf4g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_kkryq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_12rgv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_owtwv")
+}],
+"loop": false,
+"name": &"page_up",
+"speed": 24.0
+}]
 
 [node name="Dungeon" type="Node2D"]
 process_mode = 1
@@ -82,6 +223,12 @@ position = Vector2(897, 450)
 [node name="TickTimer" type="Timer" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Transition" type="AnimatedSprite2D" parent="CanvasLayer"]
+position = Vector2(640, 360)
+scale = Vector2(0.36488026, 0.29032257)
+sprite_frames = SubResource("SpriteFrames_bkq7d")
+animation = &"page_down"
 
 [node name="UserInterface" parent="CanvasLayer" instance=ExtResource("4_pv7l3")]
 z_index = 0

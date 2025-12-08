@@ -36,6 +36,9 @@ signal show_detected_rooms
 
 #---VARIABLES---------------------
 
+# Loading a transition animation AnimatedSprite2D
+var TransAnim: AnimatedSprite2D
+
 # Entering debug mode
 var DEBUG_MODE: bool = false
 
@@ -263,15 +266,26 @@ func update_room(direction: String):
 	match direction:
 		"N": #if player moved north, decrese y by one
 				ny -= 1
+				TransAnim.play("page_up")
 		"E": #if player moved east, increase x by one
 				nx += 1
+				TransAnim.play("page_right")
 		"S": #if player moved south, increase y by one
 				ny += 1
+				TransAnim.play("page_down")
 		"W": #if player moved west, decrese x by one
 				nx -= 1
+				TransAnim.play("page_left")
 	
 	# Play the room changing sound.
 	audio_manager.play_paper_flip_sound()
+	
+	# Wait a half a second to change mid animation
+	var timeout := 0.15
+	var timer := 0.0
+	while timer < timeout:
+			await get_tree().process_frame
+			timer += get_process_delta_time()
 	
 	# Set current room as the new one, and update screen.
 	_dungeon.current_room = _dungeon.dungeon[nx][ny]

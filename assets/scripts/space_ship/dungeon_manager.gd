@@ -205,6 +205,9 @@ func _generate_dungeon() -> void:
 	
 	# Send dungeon data to player 2.
 	_send_dungeon()
+	
+	# Set transition animation overlay
+	game_manager.TransAnim = $"../CanvasLayer/Transition"
 
 # Place entrence point for generating the dungeon.
 func _place_entrance() -> void:
