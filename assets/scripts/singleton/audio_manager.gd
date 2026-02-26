@@ -68,9 +68,9 @@ func create_music_path(id: int) -> String:
 	# Add correct file name to the path.
 	match id:
 		0: #menu background music
-			path += "Fluffing a Duck.ogg"
+			path += "Assign Roles.wav"
 		1: #game background music
-			path += "Fnaf Ambience.ogg"
+			path += "Drawn Invasion.wav"
 	
 	# Return created path.
 	return path

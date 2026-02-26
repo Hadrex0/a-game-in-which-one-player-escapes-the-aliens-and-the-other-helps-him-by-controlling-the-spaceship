@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cthwc73tcfkpt"
+path="res://.godot/imported/Drawn Invasion.wav-7ae07c4419ea5aeb34c25f1949d51ebe.sample"
+
+[deps]
+
+source_file="res://assets/audio/music/Drawn Invasion.wav"
+dest_files=["res://.godot/imported/Drawn Invasion.wav-7ae07c4419ea5aeb34c25f1949d51ebe.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

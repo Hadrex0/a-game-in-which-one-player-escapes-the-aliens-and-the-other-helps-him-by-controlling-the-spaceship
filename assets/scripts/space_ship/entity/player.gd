@@ -41,4 +41,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Check if the Player is touched by the alien.
 	if body.is_in_group("Alien") and entity_touch:
 		if body.entity_touch:
+			set_physics_process(false)
+			$AnimatedSprite2D.play("death")
+			await get_tree().create_timer(1.0).timeout
 			game_manager.game_lost()
+			set_physics_process(true)
